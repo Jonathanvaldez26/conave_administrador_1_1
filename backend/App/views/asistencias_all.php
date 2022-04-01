@@ -551,13 +551,13 @@
                                 <div class="row mb-3" id="cont_plenaria_individual">
                                     <label class="form-label">¿Es Plenaria Individual?*</label>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="plenaria" id="plenaria_si" value="0">
+                                        <input class="form-check-input" type="radio" name="plenaria" id="plenaria_si" value="1">
                                         <label class="form-check-label" for="plenaria_si">
                                             Si
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="plenaria" id="plenaria_no" value="1" checked>
+                                        <input class="form-check-input" type="radio" name="plenaria" id="plenaria_no" value="0" checked>
                                         <label class="form-check-label" for="plenaria_no">
                                             No
                                         </label>
@@ -712,9 +712,9 @@
             // alert($(this).val());
             var check = $(this).val();
             if (check == 1) {
-                $("#cont_select_linea").css('display', 'none');
-            } else if (check == 0) {
                 $("#cont_select_linea").css('display', 'block');
+            } else if (check == 0) {
+                $("#cont_select_linea").css('display', 'none');
             }
             
         });

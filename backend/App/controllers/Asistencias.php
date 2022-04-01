@@ -179,7 +179,7 @@ html;
     
       foreach (LineaDao::getLineasEjecutivo() as $key => $value) {
         $lineas .= <<<html
-                  <option value="{$value['id_linea_ejecutivo']}">{$value['nombre']}</option>
+                  <option value="{$value['id_linea_ejecutivo']}-{$value['nombre']}">{$value['nombre']}</option>
       html;
       }
 
@@ -201,11 +201,226 @@ html;
       $data->_fecha_asistencia = MasterDom::getData('fecha_asistencia');
       $data->_hora_asistencia_inicio = MasterDom::getData('hora_asistencia_inicio');
       $data->_hora_asistencia_fin = MasterDom::getData('hora_asistencia_fin');
-      $data->_url_asistencia = "/RegistroAsistencia/codigo/"."".$data->_clave = $this->generateRandomString();
-      /*$data->_utilerias_administrador_id = MasterDom::getData('utilerias_administrador_id');*/
+      $data->_es_ckeckin = MasterDom::getData('checkin');
+      $data->_es_plenaria_individual = MasterDom::getData('plenaria');
+      $data->_utilerias_administrador_id = $_SESSION['utilerias_administradores_id'];
+      $linea = MasterDom::getData('id_linea');     
+      $nombre_linea = explode("-", $linea);
+      $nombre_linea = $nombre_linea[1];
 
-      
+     
 
+      if($data->_es_ckeckin == 1){
+        $data->_url_checkin = "/RegistroCheckin/General/"."".$data->_clave;
+        $data->_plenaria_general = '0';
+        $data->_url_plenaria_general = "0";
+        $data->_es_plenaria_individual = '0';
+        $data->_es_prueba_covid = '0';
+        $data->_url_prueba_covid = '0';
+        $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
+        $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
+        $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
+        $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
+        $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
+        $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
+        $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
+        $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
+        $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
+        $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
+        $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
+       
+      }else{
+
+        if($data->_es_plenaria_individual == 0){
+
+          $data->_url_checkin = "/RegistroCheckin/general/"."".$data->_clave;
+          $data->_plenaria_general = "1";
+          $data->_url_plenaria_general = "/RegistroCheckin/general/"."".$data->_clave;
+          $data->_es_prueba_covid = '0';
+          $data->_url_prueba_covid = '0';
+          $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
+          $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
+          $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
+          $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
+          $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
+          $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
+          $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
+          $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
+          $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
+          $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
+          $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
+         
+          
+        }else{
+
+          $data->_url_checkin = "/RegistroCheckin/general/"."".$data->_clave;
+          $data->_plenaria_general = '0';
+          $data->_url_plenaria_general = "0";
+          $data->_es_prueba_covid = '0';
+          $data->_url_prueba_covid = '0';
+   
+
+          if($nombre_linea == 'DIRECTIVOS'){
+
+            $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+
+          }else if($nombre_linea == 'STAFF'){
+            $data->_url_directivos = "0";
+            $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+
+          }
+          else if($nombre_linea == 'NEUROCIENCIAS'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+            
+          }else if($nombre_linea == 'KAES / OSTEO'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias ="0";
+            $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+            
+          }else if($nombre_linea == 'CARDIO'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+            
+          }else if($nombre_linea == 'URO'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+            
+          }else if($nombre_linea == 'GASTRO'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+            
+          }else if($nombre_linea == 'GINECO'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+            
+          }else if($nombre_linea == 'MEDICINA GENERAL'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "0";
+            
+          }else if($nombre_linea == 'OLE'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
+            $data->_url_analgesia = "0";
+            
+          }else if($nombre_linea == 'ANALGESIA'){
+
+            $data->_url_directivos = "0";
+            $data->_url_staf = "0";
+            $data->_url_neurociencias = "0";
+            $data->_url_kaes_osteo = "0";
+            $data->_url_cardio = "0";
+            $data->_url_uro = "0";
+            $data->_url_gastro = "0";
+            $data->_url_gineco = "0";
+            $data->_url_medicina_general = "0";
+            $data->_url_ole = "0";
+            $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
+            
+          }
+        }
+
+        
+      }
+
+  
       $id = AsistenciasDao::insert($data);
       if($id >= 1){
         $this->alerta($id,'add');
