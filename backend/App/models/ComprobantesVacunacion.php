@@ -283,17 +283,17 @@ sql;
     }
 
     ////PENDIENTE CONSULTA CORRECTA
-    public static function getComprobatesByLinea($id_admin_linea){
+    public static function getComprobatesByLinea($id_linea){
         $mysqli = Database::getInstance(true);
         $query =<<<sql
-        SELECT pb.id_pase_abordar AS id_pb, pb.utilerias_asistentes_id, pb.nota, pb.status AS status_comprobante,
-            email, telefono,  numero_empleado, 
+        SELECT cv.id_comprobante_vacuna AS id_c_v, cv.utilerias_asistentes_id, cv.nota, cv.status AS status_comprobante, cv.validado,
+            email, telefono, fecha_carga_documento, numero_empleado, fecha_carga_documento, numero_dosis, marca_dosis, documento,
             b.nombre AS nombre_bu, 
             p.nombre as nombre_posicion,
             lp.nombre AS nombre_linea,  
             CONCAT(ra.nombre, ' ',ra.segundo_nombre,' ',ra.apellido_paterno,' ',ra.apellido_materno) AS nombre_completo,
             le.nombre as nombre_linea_ejecutivo, le.color, al.utilerias_administradores_id_linea_asignada as id_ejecutivo_administrador, uad.nombre as nombre_ejecutivo
-        FROM pases_abordar pb
+        FROM comprobante_vacuna cv
         JOIN utilerias_asistentes u
         JOIN registros_acceso ra
         JOIN bu b
@@ -302,15 +302,15 @@ sql;
         JOIN linea_ejecutivo le
         JOIN asigna_linea al
         JOIN utilerias_administradores uad    
-        ON pb.utilerias_asistentes_id = u.utilerias_asistentes_id
+        ON cv.utilerias_asistentes_id = u.utilerias_asistentes_id
         and u.id_registro_acceso = ra.id_registro_acceso
         and b.id_bu = ra.id_bu
         and lp.id_linea_principal = ra.id_linea_principal
         and p.id_posicion = ra.id_posicion
         and le.id_linea_ejecutivo = lp.id_linea_ejecutivo
         and al.id_linea_ejecutivo = le.id_linea_ejecutivo
-        and uad.utilerias_administradores_id = pb.utilerias_administradores_id
-        where pb.utilerias_administradores_id = $id_admin_linea
+        and uad.utilerias_administradores_id = al.utilerias_administradores_id_linea_asignada
+        where lp.id_linea_ejecutivo = $id_linea;
 sql;
 
         return $mysqli->queryAll($query);
