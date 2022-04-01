@@ -12,9 +12,11 @@ use \DatetimeZone;
 
 class RegistroCheckIn{
    
+    // 873ec0be358a253dcb77fe0b75589a81
+
     private $_contenedor;
 
-    public function Uro($id) {
+    public function uro($id) {
         $extraHeader =<<<html
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -81,7 +83,7 @@ html;
 
         $codigo = RegistroCheckInDao::getById($id);
 
-        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,7);
 
         $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -125,10 +127,12 @@ html;
             </tr>
 html;
             }
-           
-
         }
         
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #8165ac; color: white;">URO</span>    
+html;
+
         foreach($codigo as $key => $value)
         {
             if($value['id_asistencia'] != '')
@@ -142,17 +146,12 @@ html;
             }
         }
 
-        if ('URO' == strtoupper('Uro')) {
-            echo "Jala";
-        } else {
-            echo "no jala";
-        }
-
 
         if($flag == true)
         {
             View::set('tabla',$tabla);
             View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
             View::set('descripcion',$descripcion);
             View::set('nombre_asistencia',$nombre_asistencia);
             View::set('fecha_asistencia',$fecha_asistencia);
@@ -169,14 +168,14 @@ html;
         }
     }
 
-    public function Neurociencias($id) {
+    public function analgesia($id) {
         $extraHeader =<<<html
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
         <link rel="icon" type="image/png" href="/assets/img/favicon.png">
         <title>
-            Neurociencias - Asistencia CONAVE Convención 2022 ASOFARMA
+            Analgesia - Asistencia CONAVE Convención 2022 ASOFARMA
         </title>
         <!--     Fonts and icons     -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -236,7 +235,7 @@ html;
 
         $codigo = RegistroCheckInDao::getById($id);
 
-        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,12);
 
         $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -280,10 +279,12 @@ html;
             </tr>
 html;
             }
-           
-
         }
         
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #165f6f; color: white;">Analgesia</span>    
+html;
+
         foreach($codigo as $key => $value)
         {
             if($value['id_asistencia'] != '')
@@ -302,6 +303,7 @@ html;
         {
             View::set('tabla',$tabla);
             View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
             View::set('descripcion',$descripcion);
             View::set('nombre_asistencia',$nombre_asistencia);
             View::set('fecha_asistencia',$fecha_asistencia);
@@ -332,9 +334,10 @@ html;
         echo json_encode($delete_registrado);
     }
 
-    public function RegistroCheckIn($clave, $code){
+    public function registroChekIn($clave, $code){
 
-        $user_clave = RegistroCheckInDao::getInfo($clave)[0];
+        $user_clave = RegistroCheckInDao::getInfoByLinea($clave,7)[0];
+        $existe_user = RegistroCheckInDao::getInfo($clave);
         $linea_principal = RegistroCheckInDao::getLineaPrincipial();
         $bu = RegistroCheckInDao::getBu();
         $posiciones = RegistroCheckInDao::getPosiciones();
@@ -362,37 +365,54 @@ html;
         }
         // || substr($hora_actual,0,2) > substr($asistencia['hora_asistencia_fin'],0,2)
 
+        // echo ($user_clave);
 
-        if($user_clave){
-            $hay_asistente = RegistroCheckInDao::findAsistantById($user_clave['utilerias_asistentes_id'],$asistencia['id_asistencia'])[0];
-            if ($hay_asistente) {
-                $msg_insert = 'success_find_assistant';
-            } else {
-                $msg_insert = 'fail_not_found_assistant';
-                $insert = RegistroCheckInDao::addRegister($asistencia['id_asistencia'],$user_clave['utilerias_asistentes_id'],$a_tiempo);
+        if ($existe_user) {
+            if($user_clave){
+                $hay_asistente = RegistroCheckInDao::findAsistantById($user_clave['utilerias_asistentes_id'],$asistencia['id_asistencia'])[0];
+                if ($hay_asistente) {
+                    $msg_insert = 'success_find_assistant';
+                } else {
+                    $msg_insert = 'fail_not_found_assistant';
+                    $insert = RegistroCheckInDao::addRegister($asistencia['id_asistencia'],$user_clave['utilerias_asistentes_id'],$a_tiempo);
+                }
+    
+                if ($user_clave['nombre_linea_ejecutivo']) {
+                    $linea_ejecutivo = $user_clave['nombre_linea_ejecutivo'];
+                } else {
+                    $linea_ejecutivo = 'no';
+                }
+    
+                $data = [
+                    'datos'=>$user_clave,
+                    'linea_principal'=>$linea_principal,
+                    'bu'=>$bu,
+                    'posiciones'=>$posiciones,
+                    'status'=>'success',
+                    'msg_insert'=>$msg_insert,
+                    'hay_asistente'=> $hay_asistente,
+                    'asistencia'=> $asistencia,
+                    'hora_actual'=>$hora_actual,
+                    'a_tiempo'=>$a_tiempo,
+                    'aqui'=>$aqui,
+                    'linea_ejecutivo'=>$linea_ejecutivo,
+                    'hora_actual'=>intval(substr($hora_actual,0,2)),
+                    'hora_fin'=>intval(substr($asistencia['hora_asistencia_fin'],0,2)),
+                ];
+            }else{
+                $data = [
+                    'status'=>'fail'
+                ];
             }
-
+        } else {
             $data = [
-                'datos'=>$user_clave,
-                'linea_principal'=>$linea_principal,
-                'bu'=>$bu,
-                'posiciones'=>$posiciones,
-                'status'=>'success',
-                'msg_insert'=>$msg_insert,
-                'hay_asistente'=> $hay_asistente,
-                'asistencia'=> $asistencia,
-                'hora_actual'=>$hora_actual,
-                'a_tiempo'=>$a_tiempo,
-                'aqui'=>$aqui,
-                'hora_actual'=>intval(substr($hora_actual,0,2)),
-                'hora_fin'=>intval(substr($asistencia['hora_asistencia_fin'],0,2)),
-            ];
-        }else{
-            $data = [
-                'status'=>'fail'
+                'status'=>'fail_user'
             ];
         }
 
+        
+
         echo json_encode($data);
     }
+
 }

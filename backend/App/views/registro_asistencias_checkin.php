@@ -18,10 +18,11 @@
                         <div class="col-auto my-auto">
                             <div class="h-100">
                                 <h5 class="mb-0">
-                                    Listas de Asistencias:
+                                    Listas de Asistencias:  
                                 </h5>
-                                <h6><b><?php echo $nombre;?></b></h6>
+                                <h6><b><?php echo $nombre;?></b> </h6>
                                 <p class="mb-0 font-weight-bold text-sm">
+                                    <?php echo $etiqueta_linea; ?>
                                 </p>
                             </div>
                         </div>
@@ -205,20 +206,14 @@
     }
 
     function borrarRegister(dato){
-        // alert(dato);
         $.ajax({
-            url: "/RegistroAsistencia/borrarRegistrado/"+dato,
+            url: "/RegistroCheckIn/borrarRegistrado/"+dato,
             type: "POST",
             dataType: 'json',
             beforeSend: function() {
                 console.log("Procesando....");
-                // alert('Se está borrando');
-                
             },
             success: function(respuesta) {
-                console.log(respuesta);
-                console.log('despues de borrar');
-                // alert('Bien borrado');
                 swal("¡Se borró correctamente!", "", "success").
                 then((value) => {
                     $("#codigo_registro").focus();
@@ -226,8 +221,6 @@
                 });
             },
             error: function(respuesta) {
-                console.log(respuesta);
-                // alert('Error');
                 swal("¡Ha ocurrido un error al intentar borrar el registro!", "", "warning").
                 then((value) => {
                     $("#codigo_registro").focus();
@@ -239,7 +232,7 @@
     function bloquearRegistro(){
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('codigo/')+7,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('uro/')+4,link_a.length);
 
         let date = new Date();
 
@@ -253,8 +246,6 @@
         let mes_asist = parseInt($('#fecha').html().substr(5,2));
         let dia_asist = parseInt($('#fecha').html().substr(8,2));
         let anio_asist = parseInt($('#fecha').html().substr(0,4));
-
-        // console.log(anio_asist);
 
         if (mes != mes_asist || dia != dia_asist || anio != anio_asist) {
             document.getElementById('codigo_registro').setAttribute('disabled','');
@@ -283,7 +274,27 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('codigo/')+7,link_a.length);
+        var linea_clave = link_a.substr(link_a.indexOf('RegistroCheckIn/')+16,link_a.length);
+        let linea_ejecutivo = clave_a.substr(0,link_a.indexOf('/')-2);
+        let linea_var = linea_clave.substr(linea_clave.indexOf('/')+1);
+        
+        console.log(linea_ejecutivo);
+        
+        let numero_linea = 0;
+        switch (linea_ejecutivo) {
+            case 'Uro':
+                numero_linea = 7;
+                break;
+            
+            case 'Analgesia':
+                numero_linea = 12;
+                break;
+        
+            default:
+                break;
+        }
+
+        console.log(numero_linea);
         
         bloquearRegistro();
 
@@ -332,75 +343,19 @@
             
             }
         });
-
-        
-        function mostrarDatos(clave){
-            $.ajax({
-                url: "/RegistroAsistencia/mostrarLista/"+clave,
-                type: "POST",
-                dataType: 'json',
-                beforeSend: function() {
-                    // $('#lista-reg > tbody').empty();
-                    console.log("Procesando....");
-                    
-                },
-                success: function(respuesta) {
-                    console.log(respuesta);
-                    // $('#lista-reg > tbody').empty();
-                    console.log('despues de borrar');
-                    
-                    $.each(respuesta,function(index, el) {
-           
-                        // $('#lista-reg > tbody:last-child').append(
-                        //         '<tr>'+
-                        //             '<td>'+el.nombre_completo+'</td>'+
-                        //             '<td><u><a href="mailto:'+el.email+'"><span class="fa fa-mail-bulk"> </span> '+el.email+'</a></u></td>'+
-                        //             '<td><u><a href="https://api.whatsapp.com/send?phone=52'+el.nombre_linea+'&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> '+el.nombre_linea+'</a></u></td>'+
-                        //             '<td>'+el.nombre_linea+'</td>'+
-                        //             '<td>'+el.nombre_bu+'</td>'+                
-                        //         '</tr>');
-
-                        // $('#lista-reg').empty();
-                        // table.row.add([
-                        //     // el.nombre_completo,
-                        //     // el.email,
-                        //     // el.telefono,
-                        //     // el.nombre_linea,
-                        //     // el.nombre_bu
-                        //     '<td>'+el.nombre_completo+'</td>',
-                        //     '<td><u><a href="mailto:'+el.email+'"><span class="fa fa-mail-bulk"> </span> '+el.email+'</a></u></td>',
-                        //     '<td><u><a href="https://api.whatsapp.com/send?phone=52'+el.nombre_linea+'&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> '+el.nombre_linea+'</a></u></td>',
-                        //     '<td>'+el.nombre_linea+'</td>',
-                        //     '<td>'+el.nombre_bu+'</td>'
-                        // ]).draw();
-                    });
-                    
-                    // var tables = $('#lista-reg').DataTable();
-
-                        
-
-                },
-                error: function(respuesta) {
-                    console.log(respuesta);
-                }
-            })
-        }
-
         
         
         $("#codigo_registro").on('change',function(){
 
             codigo = $('#codigo_registro').val();
             $('#codigo_registro').val('');
-            // $('#lista-reg > tbody').empty();
 
             console.log(codigo);
             console.log(clave_a);
         
             $.ajax({
-                url: "/RegistroAsistencia/registroAsistencia/"+codigo+'/'+clave_a,
+                url: "/RegistroCheckIn/registroChekIn/"+codigo+'/'+clave_a,
                 type: "POST",
-                // data: formData,
                 dataType: 'json',
                 beforeSend: function() {
                     console.log("Procesando....");
@@ -410,8 +365,8 @@
                     if (respuesta.status == 'success') {
                         console.log(respuesta);
                         console.log(respuesta.msg_insert);
-                        let nombre_completo = respuesta.datos.nombre+' '+respuesta.datos.segundo_nombre+' '+respuesta.datos.apellido_paterno +' '+respuesta.datos.apellido_materno;
-                        $("#nombre_completo").html(nombre_completo);
+                        // let nombre_completo = respuesta.datos.nombre_completo;
+                        $("#nombre_completo").html(respuesta.datos.nombre_completo);
                         $("#correo_user").html(respuesta.datos.email);
                         $("#telefono_user").html(respuesta.datos.telefono);
 
@@ -450,15 +405,11 @@
                         if(respuesta.msg_insert == 'success_find_assistant'){
                             Swal.fire({
                                 title: '¡Lo sentimos, esta persona ya tiene su asistencia registrada!',
-                                // html: 'I will close in <b></b> milliseconds.',
                                 icon: 'warning',
                                 timer: 1000,
-                                // timerProgressBar: true,
                                 didOpen: () => {
-                                    // Swal.showLoading()
                                     const b = Swal.getHtmlContainer().querySelector('b')
                                     timerInterval = setInterval(() => {
-                                        // b.textContent = Swal.getTimerLeft()
                                     }, 100)
                                 },
                                 willClose: () => {
@@ -467,24 +418,40 @@
                                 }).then((result) => {
                                 $("#codigo_registro").focus();
                             })
-                        } else {
-                            // window.location.replace("/RegistroAsistencia/codigo/"+clave_a);
-                        }
+                        } 
                         
-                        // mostrarDatos(clave_a);
-                        // let tabla_registrados = $("#lista-reg");
-                    } else {
+                    } else if (respuesta.status == 'fail_user') {
                         Swal.fire({
                             title: '¡Lo sentimos, esta persona no se encuentra registrada en nuestra base de datos!',
-                            // html: 'I will close in <b></b> milliseconds.',
                             icon: 'warning',
                             timer: 1000,
-                            // timerProgressBar: true,
                             didOpen: () => {
-                                // Swal.showLoading()
                                 const b = Swal.getHtmlContainer().querySelector('b')
                                 timerInterval = setInterval(() => {
-                                    // b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                            }).then((result) => {
+                            $("#codigo_registro").focus();
+                        })
+                        $("#nombre_completo").html('Nombre');
+                        $("#img_asistente").attr('src','/img/user.png');
+                        $("#linea_user").html('Ninguna');
+                        $("#bu_user").html('Ninguna');
+                        $("#posicion_user").html('Ninguna');
+                        $("#correo_user").html('_____');
+                        $("#telefono_user").html('00 0000 0000');
+                        console.log(respuesta);
+                    }else {
+                        Swal.fire({
+                            title: '¡Lo sentimos, esta persona no pertenece a la línea!',
+                            icon: 'warning',
+                            timer: 1000,
+                            didOpen: () => {
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
                                 }, 100)
                             },
                             willClose: () => {
@@ -506,21 +473,13 @@
                 },
                 error: function(respuesta) {
                     console.log(respuesta);
-                    // swal("¡Lo sentimos, ocurrió un error!", "", "warning").
-                    // then((value) => {
-                    //     $("#codigo_registro").focus();
-                    // });
                     Swal.fire({
                         title: '¡Lo sentimos, ocurrió un error!',
-                        // html: 'I will close in <b></b> milliseconds.',
                         icon: 'warning',
                         timer: 2000,
-                        // timerProgressBar: true,
                         didOpen: () => {
-                            // Swal.showLoading()
                             const b = Swal.getHtmlContainer().querySelector('b')
                             timerInterval = setInterval(() => {
-                                // b.textContent = Swal.getTimerLeft()
                             }, 100)
                         },
                         willClose: () => {
@@ -529,12 +488,6 @@
                         }).then((result) => {
                         $("#codigo_registro").focus();
                     })
-                    // $("#nombre_completo").html('Nombre');
-                    // $("#img_asistente").attr('src','/img/user.png');
-                    // $("#linea_user").html('Ninguna');
-                    // $("#bu_user").html('Ninguna');
-                    // $("#correo_user").html('_____');
-                    // $("#telefono_user").html('00 0000 0000');
                 }
     
             });

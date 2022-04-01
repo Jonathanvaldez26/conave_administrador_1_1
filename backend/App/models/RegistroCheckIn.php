@@ -36,7 +36,7 @@ sql;
     public static function getInfo($clave){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        SELECT ra.*, ua.utilerias_asistentes_id
+        SELECT ra.*, CONCAT(ra.nombre,' ',ra.segundo_nombre,' ',ra.apellido_paterno,' ',ra.apellido_materno) AS nombre_completo, ua.utilerias_asistentes_id
         FROM registros_acceso ra
         INNER JOIN utilerias_asistentes ua
         ON ua.id_registro_acceso = ra.id_registro_acceso
@@ -112,6 +112,57 @@ sql;
         ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo
         
         WHERE a.clave = '$code'
+sql;
+        return $mysqli->queryAll($query);
+    }
+
+    public static function getInfoByLinea($clave,$linea){
+        $mysqli = Database::getInstance();
+        $query=<<<sql
+        SELECT ra.*, CONCAT(ra.nombre,' ',ra.segundo_nombre,' ',ra.apellido_paterno,' ',ra.apellido_materno) AS nombre_completo, ua.utilerias_asistentes_id,
+        le.nombre AS nombre_linea_ejecutivo
+        FROM registros_acceso ra
+        INNER JOIN utilerias_asistentes ua
+        ON ua.id_registro_acceso = ra.id_registro_acceso
+        INNER JOIN ticket_virtual tv
+        ON tv.id_ticket_virtual = ra.id_ticket_virtual
+        INNER JOIN linea_principal lp
+        ON lp.id_linea_principal = ra.id_linea_principal
+        INNER JOIN linea_ejecutivo le
+        ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo
+        
+        WHERE tv.clave = '$clave' and le.id_linea_ejecutivo = '$linea'
+sql;
+        return $mysqli->queryAll($query);
+    }
+
+    public static function getRegistrosAsistenciasByCodeAndLinea($code,$linea){
+        $mysqli = Database::getInstance();
+        $query=<<<sql
+        SELECT a.nombre AS nombre_asistencia, ras.utilerias_asistentes_id, ua.usuario, ras.id_registro_asistencia, ras.status,
+        ra.telefono, ra.email,
+        lp.nombre AS nombre_linea,
+        b.nombre AS nombre_bu,
+        p.nombre AS nombre_posicion,
+        le.nombre AS nombre_linea_ejecutivo, le.color AS color_linea,
+        CONCAT (ra.nombre,' ',ra.segundo_nombre,' ',apellido_paterno,' ',apellido_materno) AS nombre_completo
+        FROM registros_asistencia ras
+        INNER JOIN asistencias a
+        INNER JOIN utilerias_asistentes ua
+        INNER JOIN registros_acceso ra
+        INNER JOIN linea_principal lp
+        INNER JOIN posiciones p
+        INNER JOIN bu b
+        ON a.id_asistencia = id_asistencias
+        and ua.utilerias_asistentes_id = ras.utilerias_asistentes_id
+        and ra.id_registro_acceso = ua.id_registro_acceso
+        and lp.id_linea_principal = ra.id_linea_principal
+        and b.id_bu = ra.id_bu
+        and p.id_posicion = ra.id_posicion
+        INNER JOIN linea_ejecutivo le
+        ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo
+        
+        WHERE a.clave = '$code' and le.id_linea_ejecutivo = $linea
 sql;
         return $mysqli->queryAll($query);
     }
