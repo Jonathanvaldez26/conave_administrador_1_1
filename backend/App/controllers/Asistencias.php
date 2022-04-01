@@ -12,6 +12,7 @@ use \App\models\PruebasCovidSitio as PruebasCovidSitioDao;
 use \App\models\Asistencias as AsistenciasDao;
 use \DateTime;
 use \DatetimeZone;
+use \App\models\Linea as LineaDao;
 
 class Asistencias extends Controller
 {
@@ -173,6 +174,17 @@ html;
  
 html;
 }
+
+      $lineas = '';
+    
+      foreach (LineaDao::getLineasEjecutivo() as $key => $value) {
+        $lineas .= <<<html
+                  <option value="{$value['id_linea_ejecutivo']}">{$value['nombre']}</option>
+      html;
+      }
+
+
+      View::set('lineas',$lineas);
       View::set('tabla',$tabla);
       View::set('header',$this->_contenedor->header($extraHeader));
       View::set('footer',$this->_contenedor->footer($extraFooter));

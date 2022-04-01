@@ -484,106 +484,115 @@
             </div>
         </div>
 
-    </div>
+        </div>
 
-    <!-- Modal asignar habitacion-->
-    <div class="modal fade" id="Modal_Add" role="dialog" aria-labelledby="asignar_habitacionLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form class="form-horizontal" id="add" action="/Asistencias/asistenciasAdd">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="asignar_habitacionLabel">Generar Lista de Asistencia</h5>
-                        <button type="button" class="btn bg-gradient-danger" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="card-body pt-0">
-                            <div class="row mb-3">
-                                <label class="form-label">Nombre *</label>
-                                <div class="input-group">
-                                    <input id="nombre" name="nombre"  class="form-control" type="text" placeholder="Asistencia Plenaria Bienvenida" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="form-label">Descripción (Opcional)</label>
-                                <div class="input-group">
-                                    <textarea id="descripcion" name="descripcion" maxlength="1000" class="form-control" placeholder="Descripción"></textarea>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="form-label">Fecha *</label>
-                                <div class="input-group">
-                                    <input id="fecha_asistencia" name="fecha_asistencia" maxlength="29" class="form-control" type="date" min required="" onfocus="focused(this)" onfocusout="defocused(this)"" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label class="form-label">Hora Asistencia (Inicio) *</label>
-                                <div class="input-group">
-                                    <input id="hora_asistencia_inicio" name="hora_asistencia_inicio" maxlength="29" class="form-control" type="time"  required="" onfocus="focused(this)" onfocusout="defocused(this)"" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label class="form-label">Hora Asistencia (Fin) *</label>
-                                <div class="input-group">
-                                    <input id="hora_asistencia_fin" name="hora_asistencia_fin" maxlength="29" class="form-control" type="time"  required="" onfocus="focused(this)" onfocusout="defocused(this)"" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label class="form-label">Es CheckIn *</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                        Si
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                    <label class="form-check-label" for="flexRadioDefault2">
-                                        No
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="form-label">¿Es Plenaria Individual?*</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault1">
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                        Si
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault2" checked>
-                                    <label class="form-check-label" for="flexRadioDefault2">
-                                        No
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label class="form-label">¿De que línea es la plenaria? *</label>
-                                <div class="input-group">
-                                    <input id="nombre_plenaria" name="nombre_plenaria"  class="form-control" type="text" placeholder="U" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                </div>
-                            </div>
-
+        <!-- Modal asignar habitacion-->
+        <div class="modal fade" id="Modal_Add" role="dialog" aria-labelledby="asignar_habitacionLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <form class="form-horizontal" id="add" action="/Asistencias/asistenciasAdd">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="asignar_habitacionLabel">Generar Lista de Asistencia</h5>
+                            <button type="button" class="btn bg-gradient-danger" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
+                        <div class="modal-body">
+                            <div class="card-body pt-0">
+                                <div class="row mb-3">
+                                    <label class="form-label">Nombre *</label>
+                                    <div class="input-group">
+                                        <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Asistencia Plenaria Bienvenida" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="form-label">Descripción (Opcional)</label>
+                                    <div class="input-group">
+                                        <textarea id="descripcion" name="descripcion" maxlength="1000" class="form-control" placeholder="Descripción"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="form-label">Fecha *</label>
+                                    <div class="input-group">
+                                        <input id="fecha_asistencia" name="fecha_asistencia" maxlength="29" class="form-control" type="date" min required="" onfocus="focused(this)" onfocusout="defocused(this)"" style=" text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="form-label">Hora Asistencia (Inicio) *</label>
+                                    <div class="input-group">
+                                        <input id="hora_asistencia_inicio" name="hora_asistencia_inicio" maxlength="29" class="form-control" type="time" required="" onfocus="focused(this)" onfocusout="defocused(this)"" style=" text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="form-label">Hora Asistencia (Fin) *</label>
+                                    <div class="input-group">
+                                        <input id="hora_asistencia_fin" name="hora_asistencia_fin" maxlength="29" class="form-control" type="time" required="" onfocus="focused(this)" onfocusout="defocused(this)"" style=" text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="form-label">Es CheckIn *</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="checkin" id="checkin_si" value="1">
+                                        <label class="form-check-label" for="checkin_si">
+                                            Si
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="checkin" id="checkin_no" value="0" checked>
+                                        <label class="form-check-label" for="checkin_no">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3" id="cont_plenaria_individual">
+                                    <label class="form-label">¿Es Plenaria Individual?*</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="plenaria" id="plenaria_si" value="0">
+                                        <label class="form-check-label" for="plenaria_si">
+                                            Si
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="plenaria" id="plenaria_no" value="1" checked>
+                                        <label class="form-check-label" for="plenaria_no">
+                                            No
+                                        </label>
+                                    </div>
+
+                                    <div id="cont_select_linea" style="display: none;">
+                                        <label class="form-label">¿De que línea es la plenaria? *</label>
+                                        <select class="form-control" name="id_linea" id="id_linea" required>
+                                            <option selected disabled>Seleccione una Opción</option>
+                                            <?php echo $lineas; ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row mb-3">
+                                    <label class="form-label">¿De que línea es la plenaria? *</label>
+                                    <div class="input-group">
+                                        <input id="nombre_plenaria" name="nombre_plenaria" class="form-control" type="text" placeholder="U" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    </div>
+                                </div> -->
+
+                            </div>
+                        </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-success" id="btn_upload" name="btn_upload">Aceptar</button>
-                            <button type="button" class="btn bg-gradient-secondary" data-dismiss="modal">Cancelar</button>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn bg-gradient-success" id="btn_upload" name="btn_upload">Aceptar</button>
+                                <button type="button" class="btn bg-gradient-secondary" data-dismiss="modal">Cancelar</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <!--End Modal-->
-    <div class="modal fade" id="Modal_Add_Salidas" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <!--End Modal-->
+        <div class="modal fade" id="Modal_Add_Salidas" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -686,6 +695,31 @@
         } else {
             $('#fecha_asistencia').prop('min', anio + '-' + mes.toString() + '-' + dia);
         }
+
+
+        $('input:radio[name="checkin"]').change(function() {
+            // alert($(this).val());
+            var check = $(this).val();
+            if (check == 1) {
+                $("#cont_plenaria_individual").css('display', 'none');
+            } else if (check == 0) {
+                $("#cont_plenaria_individual").css('display', 'block');
+            }
+            
+        });
+
+        $('input:radio[name="plenaria"]').change(function() {
+            // alert($(this).val());
+            var check = $(this).val();
+            if (check == 1) {
+                $("#cont_select_linea").css('display', 'none');
+            } else if (check == 0) {
+                $("#cont_select_linea").css('display', 'block');
+            }
+            
+        });
+
+        cont-select-linea
     })
 </script>
 
