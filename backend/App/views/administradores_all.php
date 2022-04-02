@@ -10,8 +10,6 @@
                 <span class="ms-1 font-weight-bold">ADMIN CONVENCIÓN</span>
                 <p style="margin-top: 15px;"><span class="fa fa-user" style="color: #344767"></span> <?php echo $_SESSION['nombre'];?></p>
             </a>
-
-
         </div>
         <hr class="horizontal dark mt-0">
 
