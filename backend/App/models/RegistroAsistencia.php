@@ -32,6 +32,14 @@ sql;
         return $mysqli->queryAll($query);
     }
 
+    public static function getByIdNeurociencias($id){
+        $mysqli = Database::getInstance();
+        $query=<<<sql
+        SELECT * FROM asistencias WHERE clave = '$id' and es_plenaria_individual = 1 and url_staf != '';
+sql;
+        return $mysqli->queryAll($query);
+    }
+
     public static function getNeurociencias(){
         $mysqli = Database::getInstance();
         $query=<<<sql

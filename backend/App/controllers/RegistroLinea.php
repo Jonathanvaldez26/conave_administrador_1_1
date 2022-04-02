@@ -7,6 +7,7 @@ use \Core\MasterDom;
 use \App\controllers\Contenedor;
 use \Core\Controller;
 use \App\models\RegistroAsistencia AS RegistroAsistenciaDao;
+use \App\models\RegistroCheckIn AS RegistroCheckInDao;
 use \DateTime;
 use \DatetimeZone;
 
@@ -22,7 +23,7 @@ class RegistroLinea{
         <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
         <link rel="icon" type="image/png" href="/assets/img/favicon.png">
         <title>
-            Asistencia  CONAVE Convención 2022 ASOFARMA
+            Directivos - Asistencia  CONAVE Convención 2022 ASOFARMA
         </title>
         <!--     Fonts and icons     -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -231,7 +232,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdStaff($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,2);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -380,7 +381,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdNeurociencias($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,3);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -453,7 +454,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_neurociencias");
         }
         else
         {
@@ -529,7 +530,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdKaesOsteo($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,4);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -602,7 +603,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_kaes_osteo");
         }
         else
         {
@@ -678,7 +679,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdCardio($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,6);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -751,7 +752,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_cardio");
         }
         else
         {
@@ -827,7 +828,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdUro($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,7);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -900,7 +901,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_uro");
         }
         else
         {
@@ -976,7 +977,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdGastro($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,8);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -1049,7 +1050,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_gastro");
         }
         else
         {
@@ -1125,7 +1126,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdGineco($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,9);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -1198,7 +1199,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_gineco");
         }
         else
         {
@@ -1274,7 +1275,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdMedicinaGeneral($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,10);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -1347,7 +1348,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_medicina_general");
         }
         else
         {
@@ -1423,7 +1424,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdOle($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,11);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -1496,7 +1497,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_ole");
         }
         else
         {
@@ -1572,7 +1573,7 @@ html;
 
         $codigo = RegistroAsistenciaDao::getByIdAnalgesia($id);
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,12);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -1645,7 +1646,7 @@ html;
             View::set('hora_asistencia_fin',$hora_asistencia_fin);
             View::set('header',$extraHeader);
             View::set('footer',$extraFooter);
-            View::render("registro_asistencias_linea_directivos");
+            View::render("registro_asistencias_linea_analgesia");
         }
         else
         {
