@@ -12,16 +12,19 @@ use \DatetimeZone;
 
 class RegistroCheckIn{
    
+    // 873ec0be358a253dcb77fe0b75589a81
+
     private $_contenedor;
 
-    public function Uro($id) {
+    //----------Directivos----------//
+    public function directivos($id) {
         $extraHeader =<<<html
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
         <link rel="icon" type="image/png" href="/assets/img/favicon.png">
         <title>
-            URO - Asistencia CONAVE Convención 2022 ASOFARMA
+            Directivos - Asistencia CONAVE Convención 2022 ASOFARMA
         </title>
         <!--     Fonts and icons     -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -81,7 +84,7 @@ html;
 
         $codigo = RegistroCheckInDao::getById($id);
 
-        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,1);
 
         $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -125,10 +128,12 @@ html;
             </tr>
 html;
             }
-           
-
         }
         
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #34332f; color: white;">Directivos</span>    
+html;
+
         foreach($codigo as $key => $value)
         {
             if($value['id_asistencia'] != '')
@@ -142,17 +147,43 @@ html;
             }
         }
 
-        if ('URO' == strtoupper('Uro')) {
-            echo "Jala";
-        } else {
-            echo "no jala";
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(1);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
         }
+        ///-------------------------------------------------///
 
 
         if($flag == true)
         {
             View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
             View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
             View::set('descripcion',$descripcion);
             View::set('nombre_asistencia',$nombre_asistencia);
             View::set('fecha_asistencia',$fecha_asistencia);
@@ -169,7 +200,192 @@ html;
         }
     }
 
-    public function Neurociencias($id) {
+    //----------STAFF----------//
+    public function staff($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            Staff - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,2);
+
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #3a3c3d; color: white;">Staff</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(2);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+    //----------NEUROCIENCIAS----------//
+    public function neurociencias($id) {
         $extraHeader =<<<html
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -236,7 +452,7 @@ html;
 
         $codigo = RegistroCheckInDao::getById($id);
 
-        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,3);
 
         $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
@@ -280,10 +496,12 @@ html;
             </tr>
 html;
             }
-           
-
         }
         
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #3154b5; color: white;">Neurociencias</span>    
+html;
+
         foreach($codigo as $key => $value)
         {
             if($value['id_asistencia'] != '')
@@ -298,10 +516,42 @@ html;
         }
 
 
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(3);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
         if($flag == true)
         {
             View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
             View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
             View::set('descripcion',$descripcion);
             View::set('nombre_asistencia',$nombre_asistencia);
             View::set('fecha_asistencia',$fecha_asistencia);
@@ -318,6 +568,1479 @@ html;
         }
     }
 
+    //----------CARDIO----------//
+    public function cardio($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            Cardio - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,6);
+
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #d62225; color: white;">Cardio</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(6);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+    //-------------CARIO---------_--//
+    public function uro($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            URO - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,7);
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #8165ac; color: white;">URO</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(7);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+    //----------GASTRO----------//
+    public function gastro($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            Gastro - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,8);
+
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #4ab856; color: white;">Gastro</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(8);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+    //----------GINECO----------//
+    public function gineco($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            Gineco - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,9);
+
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #ae1858; color: white;">Gineco</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(9);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+    //----------MEDICINAGENERAL----------//
+    public function medicinaGeneral($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            Medicina General - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,10);
+
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #8d206b; color: white;">Medicina General</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(10);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+    //----------NEUROCIENCIAS----------//
+    public function ole($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            Ole - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,11);
+
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #2d60ad; color: white;">Ole</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(11);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+    //---------ANALGESIA-----------//
+    public function analgesia($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            Analgesia - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,12);
+
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #165f6f; color: white;">Analgesia</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(12);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+
+    //----------KAES OSTEO----------//
+    public function kaesOsteo($id) {
+        $extraHeader =<<<html
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <title>
+            KAES / OSTEO - Asistencia CONAVE Convención 2022 ASOFARMA
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.5" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/alertify/alertify.core.css" />
+        <link rel="stylesheet" href="/css/alertify/alertify.default.css" id="toggleCSS" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+html;
+        $extraFooter =<<<html
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/validate/jquery.validate.js"></script>
+        <script src="/js/alertify/alertify.min.js"></script>
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- Kanban scripts -->
+        <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script src="http://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+        
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+        <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
+
+html;
+
+        $codigo = RegistroCheckInDao::getById($id);
+
+        $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,4);
+
+        $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+
+        $tabla='';
+        foreach ($lista_registrados as $key => $value) {
+            $tabla.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                
+html;
+            if ($value['status'] == 1) {
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            } else if ($value['status'] == 2){
+                $tabla.=<<<html
+                <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+            }
+        }
+        
+        $etiqueta_linea =<<<html
+            <span class="badge badge-info" style="background: #b2b4d9; color: white;">KAES / OSTEO</span>    
+html;
+
+        foreach($codigo as $key => $value)
+        {
+            if($value['id_asistencia'] != '')
+            {
+                $flag = true;
+                $nombre = $value['nombre'];
+                $descripcion = $value['descripcion'];
+                $fecha_asistencia = $value['fecha_asistencia'];
+                $hora_asistencia_inicio = $value['hora_asistencia_inicio'];
+                $hora_asistencia_fin = $value['hora_asistencia_fin'];
+            }
+        }
+
+
+        ///--------------------FALTANTES--------------------///
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(4);
+        $tabla_faltantes='';
+        foreach ($lista_faltantes as $key => $value) {
+            $tabla_faltantes.=<<<html
+            <tr>
+                <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
+                <td>
+                    <u><a href="mailto:{$value['email']}"><span class="fa fa-mail-bulk"> </span> {$value['email']}</a></u>
+                    <br><br>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> {$value['telefono']}</a></u>
+                </td>
+                <td>
+                    <b>Línea: </b>{$value['nombre_linea']}
+                    <br>
+                    <b>BU: </b>{$value['nombre_bu']}
+                    <br>
+                    <b>Posición: </b>{$value['nombre_posicion']} 
+                </td>
+                <td>
+                    <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+html;
+        }
+        ///-------------------------------------------------///
+
+
+        if($flag == true)
+        {
+            View::set('tabla',$tabla);
+            View::set('tabla_faltantes',$tabla_faltantes);
+            View::set('nombre',$nombre);
+            View::set('etiqueta_linea',$etiqueta_linea);
+            View::set('descripcion',$descripcion);
+            View::set('nombre_asistencia',$nombre_asistencia);
+            View::set('fecha_asistencia',$fecha_asistencia);
+            View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
+            View::set('hora_asistencia_fin',$hora_asistencia_fin);
+            View::set('header',$extraHeader);
+            View::set('footer',$extraFooter);
+            View::render("registro_asistencias_checkin");
+        }
+        else
+        {
+            // View::render("asistencias_panel_registro");
+            View::render("asistencias_all_vacia");
+        }
+    }
+
+    
+
     public function mostrarLista($clave){
         $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCode($clave);
 
@@ -332,9 +2055,10 @@ html;
         echo json_encode($delete_registrado);
     }
 
-    public function RegistroCheckIn($clave, $code){
+    public function registroChekIn($clave, $code, $linea){
 
-        $user_clave = RegistroCheckInDao::getInfo($clave)[0];
+        $user_clave = RegistroCheckInDao::getInfoByLinea($clave,$linea)[0];
+        $existe_user = RegistroCheckInDao::getInfo($clave);
         $linea_principal = RegistroCheckInDao::getLineaPrincipial();
         $bu = RegistroCheckInDao::getBu();
         $posiciones = RegistroCheckInDao::getPosiciones();
@@ -362,37 +2086,59 @@ html;
         }
         // || substr($hora_actual,0,2) > substr($asistencia['hora_asistencia_fin'],0,2)
 
+        // echo ($user_clave);
 
-        if($user_clave){
-            $hay_asistente = RegistroCheckInDao::findAsistantById($user_clave['utilerias_asistentes_id'],$asistencia['id_asistencia'])[0];
-            if ($hay_asistente) {
-                $msg_insert = 'success_find_assistant';
-            } else {
-                $msg_insert = 'fail_not_found_assistant';
-                $insert = RegistroCheckInDao::addRegister($asistencia['id_asistencia'],$user_clave['utilerias_asistentes_id'],$a_tiempo);
+        if ($existe_user) {
+            if($user_clave){
+                $hay_asistente = RegistroCheckInDao::findAsistantById($user_clave['utilerias_asistentes_id'],$asistencia['id_asistencia'])[0];
+                if ($hay_asistente) {
+                    $msg_insert = 'success_find_assistant';
+                } else {
+                    $msg_insert = 'fail_not_found_assistant';
+                    $insert = RegistroCheckInDao::addRegister($asistencia['id_asistencia'],$user_clave['utilerias_asistentes_id'],$a_tiempo);
+                }
+    
+                if ($user_clave['nombre_linea_ejecutivo']) {
+                    $linea_ejecutivo = $user_clave['nombre_linea_ejecutivo'];
+                } else {
+                    $linea_ejecutivo = 'no';
+                }
+    
+                $data = [
+                    'datos'=>$user_clave,
+                    'linea_principal'=>$linea_principal,
+                    'bu'=>$bu,
+                    'posiciones'=>$posiciones,
+                    'status'=>'success',
+                    'msg_insert'=>$msg_insert,
+                    'hay_asistente'=> $hay_asistente,
+                    'asistencia'=> $asistencia,
+                    'hora_actual'=>$hora_actual,
+                    'a_tiempo'=>$a_tiempo,
+                    'aqui'=>$aqui,
+                    'linea'=>$linea,
+                    'linea_ejecutivo'=>$linea_ejecutivo,
+                    'hora_actual'=>intval(substr($hora_actual,0,2)),
+                    'hora_fin'=>intval(substr($asistencia['hora_asistencia_fin'],0,2)),
+                ];
+            }else{
+                $data = [
+                    'datos'=>$user_clave,
+                    'linea'=>$linea,
+                    'status'=>'fail'
+                ];
             }
-
+        } else {
             $data = [
                 'datos'=>$user_clave,
-                'linea_principal'=>$linea_principal,
-                'bu'=>$bu,
-                'posiciones'=>$posiciones,
-                'status'=>'success',
-                'msg_insert'=>$msg_insert,
-                'hay_asistente'=> $hay_asistente,
-                'asistencia'=> $asistencia,
-                'hora_actual'=>$hora_actual,
-                'a_tiempo'=>$a_tiempo,
-                'aqui'=>$aqui,
-                'hora_actual'=>intval(substr($hora_actual,0,2)),
-                'hora_fin'=>intval(substr($asistencia['hora_asistencia_fin'],0,2)),
-            ];
-        }else{
-            $data = [
-                'status'=>'fail'
+                'linea'=>$linea,    
+                'status'=>'fail_user'
             ];
         }
 
+        
+
         echo json_encode($data);
     }
+
 }

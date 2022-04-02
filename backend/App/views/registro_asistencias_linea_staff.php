@@ -257,7 +257,7 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('Directivos/')+11,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('Staff/')+11,link_a.length);
         
         bloquearRegistro();
 
@@ -372,7 +372,7 @@
             console.log(clave_a);
         
             $.ajax({
-                url: "/RegistroLinea/registroAsistenciaDirectivo/"+codigo+'/'+clave_a,
+                url: "/RegistroLinea/registroAsistenciaSTAFF/"+codigo+'/'+clave_a,
                 type: "POST",
                 // data: formData,
                 dataType: 'json',

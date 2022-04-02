@@ -20,7 +20,7 @@
                                 <h5 class="mb-0">
                                     Lista de Asistencia para Plenarias Individuales
                                 </h5>
-                                <h6><b>Staff</b></h6>
+                                <h6><b>KAES / OSTEO</b></h6>
                                 <p class="mb-0 font-weight-bold text-sm">
                                 </p>
                             </div>
@@ -257,7 +257,7 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('Directivos/')+11,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('KaesOsteo/')+11,link_a.length);
         
         bloquearRegistro();
 
@@ -372,7 +372,7 @@
             console.log(clave_a);
         
             $.ajax({
-                url: "/RegistroLinea/registroAsistenciaDirectivo/"+codigo+'/'+clave_a,
+                url: "/RegistroLinea/registroAsistenciaKaesOsteo/"+codigo+'/'+clave_a,
                 type: "POST",
                 // data: formData,
                 dataType: 'json',
@@ -449,7 +449,7 @@
                         // let tabla_registrados = $("#lista-reg");
                     } else {
                         Swal.fire({
-                            title: '¡Lo sentimos, esta persona no pertenece a la Línea Directivos!',
+                            title: '¡Lo sentimos, esta persona no pertenece a la Línea KAES / OSTEO!',
                             // html: 'I will close in <b></b> milliseconds.',
                             icon: 'warning',
                             timer: 1000,

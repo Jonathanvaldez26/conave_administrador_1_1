@@ -370,9 +370,9 @@
 
     <?php echo $modal; ?>
 
-</main></body>
+    </main></body>
 
-<script>
+    <script>
     function borrarPickUp(dato){
         $.ajax({
             url: "/PickUp/borrarPickUp/"+dato,

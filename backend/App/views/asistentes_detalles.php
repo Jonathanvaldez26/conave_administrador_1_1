@@ -767,6 +767,15 @@
                     context.drawImage(imgCodeQr, 870, 90);
                 }
 
+                var centerX = canvas.width/2;
+                var centerY = canvas.height/2;
+
+                context = canvas.getContext('2d');
+
+                // context.font="30pt Verdana";
+                // context.fillStyle = "white";
+                context.fillText("fillText",870,90);
+
             };
 
             return public;
