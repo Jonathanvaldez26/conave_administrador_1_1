@@ -35,7 +35,7 @@ class Login{
         
         <script charset="UTF-8" src="//web.webpushs.com/js/push/9d0c1476424f10b1c5e277f542d790b8_1.js" async></script>
 
-        html;
+html;
         $extraFooter =<<<html
         <script src="/js/jquery.min.js"></script>
         <script src="/js/validate/jquery.validate.js"></script>
@@ -140,7 +140,7 @@ class Login{
 
                                                     });
                                                     </script>
-                                                    html;
+html;
                                                     View::set('header',$extraHeader);
                                                     View::set('footer',$extraFooter);
                                                     View::render("login");
