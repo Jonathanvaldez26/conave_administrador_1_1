@@ -1,18 +1,23 @@
 <?php
+
 namespace App\controllers;
-defined("APPPATH") OR die("Access denied");
+
+defined("APPPATH") or die("Access denied");
 
 use \Core\View;
 use \Core\MasterDom;
 use \App\controllers\Contenedor;
-use \App\models\Login AS LoginDao;
-require_once dirname(__DIR__).'/../public/librerias/fpdf/fpdf.php';
+use \App\models\Login as LoginDao;
 
-class Login{
+require_once dirname(__DIR__) . '/../public/librerias/fpdf/fpdf.php';
+
+class Login
+{
     private $_contenedor;
 
-    public function index() {
-        $extraHeader =<<<html
+    public function index()
+    {
+        $extraHeader = <<<html
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
@@ -36,7 +41,7 @@ class Login{
         <script charset="UTF-8" src="//web.webpushs.com/js/push/9d0c1476424f10b1c5e277f542d790b8_1.js" async></script>
 
         html;
-        $extraFooter =<<<html
+        $extraFooter = <<<html
         <script src="/js/jquery.min.js"></script>
         <script src="/js/validate/jquery.validate.js"></script>
         <script src="/js/alertify/alertify.min.js"></script>
@@ -140,89 +145,91 @@ class Login{
 
                                                     });
                                                     </script>
-                                                    html;
-                                                    View::set('header',$extraHeader);
-                                                    View::set('footer',$extraFooter);
-                                                    View::render("login");
-                                                }
+html;
+        View::set('header', $extraHeader);
+        View::set('footer', $extraFooter);
+        View::render("login");
+    }
 
-                                                public function isUserValidate(){
-                                                    echo (count(LoginDao::getUser($_POST['usuario']))>=1)? 'true' : 'false';
-                                                }
+    public function isUserValidate()
+    {
+        echo (count(LoginDao::getUser($_POST['usuario'])) >= 1) ? 'true' : 'false';
+    }
 
-                                                public function verificarUsuario(){
-                                                    $usuario = new \stdClass();
-                                                    $usuario->_usuario = MasterDom::getData("usuario");
-                                                    $usuario->_password = MD5(MasterDom::getData("password"));
-                                                    $user = LoginDao::getById($usuario);
-                                                    if (count($user)>=1) {
-                                                        $user['nombre'] = utf8_encode($user['nombre']);
-                                                        echo json_encode($user);
-                                                    }
-                                                }
+    public function verificarUsuario()
+    {
+        $usuario = new \stdClass();
+        $usuario->_usuario = MasterDom::getData("usuario");
+        $usuario->_password = MD5(MasterDom::getData("password"));
+        $user = LoginDao::getById($usuario);
+        if (count($user) >= 1) {
+            $user['nombre'] = utf8_encode($user['nombre']);
+            echo json_encode($user);
+        }
+    }
 
-                                                public function crearSession(){
-                                                    $usuario = new \stdClass();
-                                                    $usuario->_usuario = MasterDom::getData("usuario");
-                                                    $usuario->_password = MD5(MasterDom::getData("password"));
-                                                    $user = LoginDao::getById($usuario);
-                                                    session_start();
-                                                    $_SESSION['usuario'] = $user['usuario'];
-                                                    $_SESSION['nombre'] = $user['nombre'];
-                                                    $_SESSION['utilerias_administradores_id'] = $user['utilerias_administradores_id'];
+    public function crearSession()
+    {
+        $usuario = new \stdClass();
+        $usuario->_usuario = MasterDom::getData("usuario");
+        $usuario->_password = MD5(MasterDom::getData("password"));
+        $user = LoginDao::getById($usuario);
+        session_start();
+        $_SESSION['usuario'] = $user['usuario'];
+        $_SESSION['nombre'] = $user['nombre'];
+        $_SESSION['utilerias_administradores_id'] = $user['utilerias_administradores_id'];
 
-                                                    header("location: /Principal/");
-                                                }
+        header("location: /Principal/");
+    }
 
-                                                public function cerrarSession(){
+    public function cerrarSession()
+    {
         //session_start();
-                                                    unset($_SESSION);
-                                                    session_unset();
-                                                    session_destroy();
-                                                    header("Location: /Login/");
-                                                }
+        unset($_SESSION);
+        session_unset();
+        session_destroy();
+        header("Location: /Login/");
+    }
 
 
-                                                public function abrirpdf(){
+    public function abrirpdf()
+    {
 
-                                                  $pdf = new \FPDF($orientation='L',$unit='mm', array(37,155));
-                                                  $pdf->AddPage();
-                                                  $pdf->SetFont('Arial','B',8);    //Letra Arial, negrita (Bold), tam. 20
-                                                  $textypos = 5;
-                                                  $pdf->setY(2);
+        $pdf = new \FPDF($orientation = 'L', $unit = 'mm', array(37, 155));
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
+        $textypos = 5;
+        $pdf->setY(2);
 
-                                                  $pdf->Image('https://convencionasofarma2022.mx/assets/pdf/iMAGEN_aso.png', 1, 0, 150, 40);
-                                                  $pdf->SetFont('Arial','',5);    //Letra Arial, negrita (Bold), tam. 20
-                                                  $nombre =utf8_decode("Nombre: Carlos Cruz Castañeda");
-
-
-
-                                                  $pdf->SetXY(8.3,9);
-                                                  $pdf->SetFont('Times','B',12);
-                                                       #4D9A9B
-                                                  $pdf->SetTextColor(0,0,0);
-                                                  $pdf->Multicell(120,4.2,$nombre,0,'C'); 
+        $pdf->Image('https://convencionasofarma2022.mx/assets/pdf/iMAGEN_aso.png', 1, 0, 150, 40);
+        $pdf->SetFont('Arial', '', 5);    //Letra Arial, negrita (Bold), tam. 20
+        $nombre = utf8_decode("Nombre: Carlos Cruz Castañeda");
+        $numero_habitacion = 5;
 
 
 
-                                                  $textypos+=6;
-                                                  $pdf->setX(2);
-
-                                                  $textypos+=6;
-
-
-
-                                                    //$pdf->output();
-
-                                                  if($pdf->output()){
-                                                     echo "exito";
-                                                 }else{
-                                                     echo "Error";
-                                                 }
-
-                                             }
+        $pdf->SetXY(8.3, 9);
+        $pdf->SetFont('Times', 'B', 15);
+        #4D9A9B
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->Multicell(120, 4.2, $nombre ." #habitación - ".utf8_decode($numero_habitacion), 0, 'C');
+        // $pdf->Multicell(120, 3.5, $numero_habitacion, 0, 'C');
 
 
 
+        $textypos += 6;
+        $pdf->setX(2);
 
-                                         }
+        $textypos += 6;
+
+
+
+        //$pdf->output();
+
+        if ($pdf->output()) {
+            echo "exito";
+        } else {
+            echo "Error";
+        }
+    }
+}
