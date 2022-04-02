@@ -96,6 +96,23 @@ sql;
         return $mysqli->update($query, $parametros);
     }
 
+    public static function updateHabitacionUsuario($habitacion){
+      $mysqli = Database::getInstance(true);
+      $query=<<<sql
+      UPDATE asigna_habitacion SET id_habitacion = :numero_habitacion WHERE id_asigna_habitacion = :id_asigna_habitacion
+sql;
+      $parametros = array(
+        ':numero_habitacion'=>$habitacion->_numero_habitacion,
+        ':id_asigna_habitacion'=>$habitacion->_id_asigna_habitacion
+      );
+
+        $accion = new \stdClass();
+        $accion->_sql= $query;
+        $accion->_parametros = $parametros;
+        $accion->_id = $habitacion->_id_habitacion;
+        return $mysqli->update($query, $parametros);
+    }
+
     public static function updateHabitacionesHotel($hotel){
       $mysqli = Database::getInstance(true);
       $query=<<<sql
@@ -125,6 +142,15 @@ sql;
       $mysqli = Database::getInstance(true);
         $query =<<<sql
         SELECT DISTINCT id_habitacion FROM asigna_habitacion WHERE id_habitacion LIKE '$no_habitacion'
+sql;
+
+        return $mysqli->queryAll($query);
+    }
+
+    public static function BuscaHabitacionCountCheckin($no_habitacion, $id_categoria_habitacion){
+      $mysqli = Database::getInstance(true);
+        $query =<<<sql
+        SELECT count(*) as total, id_categoria_habitacion FROM asigna_habitacion WHERE id_habitacion = '$no_habitacion' and id_categoria_habitacion = '$id_categoria_habitacion'
 sql;
 
         return $mysqli->queryAll($query);
@@ -177,6 +203,15 @@ sql;
       $mysqli = Database::getInstance();
       $query=<<<sql
       SELECT * FROM asigna_habitacion WHERE clave = '$clave'
+sql;
+      return $mysqli->queryAll($query);
+        
+    }
+
+    public static function getAsignaHabitacionByIdRegAcceso($id){
+      $mysqli = Database::getInstance();
+      $query=<<<sql
+      SELECT * FROM asigna_habitacion WHERE id_registro_acceso = $id
 sql;
       return $mysqli->queryAll($query);
         

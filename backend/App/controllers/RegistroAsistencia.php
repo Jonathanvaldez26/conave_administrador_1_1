@@ -7,6 +7,7 @@ use \Core\MasterDom;
 use \App\controllers\Contenedor;
 use \Core\Controller;
 use \App\models\RegistroAsistencia AS RegistroAsistenciaDao;
+use \App\models\Habitaciones as HabitacionesDao;
 use \DateTime;
 use \DatetimeZone;
 
@@ -180,11 +181,22 @@ html;
 
     public function registroAsistencia($clave, $code){
 
+        $clave_habitacion = '';
+        $id_asigna_habitacion = '';
+
         $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
         $linea_principal = RegistroAsistenciaDao::getLineaPrincipial();
         $bu = RegistroAsistenciaDao::getBu();
         $posiciones = RegistroAsistenciaDao::getPosiciones();
         $asistencia = RegistroAsistenciaDao::getIdRegistrosAsistenciasByCode($code)[0];
+        
+        $habitaciones = HabitacionesDao::getAsignaHabitacionByIdRegAcceso($user_clave['id_registro_acceso'])[0];
+        if($habitaciones){
+            $clave_habitacion = $habitaciones['clave'];
+            $id_asigna_habitacion = $habitaciones['id_asigna_habitacion'];
+            $numero_habitacion = $habitaciones['id_habitacion'];
+        }
+        
 
         $fecha = new DateTime('now', new DateTimeZone('America/Cancun'));
         $hora_actual = substr($fecha->format(DATE_RFC822),15,5);
@@ -232,6 +244,9 @@ html;
                 'aqui'=>$aqui,
                 'hora_actual'=>intval(substr($hora_actual,0,2)),
                 'hora_fin'=>intval(substr($asistencia['hora_asistencia_fin'],0,2)),
+                'clave_habitacion' => $clave_habitacion,
+                'id_asigna_habitacion' => $id_asigna_habitacion,
+                'numero_habitacion' => $numero_habitacion
             ];
         }else{
             $data = [
