@@ -6,6 +6,7 @@ use \Core\Database;
 use \App\interfaces\Crud;
 use \App\controllers\UtileriasLog;
 
+
 class RegistroAsistencia{
 
     public static function getById($id){
