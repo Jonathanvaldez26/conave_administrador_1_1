@@ -167,6 +167,36 @@ sql;
         return $mysqli->queryAll($query);
     }
 
+    public static function getRegistrosAsistenciasFaltantes($linea){
+        $mysqli = Database::getInstance();
+        $query=<<<sql
+        SELECT a.nombre AS nombre_asistencia, ua.usuario,
+        ra.telefono, ra.email,
+        lp.nombre AS nombre_linea,
+        b.nombre AS nombre_bu,
+        p.nombre AS nombre_posicion,
+        le.nombre AS nombre_linea_ejecutivo, le.color AS color_linea,
+        CONCAT (ra.nombre,' ',ra.segundo_nombre,' ',apellido_paterno,' ',apellido_materno) AS nombre_completo
+        FROM registros_acceso ra
+        INNER JOIN asistencias a
+        INNER JOIN utilerias_asistentes ua
+        INNER JOIN linea_principal lp
+        INNER JOIN posiciones p
+        INNER JOIN bu b 
+        ON ra.id_registro_acceso = ua.id_registro_acceso
+        and lp.id_linea_principal = ra.id_linea_principal
+        and b.id_bu = ra.id_bu
+        and p.id_posicion = ra.id_posicion
+        INNER JOIN linea_ejecutivo le
+        ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo
+        
+        WHERE le.id_linea_ejecutivo = $linea AND ua.utilerias_asistentes_id NOT IN 
+        (SELECT ras.utilerias_asistentes_id FROM registros_asistencia ras 
+        WHERE a.id_asistencia = ras.id_asistencias)
+sql;
+        return $mysqli->queryAll($query);
+    }
+
     public static function countLista($code){
         $mysqli = Database::getInstance();
         $query=<<<sql

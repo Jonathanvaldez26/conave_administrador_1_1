@@ -31,7 +31,7 @@
                             <div class="nav-wrapper position-relative end-0">
                                 <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link mb-0 px-0 py-1 active" href="#cam1" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+                                        <a class="nav-link mb-0 px-0 py-1 active" id="registro-tab" href="#cam1" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
                                             <span class="fa fa-clock-o"></span>
                                             <span class="ms-1">Registro</span>
                                         </a>
@@ -40,6 +40,12 @@
                                         <a class="nav-link mb-0 px-0 py-1" id="lista-tab" href="#cam2" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
                                             <span class="fa fa-check-circle-o"></span>
                                             <span class="ms-1">Lista</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 px-0 py-1" id="faltantes-tab" href="#cam3" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                                            <span class="fa fa-check-circle-o"></span>
+                                            <span class="ms-1">Faltantes</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -160,6 +166,7 @@
             <div class="row">
                 <div class="col-10 m-auto">
                     <div class="card p-4" style="overflow-y: auto;">
+                        <h4>Registrados</h4>
                         <table id="lista-reg" class="align-items-center mb-0 table table-borderless dataTable no-footer">
                             <thead>
                                 <tr>
@@ -173,7 +180,32 @@
 
                             <tbody>
                                 <?php echo $tabla;?>
-                                
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tab-pane fade position-relative height-350 border-radius-lg" id="cam3" role="tabpanel" aria-labelledby="cam2">
+            <div class="row">
+                <div class="col-10 m-auto">
+                    <div class="card p-4" style="overflow-y: auto;">
+                        <h4>Faltantes de Registro</h4>
+                        <table id="lista-faltantes" class="align-items-center mb-0 table table-borderless dataTable no-footer">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Información Personal</th>
+                                    <th>Información de Trabajo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <?php echo $tabla_faltantes;?>
                             </tbody>
                             
                         </table>
@@ -278,9 +310,6 @@
         let linea_ejecutivo = linea_clave.substr(0,linea_clave.indexOf('/'));
         let clave_a = linea_clave.substr(linea_clave.indexOf('/')+1);
         
-        // console.log(linea_ejecutivo);
-        // console.log(clave_a);
-        
         let numero_linea = 0;
         switch (linea_ejecutivo) {
             case 'Directivos':
@@ -331,12 +360,53 @@
                 break;
         }
 
-        
         bloquearRegistro();
 
-        // mostrarDatos(clave_a);
-
         var table = $('#lista-reg').DataTable({
+            "drawCallback": function( settings ) {
+                $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
+                $('.paginate_button').addClass("btn").removeClass("paginate_button");
+                $('.dataTables_length').addClass("m-4");
+                $('.dataTables_info').addClass("mx-4");
+                $('.dataTables_filter').addClass("m-4");
+                $('input').addClass("form-control");
+                $('select').addClass("form-control");
+                $('.previous.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+                $('.next.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+                $('.previous').addClass("btn-outline-danger btn-rounded mx-2");
+                $('.next').addClass("btn-outline-danger btn-rounded mx-2");
+                $('a.btn').addClass("btn-rounded");
+                $('.odd').addClass("bg-gray-conave-100");
+            },
+            "language": {
+            
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            
+            }
+        });
+
+        var table = $('#lista-faltantes').DataTable({
             "drawCallback": function( settings ) {
                 $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
                 $('.paginate_button').addClass("btn").removeClass("paginate_button");
