@@ -257,7 +257,7 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('Uro/')+11,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('Uro/')+4,link_a.length);
         
         bloquearRegistro();
 

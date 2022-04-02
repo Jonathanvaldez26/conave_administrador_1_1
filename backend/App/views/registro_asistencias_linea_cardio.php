@@ -257,7 +257,7 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('Cardio/')+11,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('Cardio/')+7,link_a.length);
         
         bloquearRegistro();
 
