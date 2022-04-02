@@ -275,15 +275,52 @@
         let codigo = '';
         var link_a = $(location).attr('href');
         var linea_clave = link_a.substr(link_a.indexOf('RegistroCheckIn/')+16,link_a.length);
-        let linea_ejecutivo = clave_a.substr(0,link_a.indexOf('/')-2);
-        let linea_var = linea_clave.substr(linea_clave.indexOf('/')+1);
+        let linea_ejecutivo = linea_clave.substr(0,linea_clave.indexOf('/'));
+        let clave_a = linea_clave.substr(linea_clave.indexOf('/')+1);
         
-        console.log(linea_ejecutivo);
+        // console.log(linea_ejecutivo);
+        // console.log(clave_a);
         
         let numero_linea = 0;
         switch (linea_ejecutivo) {
+            case 'Directivos':
+                numero_linea = 1;
+                break;
+
+            case 'Staff':
+                numero_linea = 2;
+                break;
+            
+            case 'Neurociencias':
+                numero_linea = 3;
+                break;
+            
+            case 'KaesOsteo':
+                numero_linea = 4;
+                break;
+            
+            case 'cardio':
+                numero_linea = 6;
+                break;
+
             case 'Uro':
                 numero_linea = 7;
+                break;
+
+            case 'Gastro':
+                numero_linea = 8;
+                break;
+
+            case 'Gineco':
+                numero_linea = 9;
+                break;
+            
+            case 'MedicinaGeneral':
+                numero_linea = 10;
+                break;
+
+            case 'Ole':
+                numero_linea = 11;
                 break;
             
             case 'Analgesia':
@@ -294,7 +331,6 @@
                 break;
         }
 
-        console.log(numero_linea);
         
         bloquearRegistro();
 
@@ -352,9 +388,10 @@
 
             console.log(codigo);
             console.log(clave_a);
+            console.log(linea_ejecutivo);
         
             $.ajax({
-                url: "/RegistroCheckIn/registroChekIn/"+codigo+'/'+clave_a,
+                url: "/RegistroCheckIn/registroChekIn/"+codigo+'/'+clave_a+'/'+numero_linea,
                 type: "POST",
                 dataType: 'json',
                 beforeSend: function() {
