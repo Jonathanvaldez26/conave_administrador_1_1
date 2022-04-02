@@ -276,7 +276,7 @@ sql;
         INNER JOIN ticket_virtual tv ON tv.id_ticket_virtual = ra.id_ticket_virtual
         INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.id_linea_principal
         INNER JOIN linea_ejecutivo le ON le.id_linea_ejecutivo = lp.id_linea_ejecutivo
-        WHERE tv.clave = '$clave' and le.nombre = 'DIRECTIVOS';
+        WHERE tv.clave = '$clave' and le.nombre = 'MEDICINAGENERAL';
 sql;
 
         return $mysqli->queryAll($query);
@@ -292,7 +292,7 @@ sql;
         INNER JOIN ticket_virtual tv ON tv.id_ticket_virtual = ra.id_ticket_virtual
         INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.id_linea_principal
         INNER JOIN linea_ejecutivo le ON le.id_linea_ejecutivo = lp.id_linea_ejecutivo
-        WHERE tv.clave = '$clave' and le.nombre = 'DIRECTIVOS';
+        WHERE tv.clave = '$clave' and le.nombre = 'OLE';
 sql;
 
         return $mysqli->queryAll($query);

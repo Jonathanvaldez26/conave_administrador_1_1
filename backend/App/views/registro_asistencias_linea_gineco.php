@@ -213,7 +213,7 @@
     function bloquearRegistro(){
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('codigo/')+7,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('Gineco/')+7,link_a.length);
 
         let date = new Date();
 
@@ -257,7 +257,7 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('Gineco/')+11,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('Gineco/')+7,link_a.length);
         
         bloquearRegistro();
 
