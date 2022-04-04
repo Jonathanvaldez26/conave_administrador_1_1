@@ -328,7 +328,7 @@ html;
                 'clave_habitacion' => $clave_habitacion,
                 'id_asigna_habitacion' => $id_asigna_habitacion,
                 'numero_habitacion' => $numero_habitacion,
-                'anchor_abrir_pdf' => "<a href='/RegistroAsistencia/abrirpdf/{$user_clave['clave']}' target='blank_' style='display:none;' id='a_abrir_etiqueta'>abrir</a>"
+                'anchor_abrir_pdf' => "<a href='/RegistroAsistencia/abrirpdf/{$user_clave['clave']}' target='_blank' style='display:none;' id='a_abrir_etiqueta'>abrir</a>"
             ];
         }else{
             $data = [
@@ -345,12 +345,11 @@ html;
         $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
         $nombre_completo = $datos_user['nombre'] ." ".$datos_user['segundo_nombre']." ".$datos_user['apellido_materno']." ".$datos_user['apellido_paterno'];
 
-        // var_dump($datos_user);
 
-        // exit;
 
-        // $nombre_completo = utf8_decode($_POST['nombre']);
-        // $num_habitacion = $_POST['num_habitacion'];
+        //$nombre_completo = utf8_decode($_POST['nombre']);
+        $num_habitacion = $_POST['num_habitacion'];
+       
 
         $pdf = new \FPDF($orientation = 'L', $unit = 'mm', array(37, 155));
 
@@ -358,19 +357,15 @@ html;
 
         
         $pdf->AddPage();
-        $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
+        $pdf->SetFont('Arial', 'B', 5);    //Letra Arial, negrita (Bold), tam. 20
         $textypos = 5;
         $pdf->setY(2);
 
         $pdf->Image('https://convencionasofarma2022.mx/assets/pdf/iMAGEN_aso.png', 1, 0, 150, 40);
         $pdf->SetFont('Arial', '', 5);    //Letra Arial, negrita (Bold), tam. 20
-        $nombre = utf8_decode("Nombre: Carlos Cruz Castañeda");
-        
-
-
-
+      
         $pdf->SetXY(8.3, 9);
-        $pdf->SetFont('Times', 'B', 12);
+        $pdf->SetFont('Times', 'B', 10);
         #4D9A9B
         $pdf->SetTextColor(0, 0, 0);
         $pdf->Multicell(120, 4.2, $nombre_completo .utf8_decode(" #habitación") ." - ".$datos_user['numero_habitacion'], 0, 'C');
@@ -386,7 +381,9 @@ html;
 
     }
 
-        $pdf->output();
+        $pdf->Output();
+        // $pdf->Output('F', 'C:/pases_abordar/'. $clave.'.pdf');
+
 
     }
 }
