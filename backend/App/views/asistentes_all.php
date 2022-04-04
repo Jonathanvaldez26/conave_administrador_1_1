@@ -362,12 +362,6 @@
                                             <span class="ms-1">Acceso Invitados</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link mb-0 px-0 py-1" href="#Faltantes" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                            <span class="fa fa-user-check"></span>
-                                            <span class="ms-1">Faltantes de Registro</span>
-                                        </a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -440,24 +434,6 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade position-relative height-350 border-radius-lg" id="Faltantes" role="tabpanel" aria-labelledby="Faltantes">
-                                    <div class="table-responsive p-0">
-                                        <table class="align-items-center mb-0 table table-borderless" id="user_list_table_faltante">
-                                            <thead class="thead-light">
-                                                <tr>
-
-                                                    <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7">Usuario</th>
-                                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Teléfono</th>
-                                                    <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th> -->
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php echo $tabla_faltantes; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
