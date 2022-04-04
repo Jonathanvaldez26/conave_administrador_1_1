@@ -87,11 +87,10 @@ html;
                   </div>
               </td>
               <td>
-                <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
-              </td>
-              <td>
                 <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
                 <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
+                <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
+
               </td>
               <td class="text-center">
                 <button type="button" class="btn bg-gradient-primary" btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">
@@ -257,11 +256,10 @@ html;
                     </div>
                 </td>
                 <td>
-                  <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
-                </td>
-                <td>
                   <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
                   <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
+                  <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
+
                 </td>
                 <td class="text-center">
                   <button type="button" class="btn bg-gradient-primary btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">
@@ -426,11 +424,10 @@ html;
                     </div>
                 </td>
                 <td>
-                  <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
-                </td>
-                <td>
                   <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
                   <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
+                  <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
+
                 </td>
                 <td class="text-center">
                   <button type="button" class="btn bg-gradient-primary btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">
