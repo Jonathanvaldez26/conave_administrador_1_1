@@ -605,7 +605,7 @@
 
         </div>
 
-        <div class="modal fade" id="Modal_Add" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal fade" id="Modal_Add" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -747,7 +747,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="Modal_Add_Salidas" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal fade" id="Modal_Add_Salidas" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1165,6 +1165,8 @@
 </body>
 
 <?php echo $footer; ?>
+
+<script src="//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
     $(document).ready(function() {
