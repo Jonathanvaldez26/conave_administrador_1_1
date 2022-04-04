@@ -87,9 +87,9 @@ html;
                   </div>
               </td>
               <td>
-                <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-                <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
-                <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
+                <p class="text-center" style="font-size: small;"><span class="fa fa-virus-slash" style="font-size: 13px;"></span> {$value['tipo_prueba']}</p>
+                <p class="text-center" style="font-size: small;"> <span class="fa fa-circle" style="font-size: 13px;"></span>{$value['resultado']}</p>
+                <p class="text-center" style="font-size: small;"><span class="fa fa-calendar" style="font-size: 13px;"></span> {$value['fecha_carga_documento']}</p>
 
               </td>
               <td class="text-center">
@@ -256,9 +256,9 @@ html;
                     </div>
                 </td>
                 <td>
-                  <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-                  <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
-                  <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-virus-slash" style="font-size: 13px;"></span> {$value['tipo_prueba']}</p>
+                  <p class="text-center" style="font-size: small;"> <span class="fa fa-circle" style="font-size: 13px;"></span> {$value['resultado']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-calendar" style="font-size: 13px;"></span> {$value['fecha_carga_documento']}</p>
 
                 </td>
                 <td class="text-center">
@@ -424,9 +424,9 @@ html;
                     </div>
                 </td>
                 <td>
-                  <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-                  <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
-                  <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-virus-slash" style="font-size: 13px;"></span> {$value['tipo_prueba']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-circle" style="font-size: 13px;"></span> {$value['resultado']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-calendar" style="font-size: 13px;"></span> {$value['fecha_carga_documento']}</p>
 
                 </td>
                 <td class="text-center">
