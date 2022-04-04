@@ -32,7 +32,7 @@ sql;
         
 
             SELECT pa.id_pase_abordar, pa.clave, CONCAT(ra.nombre," ", ra.segundo_nombre," ", ra.apellido_paterno," ", ra.apellido_materno) as nombre, pa.fecha_alta, CONCAT(ae.iata, " - ",ae.aeropuerto) as aeropuerto_salida, CONCAT(aeo.iata, " - ",aeo.aeropuerto) as aeropuerto_llegada , pa.numero_vuelo, pa.hora_llegada_destino, le.nombre AS nombre_linea_ejecutivo,
-            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono, le.color, pa.url
+            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono, le.color, pa.url AS link
             FROM pases_abordar pa
             INNER JOIN aeropuertos ae on ae.id_aeropuerto = pa.id_aeropuerto_origen
             INNER JOIN aeropuertos aeo on aeo.id_aeropuerto = pa.id_aeropuerto_destino
