@@ -12,7 +12,7 @@ class Vuelos{
         $mysqli = Database::getInstance();
         $query=<<<sql
             SELECT pa.id_pase_abordar, pa.clave, CONCAT(ra.nombre," ", ra.segundo_nombre," ", ra.apellido_paterno," ", ra.apellido_materno) as nombre, pa.fecha_alta, CONCAT(ae.iata, " - ",ae.aeropuerto) as aeropuerto_salida, CONCAT(aeo.iata, " - ",aeo.aeropuerto) as aeropuerto_llegada , pa.numero_vuelo, pa.hora_llegada_destino, le.nombre AS nombre_linea_ejecutivo,
-            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono, le.color
+            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono, le.color, pa.url AS link
             FROM pases_abordar pa
             INNER JOIN aeropuertos ae on ae.id_aeropuerto = pa.id_aeropuerto_origen
             INNER JOIN aeropuertos aeo on aeo.id_aeropuerto = pa.id_aeropuerto_destino
@@ -32,7 +32,7 @@ sql;
         
 
             SELECT pa.id_pase_abordar, pa.clave, CONCAT(ra.nombre," ", ra.segundo_nombre," ", ra.apellido_paterno," ", ra.apellido_materno) as nombre, pa.fecha_alta, CONCAT(ae.iata, " - ",ae.aeropuerto) as aeropuerto_salida, CONCAT(aeo.iata, " - ",aeo.aeropuerto) as aeropuerto_llegada , pa.numero_vuelo, pa.hora_llegada_destino, le.nombre AS nombre_linea_ejecutivo,
-            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono, le.color
+            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono, le.color, pa.url AS link
             FROM pases_abordar pa
             INNER JOIN aeropuertos ae on ae.id_aeropuerto = pa.id_aeropuerto_origen
             INNER JOIN aeropuertos aeo on aeo.id_aeropuerto = pa.id_aeropuerto_destino
@@ -163,6 +163,19 @@ sql;
 
     }
 
+    public static function getAsistentebyUAId($id){
+        $mysqli = Database::getInstance();
+        $query=<<<sql
+            SELECT ra.email, CONCAT (ra.nombre,' ',ra.segundo_nombre,' ',ra.apellido_paterno,' ',ra.apellido_materno) AS nombre_completo
+            FROM registros_acceso ra
+            INNER JOIN utilerias_asistentes ua
+            ON ra.id_registro_acceso = ua.id_registro_acceso
+
+            WHERE utilerias_asistentes_id = '$id'
+sql;
+        return $mysqli->queryAll($query);
+    }
+
     public static function insertItinerario($data){
         $mysqli = Database::getInstance(1);
         $query=<<<sql
@@ -221,6 +234,7 @@ sql;
         INNER JOIN comprobante_vacuna cv on cv.utilerias_asistentes_id = ua.utilerias_asistentes_id
         INNER JOIN prueba_covid pc on pc.utilerias_asistentes_id = ua.utilerias_asistentes_id 
         WHERE ua.utilerias_asistentes_id NOT IN (SELECT utilerias_asistentes_id FROM pases_abordar) 
+        
         
 sql;
 

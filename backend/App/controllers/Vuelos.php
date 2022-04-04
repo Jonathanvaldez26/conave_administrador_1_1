@@ -28,6 +28,7 @@ class Vuelos extends Controller{
     public function index() {
      $extraHeader =<<<html
      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+     <link href="//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 html;
 
      $extraFooter =<<<html
@@ -62,6 +63,7 @@ html;
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
           <!-- VIEJO FIN -->
           <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+          <script src="//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
    <script>
     $( document ).ready(function() {
 
@@ -148,7 +150,7 @@ html;
                      
                  </td>
                 <td style="text-align:center; vertical-align:middle;">
-                    <a href="Detalles/{$value['clave']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
+                    <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/{$value['link']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
                 </td>
                  
             </tr>
@@ -451,9 +453,17 @@ html;
 
             $notas = $_POST['notas'];
 
+            $email = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['email'];
+            $nombre = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['nombre_completo'];
+
+            // echo $email;
+            // echo $utilerias_asistentes_id;
+            // exit;
+
             $msg = [
-                'name' => '',
-                'email' => ''
+                'name' => $nombre,
+                'email' => $email,
+                'url'=>'https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/'.$pdf.'.pdf'
             ];
 
             if($notas == '')

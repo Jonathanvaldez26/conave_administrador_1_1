@@ -474,7 +474,7 @@
                                     </div>
                                     <div class="card-body px-0 pt-0 pb-2">
                                         <div class="table-responsive p-0">
-                                            <table class="table align-items-center mb-0">
+                                            <table class="table align-items-center mb-0" id="vuelos_llegada_tabla">
                                                 <thead>
                                                     <tr>
                                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre del Asistente</th>
@@ -605,7 +605,7 @@
 
         </div>
 
-        <div class="modal fade" id="Modal_Add" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal fade" id="Modal_Add" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -626,7 +626,7 @@
                                     <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_asistente">Nombre del Invitado al que Cargaran el Pase de Abordar <span class="required">*</span></label>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <!-- <input type="text" name="nombre_asistente" id="nombre_asistente" class="form-control col-md-7 col-xs-12" value=""> -->
-                                        <select class="form-control" name="id_asistente" id="id_asistente" required>
+                                        <select class="form-control select_2" name="id_asistente" id="id_asistente" required>
                                             <option selected disabled>Seleccione una Opción</option>
                                             <?php echo $idAsistente; ?>
                                         </select>
@@ -655,7 +655,7 @@
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_origen_escala">Seleccione el Origen de la Ciudad (¿De Donde Sale?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
-                                            <select class="form-control" name="id_origen_escala" id="id_origen_escala">
+                                            <select class="form-control select_2" name="id_origen_escala" id="id_origen_escala">
                                                 <option value="0" selected>Seleccione una Opción</option>
                                                 <?php echo $idAeropuertoOrigen; ?>
                                             </select>
@@ -666,7 +666,7 @@
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_destino_escala">Seleccione el Destino de la Ciudad (¿A Donde Llega?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
-                                            <select class="form-control" name="id_destino_escala" id="id_destino_escala">
+                                            <select class="form-control select_2" name="id_destino_escala" id="id_destino_escala">
                                                 <option value="0" selected>Seleccione una Opción</option>    
                                                 <?php echo $idAeropuertoOrigen; ?>
                                             </select>
@@ -688,7 +688,7 @@
                                 </div>
                                 <hr>
                                 <div class="row mb-3" id="pase_normal" hidden>
-                                    <h4>Pase</h4>
+                                    <h4>Tramo 2 Pase Rumbo a la Convención</h4>
                                     <div class="form-group col-md-6">
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_origen">Seleccione el Origen de la Ciudad (¿De Donde Sale?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -704,7 +704,7 @@
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_destino">Seleccione el Destino de la Ciudad (¿A Donde Llega?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
-                                            <select class="form-control" name="id_destino" id="id_destino" required>
+                                            <select class="form-control " name="id_destino" id="id_destino" required>
                                                 <?php echo $idAeropuertoDestino; ?>
                                             </select>
                                         </div>
@@ -729,7 +729,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-12">
-                                        <label class="form-label">Notas (Opcional)</label>
+                                        <label class="form-label">Notas para Grupo LAHE (Opcional)</label>
                                         <div class="input-group">
                                             <textarea id="notas" name="notas" maxlength="1000" class="form-control" placeholder="Añade Alguna Nota de Importancia"></textarea>
                                         </div>
@@ -747,7 +747,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="Modal_Add_Salidas" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal fade" id="Modal_Add_Salidas" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1166,6 +1166,8 @@
 
 <?php echo $footer; ?>
 
+<script src="//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
     $(document).ready(function() {
 
@@ -1174,18 +1176,32 @@
             if ($('#tiene_escala').val() == 1) {
                 $('#pase_escala').prop('hidden',false);
                 $('#pase_normal').prop('hidden',false);
+                $('#id_origen_escala').val(0);
+                // $('#id_destino_escala').val(0);
+                $('#numero_vuelo_escala').val('');
+                $('#hora_llegada_escala').val('');
+                $('.select_2').select2();
                 $('#id_origen_escala').prop('required',true);
             } else {
                 $('#pase_escala').prop('hidden',true);
                 $('#pase_normal').prop('hidden',false);
                 $('#id_origen_escala').prop('required',false);
+                $('#id_origen_escala').val(0);
+                $('#id_destino_escala').val(0);
+                $('#numero_vuelo_escala').val('');
+                $('#hora_llegada_escala').val('');
+                $('#id_origen').addClass('select_2');
+                $('.select_2').select2();
             }
         });  
         
         $('#id_destino_escala').on('change', function(){
             console.log($('#id_destino_escala').val());
             $('#id_origen').val($('#id_destino_escala').val());
-            $('#id_origen').prop('readonly',true);
+            
+            $('#id_origen').select2();
+            
+            
         }); 
 
         $('#id_asistente').on('change', function(){
@@ -1193,6 +1209,51 @@
         });
 
         $('.select_2').select2();
+
+        $('#vuelos_llegada_tabla').DataTable({
+            "drawCallback": function(settings) {
+                $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
+                $('.paginate_button').addClass("btn").removeClass("paginate_button");
+                $('.dataTables_length').addClass("m-4");
+                $('.dataTables_info').addClass("mx-4");
+                $('.dataTables_filter').addClass("m-4");
+                $('input').addClass("form-control");
+                $('select').addClass("form-control");
+                $('.previous.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+                $('.next.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+                $('.previous').addClass("btn-outline-danger btn-rounded mx-2");
+                $('.next').addClass("btn-outline-danger btn-rounded mx-2");
+                $('a.btn').addClass("btn-rounded");
+                $('.odd').addClass("bg-gray-conave");
+                $('.even').addClass("bg-white").removeClass("bg-gray-conave-100");
+            },
+            "language": {
+
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+
+            }
+        });
 
         $('#itinerario-tabla').DataTable({
             "drawCallback": function(settings) {
