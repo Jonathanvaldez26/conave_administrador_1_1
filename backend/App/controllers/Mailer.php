@@ -130,8 +130,7 @@ class Mailer
     }
 
 
-    public function mailVuelos($msg)
-    {
+    public function mailVuelos($msg) {
         $mail = new PHPMailer(true);
 
         try {
@@ -209,14 +208,17 @@ class Mailer
                     Hola <b>'.$msg['name'].'</b>
                 </p>
                 <br>
+                <p style="text-align: justify;">
+                    Le informamos que sus pases de abordar rumbo a la CONAVE 2022, fueron cargados con éxito, usted puede consultarlos en su app móvil en la sección de Pases de Abordar que ya se encuentra activa o a través del siguiente link para consulta automática
+                    <br> <br>'.$msg['url'].'<br> <br>
+                    Si usted necesita ayuda, comuníquese a la línea de soporte a través de WhatsApp en el siguiente enlace 
+                    <br>
+                    <br><a href="shorturl.at/afsuQ">shorturl.at/afsuQ<a/>
+                </p>
                 <p>
-                Le informamos que su itinerario se encuentra disponible, si desea consultarlo de clic en el siguiente enlace, <a href="https://convencionasofarma2022.mx/">https://convencionasofarma2022.mx/</a>, ingrese su correo electrónico y su contraseña, diríjase a itinerarios, de clic en ITINERARIO y visualice si sus datos son correctos, si usted detecta un error, comuníquese a la línea de soporte a través de WhatsApp en el siguiente enlace.<br>
-                <a href="https://api.whatsapp.com/send?phone=52558010%204181&text=Buen%20d%C3%ADa">https://api.whatsapp.com/send?phone=52558010%204181&text=Buen%20d%C3%ADa<a/> 
+                    
                 </p>
                 <br>
-                <p>
-                Recuerde que sus pases de abordar estarán disponibles hasta 48 horas de anticipación al vuelo, debe tener cargado y validado con éxito su comprobante de vacunación y su prueba SARS-CoV-2 con un lapso no mayor a 48 horas del vuelo.
-                </p>
                 <img src="https://convencionasofarma2022.mx/assets/img/img_equipo_asofarma_n.jpeg" alt="firma">
 
                     
@@ -231,7 +233,7 @@ class Mailer
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'AVISO, ITINERARIO DISPONIBLE PARA CONSULTA.';
+            $mail->Subject = 'PASE DE ABORDAR RUMBO A LA CONAVE.';
             $mail->Body    = $html;
             $mail->CharSet = 'UTF-8';
 
@@ -245,3 +247,7 @@ class Mailer
 
 
 }
+
+
+// Le informamos que su itinerario se encuentra disponible, si desea consultarlo de clic en el siguiente enlace, <a href="https://convencionasofarma2022.mx/">https://convencionasofarma2022.mx/</a>, ingrese su correo electrónico y su contraseña, diríjase a itinerarios, de clic en ITINERARIO y visualice si sus datos son correctos, si usted detecta un error, comuníquese a la línea de soporte a través de WhatsApp en el siguiente enlace.<br>
+//     <a href="https://api.whatsapp.com/send?phone=52558010%204181&text=Buen%20d%C3%ADa">https://api.whatsapp.com/send?phone=52558010%204181&text=Buen%20d%C3%ADa<a/> 

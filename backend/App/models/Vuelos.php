@@ -163,6 +163,19 @@ sql;
 
     }
 
+    public static function getAsistentebyUAId($id){
+        $mysqli = Database::getInstance();
+        $query=<<<sql
+            SELECT ra.email, CONCAT (ra.nombre,' ',ra.segundo_nombre,' ',ra.apellido_paterno,' ',ra.apellido_materno) AS nombre_completo
+            FROM registros_acceso ra
+            INNER JOIN utilerias_asistentes ua
+            ON ra.id_registro_acceso = ua.id_registro_acceso
+
+            WHERE utilerias_asistentes_id = '$id'
+sql;
+        return $mysqli->queryAll($query);
+    }
+
     public static function insertItinerario($data){
         $mysqli = Database::getInstance(1);
         $query=<<<sql

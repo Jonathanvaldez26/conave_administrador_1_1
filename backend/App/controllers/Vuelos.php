@@ -451,9 +451,17 @@ html;
 
             $notas = $_POST['notas'];
 
+            $email = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['email'];
+            $nombre = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['nombre_completo'];
+
+            // echo $email;
+            // echo $utilerias_asistentes_id;
+            // exit;
+
             $msg = [
-                'name' => '',
-                'email' => ''
+                'name' => $nombre,
+                'email' => $email,
+                'url'=>'https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/'.$pdf.'.pdf'
             ];
 
             if($notas == '')
