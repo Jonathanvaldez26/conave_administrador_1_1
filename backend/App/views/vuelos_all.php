@@ -443,7 +443,7 @@
 
             <div class="card-body p-1 mt-1">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade position-relative height-350 border-radius-lg" id="cam1" role="tabpanel" aria-labelledby="cam1" style="background-image: url('../../assets/img/miercoles.jpeg'); background-size:cover;">
+                    <div class="tab-pane fade position-relative active height-350 border-radius-lg" id="cam1" role="tabpanel" aria-labelledby="cam1" style="background-image: url('../../assets/img/miercoles.jpeg'); background-size:cover;">
                         <div class="d-flex m-1">
                             <div class="ms-auto d-flex">
                                 <div class="pe-4 mt-1 position-relative">
@@ -545,7 +545,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade show position-relative active height-350 border-radius-lg" id="cam3" role="tabpanel" aria-labelledby="cam2" style="background-image: url('../../assets/img/jueves.jpeg'); background-size:cover;">
+                    <div class="tab-pane fade show position-relative  height-350 border-radius-lg" id="cam3" role="tabpanel" aria-labelledby="cam2" style="background-image: url('../../assets/img/jueves.jpeg'); background-size:cover;">
                         <div class="d-flex m-1">
                             <div class="ms-auto d-flex">
                                 <div class="pe-4 mt-1 position-relative">
