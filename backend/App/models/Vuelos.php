@@ -95,8 +95,43 @@ sql;
     public static function insert($data){
         $mysqli = Database::getInstance(1);
         $query=<<<sql
-        INSERT INTO pases_abordar (id_pase_abordar, utilerias_asistentes_id, utilerias_administradores_id, clave, id_aeropuerto_origen, id_aeropuerto_destino, numero_vuelo, hora_llegada_destino, fecha_alta, url, status, nota, tipo) 
-        VALUES (null, :utilerias_asistentes_id, :utilerias_administradores_id, :clave, :id_aeropuerto_origen, :id_aeropuerto_destino, :numero_vuelo, :hora_llegada_destino, NOW(), :url, 1, :nota, 1);
+        INSERT INTO pases_abordar (
+            id_pase_abordar, 
+            utilerias_asistentes_id, 
+            utilerias_administradores_id, 
+            clave, 
+            id_aeropuerto_origen, 
+            id_aeropuerto_destino,
+            numero_vuelo, 
+            hora_llegada_destino,
+            id_aeropuerto_origen_escala,
+            id_aeropuerto_destino_escala,
+            numero_vuelo_escala,
+            hora_llegada_escala, 
+            fecha_alta, 
+            url, 
+            status, 
+            nota, 
+            tipo)
+
+        VALUES (
+            null, 
+            :utilerias_asistentes_id, 
+            :utilerias_administradores_id, 
+            :clave, 
+            :id_aeropuerto_origen, 
+            :id_aeropuerto_destino,
+            :numero_vuelo, 
+            :hora_llegada_destino,
+            :id_aeropuerto_origen_escala,
+            :id_aeropuerto_destino_escala,
+            :numero_vuelo_escala,
+            :hora_llegada_escala,
+            NOW(), 
+            :url, 
+            1, 
+            :nota, 
+            1);
 sql;
         $parametros = array(
             ':utilerias_asistentes_id'=>$data->_utilerias_asistentes_id,
@@ -106,9 +141,15 @@ sql;
             ':id_aeropuerto_destino'=>$data->_id_aeropuerto_destino,
             ':numero_vuelo'=>$data->_numero_vuelo,
             ':hora_llegada_destino'=>$data->_hora_llegada,
+            ':id_aeropuerto_origen_escala'=>$data->_id_aeropuerto_origen_escala,
+            ':id_aeropuerto_destino_escala'=>$data->_id_aeropuerto_destino_escala,
+            ':numero_vuelo_escala'=>$data->_numero_vuelo_escala,
+            ':hora_llegada_escala'=>$data->_hora_llegada_escala,
+
             ':url'=>$data->_url,
             ':nota'=>$data->_notas
         );
+
         $id = $mysqli->insert($query,$parametros);
         $accion = new \stdClass();
         $accion->_sql= $query;
@@ -173,13 +214,17 @@ sql;
     public static function getAsistenteNombre(){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        select ra.id_registro_acceso, CONCAT(ra.nombre, ' ', ra.segundo_nombre, ' ', ra.apellido_paterno, ' ', ra.apellido_materno) as nombre, ua.utilerias_asistentes_id 
+        SELECT ra.id_registro_acceso, 
+        CONCAT(ra.nombre, ' ', ra.segundo_nombre, ' ', ra.apellido_paterno, ' ', ra.apellido_materno) as nombre, ua.utilerias_asistentes_id 
         from utilerias_asistentes ua 
         INNER JOIN registros_acceso ra on ra.id_registro_acceso = ua.id_registro_acceso 
         INNER JOIN comprobante_vacuna cv on cv.utilerias_asistentes_id = ua.utilerias_asistentes_id
         INNER JOIN prueba_covid pc on pc.utilerias_asistentes_id = ua.utilerias_asistentes_id 
-        WHERE ua.utilerias_asistentes_id NOT IN (SELECT utilerias_asistentes_id FROM pases_abordar) AND cv.status = 1 and pc.status = 2;
+        WHERE ua.utilerias_asistentes_id NOT IN (SELECT utilerias_asistentes_id FROM pases_abordar) 
+        
 sql;
+
+        // AND cv.status = 1 AND pc.status = 2
         return $mysqli->queryAll($query);
     }
 

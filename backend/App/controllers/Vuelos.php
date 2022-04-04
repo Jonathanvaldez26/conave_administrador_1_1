@@ -98,7 +98,7 @@ html;
                   {
                       console.log(respuesta);
                   }
-              });
+                });
           });
 
       });
@@ -403,6 +403,7 @@ html;
 
     public function uploadVueloUno(){
 
+  
         $documento = new \stdClass();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -427,6 +428,20 @@ html;
 
             $hora_llegada = $_POST['hora_llegada'];
             $documento->_hora_llegada = $hora_llegada;
+
+            //Escala
+
+            $id_aeropuerto_origen_escala = $_POST['id_origen_escala'];
+            $documento->_id_aeropuerto_origen_escala = $id_aeropuerto_origen_escala;
+
+            $id_aeropuerto_destino_escala = $_POST['id_destino_escala'];
+            $documento->_id_aeropuerto_destino_escala = $id_aeropuerto_destino_escala;
+
+            $numero_vuelo_escala = $_POST['numero_vuelo_escala'];
+            $documento->_numero_vuelo_escala = $numero_vuelo_escala;
+
+            $hora_llegada_escala = $_POST['hora_llegada_escala'];
+            $documento->_hora_llegada_escala = $hora_llegada_escala;
 
             $file = $_FILES["file_"];
             $pdf = $this->generateRandomString();
@@ -471,7 +486,7 @@ html;
         $asistentes = '';
         foreach (VuelosDao::getAsistenteNombre() as $key => $value) {
             $asistentes .=<<<html
-      <option value="{$value['utilerias_asistentes_id']}"> {$value['nombre']}</option>
+        <option value="{$value['utilerias_asistentes_id']}"> {$value['nombre']}</option>
 html;
         }
         return $asistentes;
