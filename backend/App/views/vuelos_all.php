@@ -1176,23 +1176,30 @@
             if ($('#tiene_escala').val() == 1) {
                 $('#pase_escala').prop('hidden',false);
                 $('#pase_normal').prop('hidden',false);
-                $('#id_origen').removeClass('select_2');
+                $('#id_origen_escala').val(0);
+                // $('#id_destino_escala').val(0);
+                $('#numero_vuelo_escala').val('');
+                $('#hora_llegada_escala').val('');
+                $('.select_2').select2();
                 $('#id_origen_escala').prop('required',true);
             } else {
                 $('#pase_escala').prop('hidden',true);
                 $('#pase_normal').prop('hidden',false);
                 $('#id_origen_escala').prop('required',false);
+                $('#id_origen_escala').val(0);
+                $('#id_destino_escala').val(0);
+                $('#numero_vuelo_escala').val('');
+                $('#hora_llegada_escala').val('');
                 $('#id_origen').addClass('select_2');
                 $('.select_2').select2();
-                $('#select2-id_origen_escala-container').val(0);
-                $('#select2-id_destino_escala-container').val(0);
             }
         });  
         
         $('#id_destino_escala').on('change', function(){
-            console.log($('#id_destino_escala').val());
+            // console.log($('#id_destino_escala').val());
             $('#id_origen').val($('#id_destino_escala').val());
             $('#id_origen').attr('readonly',true);
+            // $('.select_2').select2();
         }); 
 
         $('#id_asistente').on('change', function(){
