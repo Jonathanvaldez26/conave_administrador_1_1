@@ -93,7 +93,7 @@ html;
 
               </td>
               <td class="text-center">
-                <button type="button" class="btn bg-gradient-primary" btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">
+                <button type="button" class="btn bg-gradient-primary btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">
                   <i class="fas fa-eye"></i>
                 </button>
               </td>
