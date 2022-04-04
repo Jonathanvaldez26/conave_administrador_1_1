@@ -263,6 +263,7 @@ html;
 
         $clave_habitacion = '';
         $id_asigna_habitacion = '';
+        
 
         $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
         $linea_principal = RegistroAsistenciaDao::getLineaPrincipial();
@@ -327,7 +328,7 @@ html;
                 'clave_habitacion' => $clave_habitacion,
                 'id_asigna_habitacion' => $id_asigna_habitacion,
                 'numero_habitacion' => $numero_habitacion,
-                'anchor_abrir_pdf' => "<a href='/RegistroAsistencia/abrirpdf/{$user_clave['clave']}' target='blank_' style='display:none;' id='a_abrir_etiqueta'>abrir</a>"
+                'anchor_abrir_pdf' => "<a href='/RegistroAsistencia/abrirpdf/{$user_clave['clave']}/3' target='blank_' style='display:none;' id='a_abrir_etiqueta'>abrir</a>"
             ];
         }else{
             $data = [
@@ -338,7 +339,7 @@ html;
         echo json_encode($data);
     }
 
-    public function abrirpdf($clave)
+    public function abrirpdf($clave,$noPages = null)
     {
 
         $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];

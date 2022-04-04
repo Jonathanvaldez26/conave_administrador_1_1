@@ -217,6 +217,12 @@
                                     <input type="text" class="form-control" id="num_habitacion" name="num_habitacion">
                                 </div>
 
+                                <div class="col-12 align-self-center mb-3">
+                                    <label class="form-label mt-4">Asignar Numero de Habitación</label>
+
+                                    <input type="text" class="form-control" id="num_maletas" name="num_maletas">
+                                </div>
+
                                 <div id="cont_btn_pdf">
 
                                 </div>
@@ -771,13 +777,15 @@
                 // var formData = new FormData(document.getElementById("form_update_habitacion"));
                 var id_asigna_habitacion = $("#id_asigna_habitacion").val();
                 var num_habitacion = $("#num_habitacion").val();
+                var num_maletas = $("#num_maletas").val();
 
                 $.ajax({
                     url: "/Habitaciones/UpdateHabitacion",
                     type: "POST",
                     data: {
                         id_asigna_habitacion,
-                        num_habitacion
+                        num_habitacion,
+                        num_maletas
                     },
                     beforeSend: function() {
                         console.log("Procesando....");
@@ -794,28 +802,6 @@
                                 $("#a_abrir_etiqueta")[0].click();
                                 $("#numeroHabitacion").html(num_habitacion);
 
-                                // $.ajax({
-                                //     url: "/Habitaciones/abrirpdf",
-                                //     type: "POST",
-                                //     data: {
-                                //         nombre,
-                                //         num_habitacion
-                                //     },
-                                //     beforeSend: function() {
-                                //         console.log("Procesando....");
-
-                                //     },
-                                //     success: function(respuesta) {
-                                //         console.log(respuesta);
-                                //     },
-                                //     error: function(respuesta) {
-                                //         console.log(respuesta);
-                                //     }
-
-                                // });
-
-                                //aqui se imprime el ticket
-                                // window.location.replace("/Habitaciones/");
 
                             });
                         }
