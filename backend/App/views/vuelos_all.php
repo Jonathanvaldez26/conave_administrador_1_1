@@ -412,7 +412,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                        <div class="col-lg-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
                             <div class="nav-wrapper position-relative end-0">
                                 <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
 
@@ -443,159 +443,11 @@
 
             <div class="card-body p-1 mt-1">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade position-relative active height-350 border-radius-lg" id="cam1" role="tabpanel" aria-labelledby="cam1" style="background-image: url('../../assets/img/miercoles.jpeg'); background-size:cover;">
-                        <div class="d-flex m-1">
-                            <div class="ms-auto d-flex">
-                                <div class="pe-4 mt-1 position-relative">
-                                    <hr class="vertical dark mt-0">
-                                </div>
-                                <div class="ps-4">
-                                    <div class="panel-body" <?php echo $visible; ?>></div>
-                                    <button type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3" data-toggle="modal" data-target="#Modal_Add"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                    <a style="background: #1C6C42; color: #ffffff;" href="/Vuelos/Add/" type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3"><i class="fa fa-file-excel" aria-hidden="true"></i></a>
-                                    <a style="background: #9A1622; color: #ffffff;" href="/Vuelos/Add/" type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3"><i class="fa fa-file-pdf" aria-hidden="true"></i></a>
-                                    <button type="button" class="btn bg-gradient-secondary btn-icon-only mb-0 mt-3" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Todo cambio que usted realice en el sistema será guardado con fecha, usuario y transacción.">
-                                        <span class="fa fa-info"></span>
-                                    </button>
+                    <div class="tab-pane fade show position-relative active height-350 border-radius-lg" id="cam1" role="tabpanel" aria-labelledby="cam1">
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card mb-4">
-                                    <div class="card-header pb-0">
-                                        <h6>Pases de Abordar para Vuelos de Llegada - Cargados con Éxito</h6>
-                                        <p style="font-size: 12px">
-                                            <span class="fa fa-plane" style="color: #125a16"> </span> Aeropuerto de Salida a la Convención
-                                            <span class="fa fa-flag" style="color: #353535"> </span> Aeropuerto de Llegada (Sede Convención)
-                                            <span class="fa fa-ticket" style="color: #1a8fdd"> </span> No. de Vuelo
-                                        </p>
-                                    </div>
-                                    <div class="card-body px-0 pt-0 pb-2">
-                                        <div class="table-responsive p-0">
-                                            <table class="table align-items-center mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre del Asistente</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DATOS DE CONTACTO</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">¿Quien lo cargo LAHE?</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php echo $tabla; ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="tab-pane fade position-relative height-350 border-radius-lg" id="cam2" role="tabpanel" aria-labelledby="cam2">
 
-                    <div class="tab-pane fade position-relative height-350 border-radius-lg" id="cam2" role="tabpanel" aria-labelledby="cam2" style="background-image: url('../../assets/img/jueves.jpeg'); background-size:cover;">
-                        <div class="d-flex m-1">
-                            <div class="ms-auto d-flex">
-                                <div class="pe-4 mt-1 position-relative">
-                                    <hr class="vertical dark mt-0">
-                                </div>
-                                <div class="ps-4">
-                                    <div class="panel-body" <?php echo $visible; ?>></div>
-                                    <button type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3" data-toggle="modal" data-target="#Modal_Add"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                    <a style="background: #1C6C42; color: #ffffff;" href="/Vuelos/Add/" type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3"><i class="fa fa-file-excel" aria-hidden="true"></i></a>
-                                    <a style="background: #9A1622; color: #ffffff;" href="/Vuelos/Add/" type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3"><i class="fa fa-file-pdf" aria-hidden="true"></i></a>
-                                    <button type="button" class="btn bg-gradient-secondary btn-icon-only mb-0 mt-3" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Todo cambio que usted realice en el sistema será guardado con fecha, usuario y transacción.">
-                                        <span class="fa fa-info"></span>
-                                    </button>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card mb-4">
-                                    <div class="card-header pb-0">
-                                        <h6>Pases de Abordar para Vuelos de Salida Evento - Cargados con Éxito</h6>
-                                        <p style="font-size: 12px">
-                                            <span class="fa fa-plane" style="color: #125a16"> </span> Aeropuerto de Salida de la Convención
-                                            <span class="fa fa-flag" style="color: #353535"> </span> Aeropuerto de Llegada
-                                            <span class="fa fa-ticket" style="color: #1a8fdd"> </span> No. de Vuelo
-                                        </p>
-                                    </div>
-                                    <div class="card-body px-0 pt-0 pb-2">
-                                        <div class="table-responsive p-0">
-                                            <table class="table align-items-center mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre del Asistente</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DATOS DE CONTACTO</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">¿Quien lo cargo LAHE?</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php echo $tabla1; ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade show position-relative  height-350 border-radius-lg" id="cam3" role="tabpanel" aria-labelledby="cam2" style="background-image: url('../../assets/img/jueves.jpeg'); background-size:cover;">
-                        <div class="d-flex m-1">
-                            <div class="ms-auto d-flex">
-                                <div class="pe-4 mt-1 position-relative">
-                                    <hr class="vertical dark mt-0">
-                                </div>
-                                <div class="ps-4">
-                                    <div class="panel-body" <?php echo $visible; ?>></div>
-                                    <button type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3" data-toggle="modal" data-target="#Modal_Add_Itinerario"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                    <!-- <a style="background: #1C6C42; color: #ffffff;" href="/Vuelos/Add/" type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3"><i class="fa fa-file-excel" aria-hidden="true"></i></a>
-                                    <a style="background: #9A1622; color: #ffffff;" href="/Vuelos/Add/" type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3"><i class="fa fa-file-pdf" aria-hidden="true"></i></a>
-                                    <button type="button" class="btn bg-gradient-secondary btn-icon-only mb-0 mt-3" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Todo cambio que usted realice en el sistema será guardado con fecha, usuario y transacción.">
-                                        <span class="fa fa-info"></span>
-                                    </button> -->
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card mb-4">
-                                    <div class="card-header pb-0">
-                                        <h6>Itinerario</h6>
-                                        <!-- <p style="font-size: 12px">
-                                            <span class="fa fa-plane" style="color: #125a16"> </span> Aeropuerto de Salida de la Convención
-                                            <span class="fa fa-flag" style="color: #353535"> </span> Aeropuerto de Llegada
-                                            <span class="fa fa-ticket" style="color: #1a8fdd"> </span> No. de Vuelo
-                                        </p> -->
-                                    </div>
-                                    <div class="card-body px-0 pt-0 pb-2">
-                                        <div class="table-responsive p-0">
-                                            <table class="table align-items-center mb-0 table table-striped table-bordered" id="itinerario-tabla">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre del Asistente</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Itinerario Rumbo a CONAVE</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Itinerario Regreso a Casa</th>
-                                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha Alta</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php echo $tabla_itinerarios; ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="tab-pane fade position-relative height-350 border-radius-lg" id="cam3" role="tabpanel" aria-labelledby="cam3">
                 </div>
             </div>
             <!-- Fin barrita -->
