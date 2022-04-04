@@ -626,7 +626,7 @@
                                     <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_asistente">Nombre del Invitado al que Cargaran el Pase de Abordar <span class="required">*</span></label>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <!-- <input type="text" name="nombre_asistente" id="nombre_asistente" class="form-control col-md-7 col-xs-12" value=""> -->
-                                        <select class="form-control" name="id_asistente" id="id_asistente" required>
+                                        <select class="form-control select_2" name="id_asistente" id="id_asistente" required>
                                             <option selected disabled>Seleccione una Opción</option>
                                             <?php echo $idAsistente; ?>
                                         </select>
@@ -655,7 +655,7 @@
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_origen_escala">Seleccione el Origen de la Ciudad (¿De Donde Sale?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
-                                            <select class="form-control" name="id_origen_escala" id="id_origen_escala">
+                                            <select class="form-control select_2" name="id_origen_escala" id="id_origen_escala">
                                                 <option value="0" selected>Seleccione una Opción</option>
                                                 <?php echo $idAeropuertoOrigen; ?>
                                             </select>
@@ -666,7 +666,7 @@
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_destino_escala">Seleccione el Destino de la Ciudad (¿A Donde Llega?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
-                                            <select class="form-control" name="id_destino_escala" id="id_destino_escala">
+                                            <select class="form-control select_2" name="id_destino_escala" id="id_destino_escala">
                                                 <option value="0" selected>Seleccione una Opción</option>    
                                                 <?php echo $idAeropuertoOrigen; ?>
                                             </select>
@@ -693,7 +693,7 @@
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_origen">Seleccione el Origen de la Ciudad (¿De Donde Sale?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
-                                            <select class="form-control" name="id_origen" id="id_origen" required>
+                                            <select class="form-control select_2" name="id_origen" id="id_origen" required>
                                                 <option selected disabled>Seleccione una Opción</option>
                                                 <?php echo $idAeropuertoOrigen; ?>
                                             </select>
@@ -704,7 +704,7 @@
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_destino">Seleccione el Destino de la Ciudad (¿A Donde Llega?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
-                                            <select class="form-control" name="id_destino" id="id_destino" required>
+                                            <select class="form-control " name="id_destino" id="id_destino" required>
                                                 <?php echo $idAeropuertoDestino; ?>
                                             </select>
                                         </div>
