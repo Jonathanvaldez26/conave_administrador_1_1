@@ -91,8 +91,6 @@ html;
               </td>
               <td>
                 <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-              </td>
-              <td>
                 <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
               </td>
               <td class="text-center">
@@ -107,6 +105,7 @@ html;
                   <div class="modal-content">
                       <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel">Documento Prueba SARS-CoV-2</h5>
+                          <p>Para validar o rechazara una prueba SARS-CoV-2 es necesario que agregues una nota al archivo </p>
                           <span type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
                               X
                           </span>
@@ -262,8 +261,6 @@ html;
                 </td>
                 <td>
                   <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-                </td>
-                <td>
                   <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
                 </td>
                 <td class="text-center">
@@ -433,8 +430,6 @@ html;
                 </td>
                 <td>
                   <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-                </td>
-                <td>
                   <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
                 </td>
                 <td class="text-center">
