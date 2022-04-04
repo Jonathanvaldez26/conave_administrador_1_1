@@ -450,6 +450,12 @@ html;
             $documento->_url = $pdf.'.pdf';
 
             $notas = $_POST['notas'];
+
+            $msg = [
+                'name' => '',
+                'email' => ''
+            ];
+
             if($notas == '')
             {
                 $notas = 'Sin Notas';
@@ -464,6 +470,9 @@ html;
             $id = VuelosDao::insert($documento);
 
             if ($id) {
+
+                $mailer = new Mailer();
+                $mailer->mailVuelos($msg);
                 echo 'success';
 
             } else {
