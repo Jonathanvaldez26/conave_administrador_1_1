@@ -1198,13 +1198,9 @@
         $('#id_destino_escala').on('change', function(){
             console.log($('#id_destino_escala').val());
             $('#id_origen').val($('#id_destino_escala').val());
+            
             $('#id_origen').select2();
-            if ($('#tiene_escala').val() == 1) {
-                $('#id_origen').attr('readonly',true);
-            } else {
-                
-                $('#id_origen').attr('readonly',true);
-            }
+            
             
         }); 
 

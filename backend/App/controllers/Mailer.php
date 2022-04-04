@@ -210,7 +210,7 @@ class Mailer
                 <br>
                 <p style="text-align: justify;">
                     Le informamos que sus pases de abordar rumbo a la CONAVE 2022, fueron cargados con éxito, usted puede consultarlos en su app móvil en la sección de Pases de Abordar que ya se encuentra activa o a través del siguiente link para consulta automática
-                    <br> <br>'.$msg['url'].'<br> <br>
+                    <br> <br><a href="'.$msg['url'].'"></a>'.$msg['url'].'<br> <br>
                     Si usted necesita ayuda, comuníquese a la línea de soporte a través de WhatsApp en el siguiente enlace 
                     <br>
                     <br><a href="shorturl.at/afsuQ">shorturl.at/afsuQ<a/>
