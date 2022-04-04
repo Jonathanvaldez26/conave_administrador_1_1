@@ -150,7 +150,7 @@ html;
                      
                  </td>
                 <td style="text-align:center; vertical-align:middle;">
-                    <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/{$value['clave']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
+                    <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/{$value['url']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
                 </td>
                  
             </tr>
