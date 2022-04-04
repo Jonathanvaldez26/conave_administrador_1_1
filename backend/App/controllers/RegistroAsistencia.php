@@ -263,6 +263,7 @@ html;
 
         $clave_habitacion = '';
         $id_asigna_habitacion = '';
+        
 
         $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
         $linea_principal = RegistroAsistenciaDao::getLineaPrincipial();
@@ -338,7 +339,7 @@ html;
         echo json_encode($data);
     }
 
-    public function abrirpdf($clave)
+    public function abrirpdf($clave,$noPages = null)
     {
 
         $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
@@ -352,6 +353,10 @@ html;
         // $num_habitacion = $_POST['num_habitacion'];
 
         $pdf = new \FPDF($orientation = 'L', $unit = 'mm', array(37, 155));
+
+        for($i = 1; $i<= $noPages; $i++){
+
+        
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
         $textypos = 5;
@@ -365,10 +370,11 @@ html;
 
 
         $pdf->SetXY(8.3, 9);
-        $pdf->SetFont('Times', 'B', 13);
+        $pdf->SetFont('Times', 'B', 12);
         #4D9A9B
         $pdf->SetTextColor(0, 0, 0);
         $pdf->Multicell(120, 4.2, $nombre_completo .utf8_decode(" #habitación") ." - ".$datos_user['numero_habitacion'], 0, 'C');
+        // $pdf->Multicell(120, 4.2, $nombre_completo .utf8_decode(" #habitación") ." - ".$datos_user['numero_habitacion'], 0, 'C');
         // $pdf->Multicell(120, 3.5, $numero_habitacion, 0, 'C');
 
 
@@ -378,14 +384,9 @@ html;
 
         $textypos += 6;
 
+    }
 
+        $pdf->output();
 
-        //$pdf->output();
-
-        if ($pdf->output()) {
-            echo "exito";
-        } else {
-            echo "Error";
-        }
     }
 }
