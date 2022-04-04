@@ -218,7 +218,7 @@
                                 </div>
 
                                 <div class="col-12 align-self-center mb-3">
-                                    <label class="form-label mt-4">Asignar Numero de Habitación</label>
+                                    <label class="form-label mt-4">Numero de Maletas</label>
 
                                     <input type="text" class="form-control" id="num_maletas" name="num_maletas">
                                 </div>
@@ -784,8 +784,7 @@
                     type: "POST",
                     data: {
                         id_asigna_habitacion,
-                        num_habitacion,
-                        num_maletas
+                        num_habitacion
                     },
                     beforeSend: function() {
                         console.log("Procesando....");
@@ -799,6 +798,9 @@
                                 var nombre = $("#nombre_completo").text();
 
                                 $("#a_abrir_etiqueta").css('display','none');
+                                var ref = $("#a_abrir_etiqueta").attr('href');
+                                var href = ref + '/' +num_maletas;
+                                $("#a_abrir_etiqueta").attr('href', href);
                                 $("#a_abrir_etiqueta")[0].click();
                                 $("#numeroHabitacion").html(num_habitacion);
 
