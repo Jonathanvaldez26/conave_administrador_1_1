@@ -1,6 +1,7 @@
 <?php
 namespace App\controllers;
 defined("APPPATH") OR die("Access denied");
+require_once dirname(__DIR__) . '/../public/librerias/fpdf/fpdf.php';
 
 use \Core\View;
 use \Core\MasterDom;
@@ -8,6 +9,7 @@ use \App\controllers\Contenedor;
 use \Core\Controller;
 use \App\models\RegistroAsistencia AS RegistroAsistenciaDao;
 use \App\models\Habitaciones as HabitacionesDao;
+use \App\models\Asistentes as AsistentesDao;
 use \DateTime;
 use \DatetimeZone;
 
@@ -255,5 +257,135 @@ html;
         }
 
         echo json_encode($data);
+    }
+
+    public function registroAsistenciaCheckin($clave, $code){
+
+        $clave_habitacion = '';
+        $id_asigna_habitacion = '';
+
+        $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
+        $linea_principal = RegistroAsistenciaDao::getLineaPrincipial();
+        $bu = RegistroAsistenciaDao::getBu();
+        $posiciones = RegistroAsistenciaDao::getPosiciones();
+        $asistencia = RegistroAsistenciaDao::getIdRegistrosAsistenciasByCode($code)[0];
+        
+        $habitaciones = HabitacionesDao::getAsignaHabitacionByIdRegAcceso($user_clave['id_registro_acceso'])[0];
+        if($habitaciones){
+            $clave_habitacion = $habitaciones['clave'];
+            $id_asigna_habitacion = $habitaciones['id_asigna_habitacion'];
+            $numero_habitacion = $habitaciones['id_habitacion'];
+        }
+        
+
+        $fecha = new DateTime('now', new DateTimeZone('America/Cancun'));
+        $hora_actual = substr($fecha->format(DATE_RFC822),15,5);
+        // $a_tiempo = '';
+
+        if ( intval(substr($hora_actual,0,2)) > intval(substr($asistencia['hora_asistencia_inicio'],0,2)) 
+            && intval(substr($hora_actual,0,2)) < intval(substr($asistencia['hora_asistencia_fin'],0,2)) ) {
+            $a_tiempo = 1;
+            $aqui = 1;
+        } else if(intval(substr($hora_actual,0,2)) == intval(substr($asistencia['hora_asistencia_fin'],0,2))
+                && intval(substr($hora_actual,3,6)) <= intval(substr($asistencia['hora_asistencia_fin'],3,6))) {
+            $a_tiempo = 1;
+            $aqui = 2;
+        } else if(intval(substr($hora_actual,0,2)) == intval(substr($asistencia['hora_asistencia_inicio'],0,2))
+                && intval(substr($hora_actual,3,6)) >= intval(substr($asistencia['hora_asistencia_inicio'],3,6))) {
+            $a_tiempo = 1;
+            $aqui = 3;
+        } else {
+            $a_tiempo = 2;
+            $aqui = 4;
+        }
+        // || substr($hora_actual,0,2) > substr($asistencia['hora_asistencia_fin'],0,2)
+
+
+        if($user_clave){
+            $hay_asistente = RegistroAsistenciaDao::findAsistantById($user_clave['utilerias_asistentes_id'],$asistencia['id_asistencia'])[0];
+            if ($hay_asistente) {
+                $msg_insert = 'success_find_assistant';
+            } else {
+                $msg_insert = 'fail_not_found_assistant';
+                $insert = RegistroAsistenciaDao::addRegister($asistencia['id_asistencia'],$user_clave['utilerias_asistentes_id'],$a_tiempo);
+            }
+
+            $data = [
+                'datos'=>$user_clave,
+                'linea_principal'=>$linea_principal,
+                'bu'=>$bu,
+                'posiciones'=>$posiciones,
+                'status'=>'success',
+                'msg_insert'=>$msg_insert,
+                'hay_asistente'=> $hay_asistente,
+                'asistencia'=> $asistencia,
+                'hora_actual'=>$hora_actual,
+                'a_tiempo'=>$a_tiempo,
+                'aqui'=>$aqui,
+                'hora_actual'=>intval(substr($hora_actual,0,2)),
+                'hora_fin'=>intval(substr($asistencia['hora_asistencia_fin'],0,2)),
+                'clave_habitacion' => $clave_habitacion,
+                'id_asigna_habitacion' => $id_asigna_habitacion,
+                'numero_habitacion' => $numero_habitacion,
+                'anchor_abrir_pdf' => "<a href='/RegistroAsistencia/abrirpdf/{$user_clave['clave']}' target='blank_' style='display:none;' id='a_abrir_etiqueta'>abrir</a>"
+            ];
+        }else{
+            $data = [
+                'status'=>'fail'
+            ];
+        }
+
+        echo json_encode($data);
+    }
+
+    public function abrirpdf($clave)
+    {
+
+        $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
+        $nombre_completo = $datos_user['nombre'] ." ".$datos_user['segundo_nombre']." ".$datos_user['apellido_materno']." ".$datos_user['apellido_paterno'];
+
+        // var_dump($datos_user);
+
+        // exit;
+
+        // $nombre_completo = utf8_decode($_POST['nombre']);
+        // $num_habitacion = $_POST['num_habitacion'];
+
+        $pdf = new \FPDF($orientation = 'L', $unit = 'mm', array(37, 155));
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
+        $textypos = 5;
+        $pdf->setY(2);
+
+        $pdf->Image('https://convencionasofarma2022.mx/assets/pdf/iMAGEN_aso.png', 1, 0, 150, 40);
+        $pdf->SetFont('Arial', '', 5);    //Letra Arial, negrita (Bold), tam. 20
+        $nombre = utf8_decode("Nombre: Carlos Cruz Castañeda");
+        
+
+
+
+        $pdf->SetXY(8.3, 9);
+        $pdf->SetFont('Times', 'B', 13);
+        #4D9A9B
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->Multicell(120, 4.2, $nombre_completo .utf8_decode(" #habitación") ." - ".$datos_user['numero_habitacion'], 0, 'C');
+        // $pdf->Multicell(120, 3.5, $numero_habitacion, 0, 'C');
+
+
+
+        $textypos += 6;
+        $pdf->setX(2);
+
+        $textypos += 6;
+
+
+
+        //$pdf->output();
+
+        if ($pdf->output()) {
+            echo "exito";
+        } else {
+            echo "Error";
+        }
     }
 }
