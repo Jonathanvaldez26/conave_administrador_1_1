@@ -126,7 +126,7 @@ sql;
     public static function getInfo($clave){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        SELECT ra.*, ua.utilerias_asistentes_id
+        SELECT ra.*, ua.utilerias_asistentes_id, tv.clave as clave_ticket
         FROM registros_acceso ra
         INNER JOIN utilerias_asistentes ua
         ON ua.id_registro_acceso = ra.id_registro_acceso

@@ -139,6 +139,7 @@
                                                             <div class="col">
                                                                 <div class="form-group">
                                                                     <input style="font-size: 35px" type="text" id="codigo_registro" name="codigo_registro" class="form-control form-control-lg text-center" minlength="6" maxlength="6" autocomplete="off" autocapitalize="off" autofocus>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -196,13 +197,14 @@
     <div class="modal fade" id="asignar_habitacion" role="dialog" aria-labelledby="asignar_habitacionLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="asignar_habitacionLabel">Asignar Habitacion</h5>
+                    <button type="button" class="btn bg-gradient-danger" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <form class="form-horizontal" id="form_update_habitacion" action="" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="asignar_habitacionLabel">Asignar Habitacion</h5>
-                        <button type="button" class="btn bg-gradient-danger" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
                     <div class="modal-body">
 
                         <div class="card-body pt-0">
@@ -212,13 +214,13 @@
 
 
                                 <div class="col-12 align-self-center mb-3">
-                                    <label class="form-label mt-4">Asignar Numero de Habitación</label>
+                                    <label class="form-label mt-4">Coloque el Número de Habitación que fue asiganada </label>
 
                                     <input type="text" class="form-control" id="num_habitacion" name="num_habitacion">
                                 </div>
 
                                 <div class="col-12 align-self-center mb-3">
-                                    <label class="form-label mt-4">Numero de Maletas</label>
+                                    <label class="form-label mt-4">Numero de Maletas (para imprimir etiquetas)</label>
 
                                     <input type="text" class="form-control" id="num_maletas" name="num_maletas">
                                 </div>
@@ -226,9 +228,14 @@
                                 <div id="cont_btn_pdf">
 
                                 </div>
+
+                                <div id="cont_btn_gatefe" style="display: flex; justify-content: start;">
+
+                                </div>
                                 <input type="hidden" class="form-control" id="asistente_name" name="asistente_name">
                                 <input type="hidden" class="form-control" id="id_asigna_habitacion" name="id_asigna_habitacion">
                                 <input type="hidden" class="form-control" id="clave_habitacion" name="clave_habitacion">
+                                <input type="hidden" id="codigo_registro_aux" name="codigo_registro_aux">
 
 
                                 <!-- <div id="cont_asigna_huespedes">
@@ -268,6 +275,9 @@
     <script src="../../assets/js/plugins/orbit-controls.js"></script>
 
     <script>
+        // var clave_a = link_a.substr(link_a.indexOf('codigo/') + 7, link_a.length);
+        // console.log(clave_a);
+
         function focus_input() {
             $("#codigo_registro").focus();
         }
@@ -409,6 +419,7 @@
 
                 codigo = $('#codigo_registro').val();
                 $('#codigo_registro').val('');
+                $('#codigo_registro_aux').val(codigo);
                 // $('#lista-reg > tbody').empty();
 
                 console.log(codigo);
@@ -440,6 +451,8 @@
                                 $("#numeroHabitacion").html(respuesta.numero_habitacion);
                             }
                             $("#cont_btn_pdf").append(respuesta.anchor_abrir_pdf);
+                            $("#cont_btn_gatefe").append(respuesta.anchor_abrir_gafete);
+                            
 
 
                             if (respuesta.datos.img != '' || respuesta.datos.img != null || respuesta.datos.img != NULL || respuesta.datos.img != 'null') {
@@ -792,17 +805,32 @@
                     },
                     success: function(respuesta) {
 
+
                         if (respuesta == 'success') {
                             swal("Se asigno la habitación correctamente!", "", "success").
                             then((value) => {
                                 var nombre = $("#nombre_completo").text();
+                                var codigo_user = $("#codigo_registro_aux").val() + '.pdf';
 
-                                $("#a_abrir_etiqueta").css('display','none');
+                                $("#a_abrir_etiqueta").css('display', 'none');
                                 var ref = $("#a_abrir_etiqueta").attr('href');
-                                var href = ref + '/' +num_maletas;
+                                var href = ref + '/' + num_maletas;
                                 $("#a_abrir_etiqueta").attr('href', href);
                                 $("#a_abrir_etiqueta")[0].click();
+
+                                $("#a_abrir_gafete").css('display', 'block');
+                                var ref1 = $("#a_abrir_gafete").attr('href');
+                                var href1 = ref1;
+                                $("#a_abrir_gafete").attr('href', href1);
+                                $("#a_abrir_gafete")[0].click();
+
                                 $("#numeroHabitacion").html(num_habitacion);
+
+                                //$("#asignar_habitacion").toggle();
+
+
+
+                                //imprimirPdf(codigo_user);
 
 
                             });
@@ -820,6 +848,46 @@
             });
 
         });
+
+        function imprimirPdf(nombrePdf) {
+
+            console.log("Este es el nomnre " + nombrePdf);
+
+
+            // Función ayudante
+            const reemplazarEspaciosConEntidad = cadena => cadena.replaceAll(" ", "%20");
+            // Estos parámetros podrían venir de cualquier lugar
+            // Presta atención al escape de la backslash \
+            var nombrePdf = "C:/pases_abordar/" + nombrePdf;
+            // Debemos remover los espacios:
+            //    nombrePdf = reemplazarEspaciosConEntidad(nombrePdf);
+
+            const nombreImpresora = "Brother QL-700";
+            const url = `http://localhost:8080/?nombrePdf=${nombrePdf}&impresora=${nombreImpresora}`;
+            // Elemento DOM, solo es para depurar
+            //    var $estado = document.querySelector("#estado");
+            //    $estado.textContent = "Imprimiendo...";
+            // Hacer petición...
+            fetch(url)
+                .then(respuesta => {
+                    // Si la respuesta es OK, entonces todo fue bien
+                    if (respuesta.status === 200) {
+                        //    $estado.textContent = "Impreso correctamente (salvo que se haya indicado un error por parte de PDFtoPrinter";
+                        console.log("Impresión OK");
+                    } else {
+                        // Si no, decodificamos el mensaje para ver el error
+                        respuesta.json()
+                            .then(mensaje => {
+                                //    $estado.textContent = "Error imprimiendo: " + mensaje;
+                                console.log("Error: " + mensaje);
+                            });
+                    }
+                });
+        }
+    </script>
+
+    <script>
+
     </script>
 
 </body>
