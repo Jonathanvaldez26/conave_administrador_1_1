@@ -235,6 +235,7 @@ sql;
         INNER JOIN prueba_covid pc on pc.utilerias_asistentes_id = ua.utilerias_asistentes_id 
         WHERE ua.utilerias_asistentes_id NOT IN (SELECT utilerias_asistentes_id FROM pases_abordar) 
         
+        
 sql;
 
         // AND cv.status = 1 AND pc.status = 2

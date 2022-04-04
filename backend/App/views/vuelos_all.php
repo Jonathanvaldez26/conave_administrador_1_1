@@ -688,12 +688,12 @@
                                 </div>
                                 <hr>
                                 <div class="row mb-3" id="pase_normal" hidden>
-                                    <h4>Pase</h4>
+                                    <h4>Tramo 2 Pase Rumbo a la Convención</h4>
                                     <div class="form-group col-md-6">
                                         <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_origen">Seleccione el Origen de la Ciudad (¿De Donde Sale?) <span class="required">*</span></label>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
-                                            <select class="form-control select_2" name="id_origen" id="id_origen" required>
+                                            <select class="form-control" name="id_origen" id="id_origen" required>
                                                 <option selected disabled>Seleccione una Opción</option>
                                                 <?php echo $idAeropuertoOrigen; ?>
                                             </select>
@@ -729,7 +729,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-12">
-                                        <label class="form-label">Notas (Opcional)</label>
+                                        <label class="form-label">Notas para Grupo LAHE (Opcional)</label>
                                         <div class="input-group">
                                             <textarea id="notas" name="notas" maxlength="1000" class="form-control" placeholder="Añade Alguna Nota de Importancia"></textarea>
                                         </div>
@@ -1176,18 +1176,23 @@
             if ($('#tiene_escala').val() == 1) {
                 $('#pase_escala').prop('hidden',false);
                 $('#pase_normal').prop('hidden',false);
+                $('#id_origen').removeClass('select_2');
                 $('#id_origen_escala').prop('required',true);
             } else {
                 $('#pase_escala').prop('hidden',true);
                 $('#pase_normal').prop('hidden',false);
                 $('#id_origen_escala').prop('required',false);
+                $('#id_origen').addClass('select_2');
+                $('.select_2').select2();
+                $('#select2-id_origen_escala-container').val(0);
+                $('#select2-id_destino_escala-container').val(0);
             }
         });  
         
         $('#id_destino_escala').on('change', function(){
             console.log($('#id_destino_escala').val());
             $('#id_origen').val($('#id_destino_escala').val());
-            $('#id_origen').prop('readonly',true);
+            $('#id_origen').attr('readonly',true);
         }); 
 
         $('#id_asistente').on('change', function(){
