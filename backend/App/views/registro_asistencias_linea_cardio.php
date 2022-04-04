@@ -372,7 +372,7 @@
             console.log(clave_a);
         
             $.ajax({
-                url: "/RegistroLinea/registroAsistenciaDirectivo/"+codigo+'/'+clave_a,
+                url: "/RegistroLinea/registroAsistenciaCardio/"+codigo+'/'+clave_a,
                 type: "POST",
                 // data: formData,
                 dataType: 'json',
