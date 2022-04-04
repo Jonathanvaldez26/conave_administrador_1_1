@@ -214,18 +214,22 @@
 
 
                                 <div class="col-12 align-self-center mb-3">
-                                    <label class="form-label mt-4">Asignar Numero de Habitación</label>
+                                    <label class="form-label mt-4">Coloque el Número de Habitación que fue asiganada </label>
 
                                     <input type="text" class="form-control" id="num_habitacion" name="num_habitacion">
                                 </div>
 
                                 <div class="col-12 align-self-center mb-3">
-                                    <label class="form-label mt-4">Numero de Maletas</label>
+                                    <label class="form-label mt-4">Numero de Maletas (para imprimir etiquetas)</label>
 
                                     <input type="text" class="form-control" id="num_maletas" name="num_maletas">
                                 </div>
 
                                 <div id="cont_btn_pdf">
+
+                                </div>
+
+                                <div id="cont_btn_gatefe" style="display: flex; justify-content: start;">
 
                                 </div>
                                 <input type="hidden" class="form-control" id="asistente_name" name="asistente_name">
@@ -447,6 +451,8 @@
                                 $("#numeroHabitacion").html(respuesta.numero_habitacion);
                             }
                             $("#cont_btn_pdf").append(respuesta.anchor_abrir_pdf);
+                            $("#cont_btn_gatefe").append(respuesta.anchor_abrir_gafete);
+                            
 
 
                             if (respuesta.datos.img != '' || respuesta.datos.img != null || respuesta.datos.img != NULL || respuesta.datos.img != 'null') {
@@ -811,9 +817,16 @@
                                 var href = ref + '/' + num_maletas;
                                 $("#a_abrir_etiqueta").attr('href', href);
                                 $("#a_abrir_etiqueta")[0].click();
+
+                                $("#a_abrir_gafete").css('display', 'block');
+                                var ref1 = $("#a_abrir_gafete").attr('href');
+                                var href1 = ref1;
+                                $("#a_abrir_gafete").attr('href', href1);
+                                $("#a_abrir_gafete")[0].click();
+
                                 $("#numeroHabitacion").html(num_habitacion);
 
-                                $("#asignar_habitacion").toggle();
+                                //$("#asignar_habitacion").toggle();
 
 
 
