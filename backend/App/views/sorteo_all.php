@@ -569,7 +569,7 @@
                                 <div class="col-lg-12">
                                     <div class="card">
                                         <div class="h-100" style="box-shadow: 0 15px 15px 0 rgb(0 0 0 / 30%); border-radius: 15px;">
-                                            <h2 class="m-4">Configuración</h2>
+                                            <h2 class="m-4">Sorteo Pruebas SARS-CoV-2</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -579,143 +579,7 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12 col-lg-6 col-md-4 position-relative z-index-2">
-                    <div class="card card-plain">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-12 col-md-8 col-lg-8 m-auto">
-                                    <a href="/Reportes">
-                                        <div class="card up-card">
-                                            <div class="row m-4 text-center">
-                                                <div class="col-12 m-auto mb-3">
-                                                    <div class="bg-gradient-red avatar avatar-xxl position-relative">
-                                                        <span class="fas fa-file-pdf m-3" style="font-size: xxx-large;"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 m-auto">
-                                                    <div class="col-auto my-auto">
-                                                        <div class="h-100">
-                                                            <h5 class="mb-1">
-                                                                Reportes
-                                                            </h5>
-                                                            <p class="mb-0 font-weight-bold text-sm">
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 col-md-4 position-relative z-index-2">
-                    <div class="card card-plain">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-12 col-md-8 col-lg-8 m-auto">
-                                    <a href="/Notificaciones">
-                                        <div class="card up-card">
-                                            <div class="row m-4 text-center">
-                                                <div class="col-12 m-auto mb-3">
-                                                    <div class="bg-gradient-red avatar avatar-xxl position-relative">
-                                                        <span class="fas fa-bell m-3" style="font-size: xxx-large;"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 m-auto">
-                                                    <div class="col-auto my-auto">
-                                                        <div class="h-100">
-                                                            <h5 class="mb-1">
-                                                                Notificaciones
-                                                            </h5>
-                                                            <p class="mb-0 font-weight-bold text-sm">
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-lg-6 col-md-4 position-relative z-index-2">
-                    <div class="card card-plain">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="">
-                                        <div class="row m-4">
-                                            <div class="col-12">
-                                                <div class="col-auto my-auto">
-                                                    <div class="h-100">
-                                                        <h5 class="mb-1">
-
-                                                        </h5>
-                                                        <p class="mb-0 font-weight-bold text-sm">
-                                                            <br> <br>
-                                                            <a href="mailto:jvaldez_2610@hotmail.com">
-                                                                <h6 class="mb-0 text-sm"><span class="fa fa-mail-bulka" style="font-size: 13px"></span> </h6>
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-lg-5 mb-lg-0 mb-4">
-                    <div class="card z-index-2">
-                        <div class="card-body p-3" hidden>
-                            <div class="bg-gradient-dark border-radius-lg py-3 pe-1 mb-3">
-                                <div class="chart">
-                                    <canvas id="chart-bars" class="chart-canvas" height="170" hidden></canvas>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="card z-index-2">
-                        <div class="" hidden>
-                            <div class="chart">
-                                <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div id="globe" class="position-absolute end-0 top-10 mt-sm-3 mt-7 me-lg-7" style="margin-left: 30%;">
-                        <canvas width="700" height="600" class="w-lg-100 h-lg-100 w-75 h-75 me-lg-0 me-n10 mt-lg-5"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="fixed-bottom space-wa" hidden>
-                <div class="m-5">
-                    <a href="https://api.whatsapp.com/send?phone=5255 8010 4181&text=Buen%20d%C3%ADa" target="_blank">
-                        <span class="fa fa-whatsapp px-3 py-2-5 icon-wa bg-gradient-success"></span>
-                    </a>
-                </div>
-            </div>
-
-            <br>
+            sdsdasasdasdasdads
 
         </div>
     </main>
