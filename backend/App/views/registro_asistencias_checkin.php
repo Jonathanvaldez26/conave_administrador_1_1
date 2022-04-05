@@ -507,6 +507,7 @@
 
             console.log(codigo);
             console.log(clave_a);
+            console.log(numero_linea);
             console.log(linea_ejecutivo);
         
             $.ajax({

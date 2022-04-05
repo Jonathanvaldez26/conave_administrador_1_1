@@ -159,9 +159,233 @@ $extraFooter =<<<html
       </script>
 html;
     $tabla = '';
+    // $url_checkin = '#';
+    // $url_directivos	= '#';
+    // $url_staf	= '#';
+    // $url_neurociencias	= '#';
+    // $url_kaes_osteo	= '#';
+    // $url_cardio	= '#';
+    // $url_uro	= '#';
+    // $url_gastro	= '#';
+    // $url_gineco	= '#';
+    // $url_medicina_general	= '#';
+    // $url_ole	= '#';
+    // $url_analgesia= '#';
     $datos = AsistenciasDao::getAll();
-    // var_dump($datos);
     foreach ($datos as $key => $value) {
+
+        if($value['es_ckeckin'] == 1){
+          $url_checkin = $value['url_checkin'];
+          $url_directivos	= $value['url_directivos'];
+          $url_staf	= $value['url_staf'];
+          $url_neurociencias	= $value['url_neurociencias	'];
+          $url_kaes_osteo	= $value['url_kaes_osteo'];
+          $url_cardio	= $value['url_cardio'];
+          $url_uro	= $value['url_uro'];
+          $url_gastro	= $value['url_gastro'];
+          $url_gineco	= $value['url_gineco'];
+          $url_medicina_general	= $value['url_medicina_general'];
+          $url_ole	= $value['url_ole'];
+          $url_analgesia= $value['url_analgesia'];
+
+          // if($value['url_directivos'] == 0){
+          //   $url_directivos = '#';
+          //   $style_directivos = 'display:none';
+          // }
+          // else{
+          //   $url_directivos	= $value['url_directivos'];
+          //   $style_directivos = 'display:block';
+            
+          // }
+  
+          // if($value['url_staf'] == 0){
+          //   $url_staf = '#';
+          //   $style_staf = 'display:none';
+          // }
+          // else{
+          //   $url_staf	= $value['url_staf'];
+          // }
+  
+          // if($value['url_neurociencias'] == 0){
+          //   $url_neurociencias = '#';
+          //   $style_neurociencias = 'display:none';
+          // }
+          // else{
+          //   $url_neurociencias	= $value['url_neurociencias'];
+          // }
+  
+          // if($value['url_kaes_osteo'] == 0){
+          //   $url_kaes_osteo = '#';
+          //   $style_kaes_osteo = 'display:none';
+          // }
+          // else{
+          //   $url_kaes_osteo	= $value['url_kaes_osteo'];
+          // }
+  
+          // if($value['url_cardio'] == 0){
+          //   $url_cardio = '#';
+          //   $style_cardio = 'display:none';
+          // }
+          // else{
+          //   $url_cardio	= $value['url_cardio'];
+          // }
+  
+          // if($value['url_uro'] == 0){
+          //   $url_uro = '#';
+          //   $style_uro = 'display:none';
+          // }
+          // else{
+          //   $url_uro	= $value['url_uro'];
+          // }
+  
+          // if($value['url_gastro'] == 0){
+          //   $url_gastro = '#';
+          //   $style_gastro = 'display:none';
+          // }
+          // else{
+          //   $url_gastro	= $value['url_gastro'];
+          // }
+  
+          // if($value['url_gineco'] == 0){
+          //   $url_gineco = '#';
+          //   $style_gineco = 'display:none';
+          // }
+          // else{
+          //   $url_gineco	= $value['url_gineco'];
+          // }
+  
+          // if($value['url_medicina_general'] == 0){
+          //   $url_medicina_general = '#';
+          //   $style_medicina_general = 'display:none';
+          // }
+          // else{
+          //   $url_medicina_general	= $value['url_medicina_general'];
+          // }
+  
+          // if($value['url_ole'] == 0){
+          //   $url_ole = '#';
+          //   $style_ole = 'display:none';
+          // }
+          // else{
+          //   $url_ole	= $value['url_ole'];
+          // }
+  
+          // if($value['url_analgesia'] == 0){
+          //   $url_analgesia = '#';
+          //   $style_analgecia = 'display:none';
+          // }
+          // else{
+          //   $url_analgesia= $value['url_analgesia'];
+          // }
+        }else if($value['es_ckeckin'] == 0){
+
+          $url_checkin = $value['url_checkin'];
+          // $url_directivos	= $value['url_directivos'];
+          // $url_staf	= $value['url_staf'];
+          // $url_neurociencias	= $value['url_neurociencias	'];
+          // $url_kaes_osteo	= $value['url_kaes_osteo'];
+          // $url_cardio	= $value['url_cardio'];
+          // $url_uro	= $value['url_uro'];
+          // $url_gastro	= $value['url_gastro'];
+          // $url_gineco	= $value['url_gineco'];
+          // $url_medicina_general	= $value['url_medicina_general'];
+          // $url_ole	= $value['url_ole'];
+          // $url_analgesia= $value['url_analgesia'];
+
+          if($value['url_directivos'] == '0'){
+            $url_directivos = '#';
+            $style_directivos = 'display:none';
+          }
+          else{
+            $url_directivos	= $value['url_directivos'];
+          }
+  
+          if($value['url_staf'] == '0'){
+            $url_staf = '#';
+            $style_staf = 'display:none';
+          }
+          else{
+            $url_staf	= $value['url_staf'];
+          }
+  
+          if($value['url_neurociencias'] == '0'){
+            $url_neurociencias = '#';
+            $style_neurociencias = 'display:none';
+          }
+          else{
+            $url_neurociencias	= $value['url_neurociencias'];
+          }
+  
+          if($value['url_kaes_osteo'] == '0'){
+            $url_kaes_osteo = '#';
+            $style_kaes_osteo = 'display:none';
+          }
+          else{
+            $url_kaes_osteo	= $value['url_kaes_osteo'];
+          }
+  
+          if($value['url_cardio'] == '0'){
+            $url_cardio = '#';
+            $style_cardio = 'display:none';
+          }
+          else{
+            $url_cardio	= $value['url_cardio'];
+          }
+  
+          if($value['url_uro'] == '0'){
+            $url_uro = '#';
+            $style_uro = 'display:none';
+          }
+          else{
+            $url_uro	= $value['url_uro'];
+          }
+  
+          if($value['url_gastro'] == '0'){
+            $url_gastro = '#';
+            $style_gastro = 'display:none';
+          }
+          else{
+            $url_gastro	= $value['url_gastro'];
+          }
+  
+          if($value['url_gineco'] == '0'){
+            $url_gineco = '#';
+            $style_gineco = 'display:none';
+          }
+          else{
+            $url_gineco	= $value['url_gineco'];
+          }
+  
+          if($value['url_medicina_general'] == '0'){
+            $url_medicina_general = '#';
+            $style_medicina_general = 'display:none';
+          }
+          else{
+            $url_medicina_general	= $value['url_medicina_general'];
+          }
+  
+          if($value['url_ole'] == '0'){
+            $url_ole = '#';
+            $style_ole = 'display:none';
+          }
+          else{
+            $url_ole	= $value['url_ole'];
+          }
+  
+          if($value['url_analgesia'] == '0'){
+            $url_analgesia = '#';
+            $style_analgecia = 'display:none';
+          }
+          else{
+            $url_analgesia= $value['url_analgesia'];
+          }
+          
+          
+        }
+
+
+        
+      
       $tabla.=<<<html
       <tr>
         <td>{$value['nombre']}</td>
@@ -169,7 +393,18 @@ html;
         <td class="text-center">{$value['fecha_asistencia']}</td>
         <td class="text-center">{$value['hora_asistencia_inicio']}</td>
         <td class="text-center"><i class='fa-alarm-clock'></i>{$value['hora_asistencia_fin']}</td>
-        <td class="text-center"><a href='{$value['url_plenaria_general']}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_directivos}' style='{$style_directivos}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_staf}' style='{$style_staf}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_neurociencias}' style='{$style_neurociencias}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_kaes_osteo}' style='{$style_kaes_osteo}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_cardio}' style='{$style_cardio}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_uro}' style='{$style_uro}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_gastro}' style='{$style_gastro}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_gineco}' style='{$style_gineco}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_medicina_general}' style='{$style_medicina_general}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_ole}' style='{$style_ole}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_analgesia}' style='{$style_analgecia}'><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_checkin}' style=''><i class='fas fa-globe'></i></a></td>
       </tr>
  
 html;
