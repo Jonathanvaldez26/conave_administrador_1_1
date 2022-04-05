@@ -20,7 +20,7 @@
                                 <h5 class="mb-0">
                                     Lista de Asistencia para Plenarias Individuales
                                 </h5>
-                                <h6><b>Staff</b></h6>
+                                <h6><b>KAES / OSTEO</b></h6>
                                 <p class="mb-0 font-weight-bold text-sm">
                                 </p>
                             </div>
@@ -257,7 +257,7 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('Directivos/')+11,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('KaesOsteo/')+10,link_a.length);
         
         bloquearRegistro();
 
@@ -306,61 +306,6 @@
             
             }
         });
-
-        
-        function mostrarDatos(clave){
-            $.ajax({
-                url: "/RegistroAsistencia/mostrarLista/"+clave,
-                type: "POST",
-                dataType: 'json',
-                beforeSend: function() {
-                    // $('#lista-reg > tbody').empty();
-                    console.log("Procesando....");
-                    
-                },
-                success: function(respuesta) {
-                    console.log(respuesta);
-                    // $('#lista-reg > tbody').empty();
-                    console.log('despues de borrar');
-                    
-                    $.each(respuesta,function(index, el) {
-           
-                        // $('#lista-reg > tbody:last-child').append(
-                        //         '<tr>'+
-                        //             '<td>'+el.nombre_completo+'</td>'+
-                        //             '<td><u><a href="mailto:'+el.email+'"><span class="fa fa-mail-bulk"> </span> '+el.email+'</a></u></td>'+
-                        //             '<td><u><a href="https://api.whatsapp.com/send?phone=52'+el.nombre_linea+'&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> '+el.nombre_linea+'</a></u></td>'+
-                        //             '<td>'+el.nombre_linea+'</td>'+
-                        //             '<td>'+el.nombre_bu+'</td>'+                
-                        //         '</tr>');
-
-                        // $('#lista-reg').empty();
-                        // table.row.add([
-                        //     // el.nombre_completo,
-                        //     // el.email,
-                        //     // el.telefono,
-                        //     // el.nombre_linea,
-                        //     // el.nombre_bu
-                        //     '<td>'+el.nombre_completo+'</td>',
-                        //     '<td><u><a href="mailto:'+el.email+'"><span class="fa fa-mail-bulk"> </span> '+el.email+'</a></u></td>',
-                        //     '<td><u><a href="https://api.whatsapp.com/send?phone=52'+el.nombre_linea+'&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> '+el.nombre_linea+'</a></u></td>',
-                        //     '<td>'+el.nombre_linea+'</td>',
-                        //     '<td>'+el.nombre_bu+'</td>'
-                        // ]).draw();
-                    });
-                    
-                    // var tables = $('#lista-reg').DataTable();
-
-                        
-
-                },
-                error: function(respuesta) {
-                    console.log(respuesta);
-                }
-            })
-        }
-
-        
         
         $("#codigo_registro").on('change',function(){
 
@@ -372,7 +317,7 @@
             console.log(clave_a);
         
             $.ajax({
-                url: "/RegistroLinea/registroAsistenciaDirectivo/"+codigo+'/'+clave_a,
+                url: "/RegistroLinea/registroAsistenciaKaesOsteo/"+codigo+'/'+clave_a,
                 type: "POST",
                 // data: formData,
                 dataType: 'json',
@@ -449,7 +394,7 @@
                         // let tabla_registrados = $("#lista-reg");
                     } else {
                         Swal.fire({
-                            title: '¡Lo sentimos, esta persona no pertenece a la Línea Directivos!',
+                            title: '¡Lo sentimos, esta persona no pertenece a la Línea KAES / OSTEO!',
                             // html: 'I will close in <b></b> milliseconds.',
                             icon: 'warning',
                             timer: 1000,

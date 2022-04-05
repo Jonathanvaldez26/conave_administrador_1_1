@@ -174,6 +174,18 @@ sql;
     return $mysqli->queryAll($query);
 }
 
+  public static function getRegistroAccesoHabitacionByClaveRA($clave){
+    $mysqli = Database::getInstance();
+    $query=<<<sql
+    SELECT ra.*, ah.id_habitacion as numero_habitacion
+    FROM registros_acceso ra
+    INNER JOIN asigna_habitacion ah
+    ON ra.id_registro_acceso = ah.id_registro_acceso
+    WHERE ra.clave = '$clave'
+sql;
+  return $mysqli->queryAll($query);
+}
+
     public static function getHabitacionByNumber($numero_habitacion){
       $mysqli = Database::getInstance();
       $query=<<<sql

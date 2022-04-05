@@ -6,6 +6,7 @@ use \Core\Database;
 use \App\interfaces\Crud;
 use \App\controllers\UtileriasLog;
 
+
 class RegistroAsistencia{
 
     public static function getById($id){
@@ -25,6 +26,14 @@ sql;
     }
 
     public static function getByIdStaff($id){
+        $mysqli = Database::getInstance();
+        $query=<<<sql
+        SELECT * FROM asistencias WHERE clave = '$id' and es_plenaria_individual = 1 and url_staf != '';
+sql;
+        return $mysqli->queryAll($query);
+    }
+
+    public static function getByIdNeurociencias($id){
         $mysqli = Database::getInstance();
         $query=<<<sql
         SELECT * FROM asistencias WHERE clave = '$id' and es_plenaria_individual = 1 and url_staf != '';
@@ -117,7 +126,7 @@ sql;
     public static function getInfo($clave){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        SELECT ra.*, ua.utilerias_asistentes_id
+        SELECT ra.*, ua.utilerias_asistentes_id, tv.clave as clave_ticket
         FROM registros_acceso ra
         INNER JOIN utilerias_asistentes ua
         ON ua.id_registro_acceso = ra.id_registro_acceso
@@ -268,7 +277,7 @@ sql;
         INNER JOIN ticket_virtual tv ON tv.id_ticket_virtual = ra.id_ticket_virtual
         INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.id_linea_principal
         INNER JOIN linea_ejecutivo le ON le.id_linea_ejecutivo = lp.id_linea_ejecutivo
-        WHERE tv.clave = '$clave' and le.nombre = 'DIRECTIVOS';
+        WHERE tv.clave = '$clave' and le.nombre = 'MEDICINA GENERAL';
 sql;
 
         return $mysqli->queryAll($query);
@@ -284,7 +293,7 @@ sql;
         INNER JOIN ticket_virtual tv ON tv.id_ticket_virtual = ra.id_ticket_virtual
         INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.id_linea_principal
         INNER JOIN linea_ejecutivo le ON le.id_linea_ejecutivo = lp.id_linea_ejecutivo
-        WHERE tv.clave = '$clave' and le.nombre = 'DIRECTIVOS';
+        WHERE tv.clave = '$clave' and le.nombre = 'OLE';
 sql;
 
         return $mysqli->queryAll($query);

@@ -766,6 +766,8 @@ html;
                 <span class="badge badge-success">Inactivo</span>
 html;
             }
+
+            // 6c5df2a1307bb58194383e7e79ac9414
             $pases = PasesDao::getByIdUser($value['utilerias_asistentes_id']);
             $cont_pase_ida = 0;
             $cont_pase_regreso = 0;

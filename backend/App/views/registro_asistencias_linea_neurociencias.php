@@ -20,7 +20,7 @@
                                 <h5 class="mb-0">
                                     Lista de Asistencia para Plenarias Individuales
                                 </h5>
-                                <h6><b>Staff</b></h6>
+                                <h6><b>Neurociencias</b></h6>
                                 <p class="mb-0 font-weight-bold text-sm">
                                 </p>
                             </div>
@@ -257,7 +257,7 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var clave_a = link_a.substr(link_a.indexOf('Directivos/')+11,link_a.length);
+        var clave_a = link_a.substr(link_a.indexOf('Neurociencias/')+14,link_a.length);
         
         bloquearRegistro();
 
@@ -372,7 +372,7 @@
             console.log(clave_a);
         
             $.ajax({
-                url: "/RegistroLinea/registroAsistenciaDirectivo/"+codigo+'/'+clave_a,
+                url: "/RegistroLinea/registroAsistenciaNeurociencias/"+codigo+'/'+clave_a,
                 type: "POST",
                 // data: formData,
                 dataType: 'json',

@@ -6,8 +6,8 @@
 
         <a class="navbar-brand m-0" href="/Principal/" target="_blank">
             <img src="/assets/img/favicon.png" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold">ADMIN CONVENCIÓN</span>    
-            <p style="margin-top: 15px;"><?php echo $_SESSION['nombre']; ?></p>         
+            <span class="ms-1 font-weight-bold">ADMIN CONVENCIÓN</span>
+            <p style="margin-top: 15px;"><span class="fa fa-user" style="color: #344767"></span> <?php echo $_SESSION['nombre'];?></p>
         </a>
         
         
@@ -370,9 +370,9 @@
 
     <?php echo $modal; ?>
 
-</main></body>
+    </main></body>
 
-<script>
+    <script>
     function borrarPickUp(dato){
         $.ajax({
             url: "/PickUp/borrarPickUp/"+dato,

@@ -1,22 +1,27 @@
 <?php
+
 namespace App\controllers;
-defined("APPPATH") OR die("Access denied");
+
+defined("APPPATH") or die("Access denied");
 
 use \Core\View;
 use \Core\MasterDom;
 use \App\controllers\Contenedor;
 use \Core\Controller;
-use \App\models\RegistroAsistencia AS RegistroAsistenciaDao;
+use \App\models\RegistroAsistencia as RegistroAsistenciaDao;
+use \App\models\Habitaciones as HabitacionesDao;
 use \DateTime;
 use \DatetimeZone;
 
-class RegistroHabitaciones{
-   
+class RegistroHabitaciones
+{
+
 
     private $_contenedor;
 
-    public function codigo($id) {
-        $extraHeader =<<<html
+    public function codigo($id)
+    {
+        $extraHeader = <<<html
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.png">
@@ -41,7 +46,7 @@ class RegistroHabitaciones{
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 html;
-        $extraFooter =<<<html
+        $extraFooter = <<<html
         <script src="/js/jquery.min.js"></script>
         <script src="/js/validate/jquery.validate.js"></script>
         <script src="/js/alertify/alertify.min.js"></script>
@@ -80,15 +85,24 @@ html;
 
 html;
 
+        $optionsCategoriaHotel = '';
+
+        $CategoriasHabitacion = HabitacionesDao::getAllCategoriasHabitaciones();
+        foreach ($CategoriasHabitacion as $key => $value) {
+            $optionsCategoriaHotel .= <<<html
+            <option value="{$value['id_categoria_habitacion']}">{$value['nombre_categoria']}</option>
+html;
+        }
+
         $codigo = RegistroAsistenciaDao::getById($id);
 
         $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
 
         $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
-        $tabla='';
+        $tabla = '';
         foreach ($lista_registrados as $key => $value) {
-            $tabla.=<<<html
+            $tabla .= <<<html
             <tr>
                 <td><b>{$value['nombre_completo']} </b> <span class="badge badge-info" style="color: white; background: {$value['color_linea']};"> {$value['nombre_linea_ejecutivo']} </span></td>
                 <td>
@@ -106,7 +120,7 @@ html;
                 
 html;
             if ($value['status'] == 1) {
-                $tabla.=<<<html
+                $tabla .= <<<html
                 <td class="text-center"><span class="badge badge-success">En Tiempo</span><td>
                 <td>
                     <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
@@ -115,8 +129,8 @@ html;
                 </td>
             </tr>
 html;
-            } else if ($value['status'] == 2){
-                $tabla.=<<<html
+            } else if ($value['status'] == 2) {
+                $tabla .= <<<html
                 <td class="text-center"><span class="badge badge-danger">Fuera del Horario</span><td>
                 <td>
                     <button class="btn btn-danger " onclick="borrarRegister({$value['id_registro_asistencia']})" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']}">
@@ -126,14 +140,10 @@ html;
             </tr>
 html;
             }
-           
-
         }
-        
-        foreach($codigo as $key => $value)
-        {
-            if($value['id_asistencia'] != '')
-            {
+
+        foreach ($codigo as $key => $value) {
+            if ($value['id_asistencia'] != '') {
                 $flag = true;
                 $nombre = $value['nombre'];
                 $descripcion = $value['descripcion'];
@@ -144,8 +154,7 @@ html;
         }
 
 
-        if($flag == true)
-        {
+        if ($flag == true) {
             // View::set('tabla',$tabla);
             // View::set('nombre',$nombre);
             // View::set('descripcion',$descripcion);
@@ -153,24 +162,25 @@ html;
             // View::set('fecha_asistencia',$fecha_asistencia);
             // View::set('hora_asistencia_inicio',$hora_asistencia_inicio);
             // View::set('hora_asistencia_fin',$hora_asistencia_fin);
-            View::set('header',$extraHeader);
-            View::set('footer',$extraFooter);
+            View::set('optionsCategoriaHotel',$optionsCategoriaHotel);
+            View::set('header', $extraHeader);
+            View::set('footer', $extraFooter);
             View::render("registroCheckin");
-        }
-        else
-        {
-             //View::render("asistencias_panel_registro");
+        } else {
+            //View::render("asistencias_panel_registro");
             //View::render("registroCheckin");
         }
     }
 
-    public function mostrarLista($clave){
+    public function mostrarLista($clave)
+    {
         $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($clave);
 
         echo json_encode($lista_registrados);
     }
 
-    public function borrarRegistrado($id_user){
+    public function borrarRegistrado($id_user)
+    {
 
         $id_asistencia = '';
         $delete_registrado = RegistroAsistenciaDao::delete($id_user);
@@ -178,7 +188,8 @@ html;
         echo json_encode($delete_registrado);
     }
 
-    public function registroAsistencia($clave, $code){
+    public function registroAsistencia($clave, $code)
+    {
 
         $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
         $linea_principal = RegistroAsistenciaDao::getLineaPrincipial();
@@ -187,19 +198,25 @@ html;
         $asistencia = RegistroAsistenciaDao::getIdRegistrosAsistenciasByCode($code)[0];
 
         $fecha = new DateTime('now', new DateTimeZone('America/Cancun'));
-        $hora_actual = substr($fecha->format(DATE_RFC822),15,5);
+        $hora_actual = substr($fecha->format(DATE_RFC822), 15, 5);
         // $a_tiempo = '';
 
-        if ( intval(substr($hora_actual,0,2)) > intval(substr($asistencia['hora_asistencia_inicio'],0,2)) 
-            && intval(substr($hora_actual,0,2)) < intval(substr($asistencia['hora_asistencia_fin'],0,2)) ) {
+        if (
+            intval(substr($hora_actual, 0, 2)) > intval(substr($asistencia['hora_asistencia_inicio'], 0, 2))
+            && intval(substr($hora_actual, 0, 2)) < intval(substr($asistencia['hora_asistencia_fin'], 0, 2))
+        ) {
             $a_tiempo = 1;
             $aqui = 1;
-        } else if(intval(substr($hora_actual,0,2)) == intval(substr($asistencia['hora_asistencia_fin'],0,2))
-                && intval(substr($hora_actual,3,6)) <= intval(substr($asistencia['hora_asistencia_fin'],3,6))) {
+        } else if (
+            intval(substr($hora_actual, 0, 2)) == intval(substr($asistencia['hora_asistencia_fin'], 0, 2))
+            && intval(substr($hora_actual, 3, 6)) <= intval(substr($asistencia['hora_asistencia_fin'], 3, 6))
+        ) {
             $a_tiempo = 1;
             $aqui = 2;
-        } else if(intval(substr($hora_actual,0,2)) == intval(substr($asistencia['hora_asistencia_inicio'],0,2))
-                && intval(substr($hora_actual,3,6)) >= intval(substr($asistencia['hora_asistencia_inicio'],3,6))) {
+        } else if (
+            intval(substr($hora_actual, 0, 2)) == intval(substr($asistencia['hora_asistencia_inicio'], 0, 2))
+            && intval(substr($hora_actual, 3, 6)) >= intval(substr($asistencia['hora_asistencia_inicio'], 3, 6))
+        ) {
             $a_tiempo = 1;
             $aqui = 3;
         } else {
@@ -209,33 +226,33 @@ html;
         // || substr($hora_actual,0,2) > substr($asistencia['hora_asistencia_fin'],0,2)
 
 
-        if($user_clave){
-            $hay_asistente = RegistroAsistenciaDao::findAsistantById($user_clave['utilerias_asistentes_id'],$asistencia['id_asistencia'])[0];
+        if ($user_clave) {
+            $hay_asistente = RegistroAsistenciaDao::findAsistantById($user_clave['utilerias_asistentes_id'], $asistencia['id_asistencia'])[0];
             if ($hay_asistente) {
                 $msg_insert = 'success_find_assistant';
             } else {
                 $msg_insert = 'fail_not_found_assistant';
-                $insert = RegistroAsistenciaDao::addRegister($asistencia['id_asistencia'],$user_clave['utilerias_asistentes_id'],$a_tiempo);
+                $insert = RegistroAsistenciaDao::addRegister($asistencia['id_asistencia'], $user_clave['utilerias_asistentes_id'], $a_tiempo);
             }
 
             $data = [
-                'datos'=>$user_clave,
-                'linea_principal'=>$linea_principal,
-                'bu'=>$bu,
-                'posiciones'=>$posiciones,
-                'status'=>'success',
-                'msg_insert'=>$msg_insert,
-                'hay_asistente'=> $hay_asistente,
-                'asistencia'=> $asistencia,
-                'hora_actual'=>$hora_actual,
-                'a_tiempo'=>$a_tiempo,
-                'aqui'=>$aqui,
-                'hora_actual'=>intval(substr($hora_actual,0,2)),
-                'hora_fin'=>intval(substr($asistencia['hora_asistencia_fin'],0,2)),
+                'datos' => $user_clave,
+                'linea_principal' => $linea_principal,
+                'bu' => $bu,
+                'posiciones' => $posiciones,
+                'status' => 'success',
+                'msg_insert' => $msg_insert,
+                'hay_asistente' => $hay_asistente,
+                'asistencia' => $asistencia,
+                'hora_actual' => $hora_actual,
+                'a_tiempo' => $a_tiempo,
+                'aqui' => $aqui,
+                'hora_actual' => intval(substr($hora_actual, 0, 2)),
+                'hora_fin' => intval(substr($asistencia['hora_asistencia_fin'], 0, 2)),
             ];
-        }else{
+        } else {
             $data = [
-                'status'=>'fail'
+                'status' => 'fail'
             ];
         }
 

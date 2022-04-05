@@ -87,16 +87,13 @@ html;
                   </div>
               </td>
               <td>
-                <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
-              </td>
-              <td>
-                <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-              </td>
-              <td>
-                <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
+                <p class="text-center" style="font-size: small;"><span class="fa fa-virus-slash" style="font-size: 13px;"></span> {$value['tipo_prueba']}</p>
+                <p class="text-center" style="font-size: small;"> <span class="fa fa-circle" style="font-size: 13px;"></span>{$value['resultado']}</p>
+                <p class="text-center" style="font-size: small;"><span class="fa fa-calendar" style="font-size: 13px;"></span> {$value['fecha_carga_documento']}</p>
+
               </td>
               <td class="text-center">
-                <button type="button" class="btn bg-gradient-primary" btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">
+                <button type="button" class="btn bg-gradient-primary btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">
                   <i class="fas fa-eye"></i>
                 </button>
               </td>
@@ -107,6 +104,7 @@ html;
                   <div class="modal-content">
                       <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel">Documento Prueba SARS-CoV-2</h5>
+                          <p>Para validar o rechazara una prueba SARS-CoV-2 es necesario que agregues una nota al archivo </p>
                           <span type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
                               X
                           </span>
@@ -258,13 +256,10 @@ html;
                     </div>
                 </td>
                 <td>
-                  <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
-                </td>
-                <td>
-                  <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-                </td>
-                <td>
-                  <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-virus-slash" style="font-size: 13px;"></span> {$value['tipo_prueba']}</p>
+                  <p class="text-center" style="font-size: small;"> <span class="fa fa-circle" style="font-size: 13px;"></span> {$value['resultado']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-calendar" style="font-size: 13px;"></span> {$value['fecha_carga_documento']}</p>
+
                 </td>
                 <td class="text-center">
                   <button type="button" class="btn bg-gradient-primary btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">
@@ -429,13 +424,10 @@ html;
                     </div>
                 </td>
                 <td>
-                  <p class="text-center" style="font-size: small;">{$value['fecha_carga_documento']}</p>
-                </td>
-                <td>
-                  <p class="text-center" style="font-size: small;">{$value['tipo_prueba']}</p>
-                </td>
-                <td>
-                  <p class="text-center" style="font-size: small;">{$value['resultado']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-virus-slash" style="font-size: 13px;"></span> {$value['tipo_prueba']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-circle" style="font-size: 13px;"></span> {$value['resultado']}</p>
+                  <p class="text-center" style="font-size: small;"><span class="fa fa-calendar" style="font-size: 13px;"></span> {$value['fecha_carga_documento']}</p>
+
                 </td>
                 <td class="text-center">
                   <button type="button" class="btn bg-gradient-primary btn_iframe" data-document="{$value['documento']}" data-toggle="modal" data-target="#ver-documento-{$value['id_c_v']}">

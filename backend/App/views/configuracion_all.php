@@ -8,7 +8,7 @@
             <a class="navbar-brand m-0" href="/Principal/" target="_blank">
                 <img src="/assets/img/favicon.png" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="ms-1 font-weight-bold">ADMIN CONVENCIÓN</span>
-                <p style="margin-top: 15px;"><?php echo $_SESSION['nombre']; ?></p>
+                <p style="margin-top: 15px;"><span class="fa fa-user" style="color: #344767"></span> <?php echo $_SESSION['nombre'];?></p>
             </a>
 
 
@@ -716,21 +716,7 @@
             </div>
 
             <br>
-            <!-- <footer class="footer pt-3  ">
-            <div class="container-fluid">
-                <div class="row align-items-center justify-content-lg-between">
-                    <div class="col-lg-6 mb-lg-0 mb-4">
-                        <div class="copyright text-center text-sm text-muted text-lg-start">
-                            © <script>
-                                document.write(new Date().getFullYear())
-                            </script> - 2022,
-                            made with <i class="fa fa-heart" aria-hidden="true"></i> by
-                            <a href="" class="font-weight-bold" target="_blank">Creative Grupo LAHE</a>.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer> -->
+
         </div>
     </main>
 </body>

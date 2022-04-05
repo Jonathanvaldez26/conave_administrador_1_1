@@ -701,6 +701,51 @@ html;
     echo json_encode($data);
   }
 
+  public function BuscaHabitacionCheckin()
+  {
+    $no_habitacion = $_POST['no_habitacion'];
+    $categoria_habitacion = $_POST['categoria_habitacion'];
+
+    $msg = '';
+    $color = '';
+
+    //contar registros de habitaciones por numero de habitacion
+    $search = HabitacionesDao::BuscaHabitacionCountCheckin($no_habitacion,$categoria_habitacion)[0];
+    
+
+    if($search['total'] > 0 ){
+      $getCategoriaHabitacion = HabitacionesDao::getCategoriasHabitacionesById($search['id_categoria_habitacion'])[0];
+    }    
+
+    if($getCategoriaHabitacion){
+
+      if($getCategoriaHabitacion['huespedes'] > $search['total']){
+        $msg = 'Habitación con espacio';
+        $color = 'green';
+      }else{
+        $msg = 'Habitación llena';
+        $color = 'red';
+      }
+  
+    }
+
+
+    if ($search) {
+
+      $data = [
+        'status' => 'success',
+        'msg' => $msg,
+        'color' => $color 
+      ];
+    } else {
+      $data = [
+        'status' => 'error'
+      ];
+    }
+
+    echo json_encode($data);
+  }
+
   public function searchAsistentes()
   {
     $asistente = $_POST['asistente'];
@@ -768,6 +813,25 @@ html;
     }
     if ($cont > 0) {
       echo 'success';
+    }
+  }
+
+  public function UpdateHabitacion()
+  {
+    $id_asigna_habitacion = $_POST['id_asigna_habitacion'];
+    $numero_habitacion = $_POST['num_habitacion'];
+    $documento = new \stdClass();
+
+
+    $documento->_id_asigna_habitacion = $id_asigna_habitacion;
+    $documento->_numero_habitacion = $numero_habitacion;
+    
+
+    $update = HabitacionesDao::updateHabitacionUsuario($documento);
+    if ($update) {
+      echo 'success';
+    }else{
+      echo 'fail';
     }
   }
 

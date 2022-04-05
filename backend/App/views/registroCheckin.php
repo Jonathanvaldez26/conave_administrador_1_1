@@ -79,6 +79,7 @@
                                                                 <h6>Linea: <span class="text-thin" id="linea_user"> Ninguna</span></h6>
                                                                 <h6>Bu: <span class="text-thin" id="bu_user"> Ninguna</span></h6>
                                                                 <h6>Posicion: <span class="text-thin" id="posicion_user"> Ninguna</span></h6>
+                                                                <h6>Habitación: <span class="text-thin" id="numeroHabitacion"> Ninguna</span></h6>
                                                             </div>
                                                         </div>
                                                         <br>
@@ -130,14 +131,15 @@
                                                         <!-- <hr> -->
                                                         <!-- <h7 class="mb-0"><span class="fa fa-calendar-alt"></span> <span id="fecha"><?php //echo $fecha_asistencia; 
                                                                                                                                         ?></span> | Asistencia abierta de <span class="fa fa-clock-o"></span> <span id="hora-inicio"><?php //echo $hora_asistencia_inicio; 
-                                                                                                                                                                                                                                                                        ?></span> a <span class="fa fa-clock-o"></span> <span id="hora-fin"><?php //echo $hora_asistencia_fin; 
-                                                                                                                                                                                                                                                                                                                                                                                ?></span> <strong> Hora Local Cancún</strong></h7> -->
+                                                                                                                                                                                                                                        ?></span> a <span class="fa fa-clock-o"></span> <span id="hora-fin"><?php //echo $hora_asistencia_fin; 
+                                                                                                                                                                                                                                                                                                            ?></span> <strong> Hora Local Cancún</strong></h7> -->
                                                         <!-- <hr> -->
                                                         <br>
                                                         <div class="row gx-2 gx-sm-3">
                                                             <div class="col">
                                                                 <div class="form-group">
                                                                     <input style="font-size: 35px" type="text" id="codigo_registro" name="codigo_registro" class="form-control form-control-lg text-center" minlength="6" maxlength="6" autocomplete="off" autocapitalize="off" autofocus>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -191,6 +193,74 @@
 
     </main>
 
+    <!-- Modal asignar habitacion-->
+    <div class="modal fade" id="asignar_habitacion" role="dialog" aria-labelledby="asignar_habitacionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="asignar_habitacionLabel">Asignar Habitacion</h5>
+                    <button type="button" class="btn bg-gradient-danger" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="form-horizontal" id="form_update_habitacion" action="" method="POST">
+                    <div class="modal-body">
+
+                        <div class="card-body pt-0">
+
+                            <div class="row mb-3">
+
+
+
+                                <div class="col-12 align-self-center mb-3">
+                                    <label class="form-label mt-4">Coloque el Número de Habitación que fue asiganada </label>
+
+                                    <input type="text" class="form-control" id="num_habitacion" name="num_habitacion">
+                                </div>
+
+                                <div class="col-12 align-self-center mb-3">
+                                    <label class="form-label mt-4">Numero de Maletas (para imprimir etiquetas)</label>
+
+                                    <input type="text" class="form-control" id="num_maletas" name="num_maletas">
+                                </div>
+
+                                <div id="cont_btn_pdf">
+
+                                </div>
+
+                                <div id="cont_btn_gatefe" style="display: flex; justify-content: start;">
+
+                                </div>
+                                <input type="hidden" class="form-control" id="asistente_name" name="asistente_name">
+                                <input type="hidden" class="form-control" id="id_asigna_habitacion" name="id_asigna_habitacion">
+                                <input type="hidden" class="form-control" id="clave_habitacion" name="clave_habitacion">
+                                <input type="hidden" id="codigo_registro_aux" name="codigo_registro_aux">
+
+
+                                <!-- <div id="cont_asigna_huespedes">
+
+
+                                </div> -->
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn bg-gradient-success ms-auto mb-0 mx-4" type="submit" title="Actualizar">Actualizar</button>
+                        <a class="btn bg-gradient-secondary mb-0 js-btn-prev" data-dismiss="modal" title="Prev">Cancelar</a>
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="save_habitacion">Save changes</button> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--End Modal-->
+
 
     <!--   Core JS Files   -->
     <script src="../../assets/js/core/popper.min.js"></script>
@@ -205,6 +275,9 @@
     <script src="../../assets/js/plugins/orbit-controls.js"></script>
 
     <script>
+        // var clave_a = link_a.substr(link_a.indexOf('codigo/') + 7, link_a.length);
+        // console.log(clave_a);
+
         function focus_input() {
             $("#codigo_registro").focus();
         }
@@ -339,57 +412,6 @@
             });
 
 
-            function mostrarDatos(clave) {
-                $.ajax({
-                    url: "/RegistroAsistencia/mostrarLista/" + clave,
-                    type: "POST",
-                    dataType: 'json',
-                    beforeSend: function() {
-                        // $('#lista-reg > tbody').empty();
-                        console.log("Procesando....");
-
-                    },
-                    success: function(respuesta) {
-                        console.log(respuesta);
-                        // $('#lista-reg > tbody').empty();
-                        console.log('despues de borrar');
-
-                        $.each(respuesta, function(index, el) {
-
-                            // $('#lista-reg > tbody:last-child').append(
-                            //         '<tr>'+
-                            //             '<td>'+el.nombre_completo+'</td>'+
-                            //             '<td><u><a href="mailto:'+el.email+'"><span class="fa fa-mail-bulk"> </span> '+el.email+'</a></u></td>'+
-                            //             '<td><u><a href="https://api.whatsapp.com/send?phone=52'+el.nombre_linea+'&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> '+el.nombre_linea+'</a></u></td>'+
-                            //             '<td>'+el.nombre_linea+'</td>'+
-                            //             '<td>'+el.nombre_bu+'</td>'+                
-                            //         '</tr>');
-
-                            // $('#lista-reg').empty();
-                            // table.row.add([
-                            //     // el.nombre_completo,
-                            //     // el.email,
-                            //     // el.telefono,
-                            //     // el.nombre_linea,
-                            //     // el.nombre_bu
-                            //     '<td>'+el.nombre_completo+'</td>',
-                            //     '<td><u><a href="mailto:'+el.email+'"><span class="fa fa-mail-bulk"> </span> '+el.email+'</a></u></td>',
-                            //     '<td><u><a href="https://api.whatsapp.com/send?phone=52'+el.nombre_linea+'&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><span class="fa fa-whatsapp" style="color:green;"> </span> '+el.nombre_linea+'</a></u></td>',
-                            //     '<td>'+el.nombre_linea+'</td>',
-                            //     '<td>'+el.nombre_bu+'</td>'
-                            // ]).draw();
-                        });
-
-                        // var tables = $('#lista-reg').DataTable();
-
-
-
-                    },
-                    error: function(respuesta) {
-                        console.log(respuesta);
-                    }
-                })
-            }
 
 
 
@@ -397,13 +419,14 @@
 
                 codigo = $('#codigo_registro').val();
                 $('#codigo_registro').val('');
+                $('#codigo_registro_aux').val(codigo);
                 // $('#lista-reg > tbody').empty();
 
                 console.log(codigo);
                 console.log(clave_a);
 
                 $.ajax({
-                    url: "/RegistroAsistencia/registroAsistencia/" + codigo + '/' + clave_a,
+                    url: "/RegistroAsistencia/registroAsistenciaCheckin/" + codigo + '/' + clave_a,
                     type: "POST",
                     // data: formData,
                     dataType: 'json',
@@ -419,6 +442,18 @@
                             $("#nombre_completo").html(nombre_completo);
                             $("#correo_user").html(respuesta.datos.email);
                             $("#telefono_user").html(respuesta.datos.telefono);
+                            $("#asistente_name").val(respuesta.datos.id_registro_acceso);
+                            $("#clave_habitacion").val(respuesta.clave_habitacion);
+                            $("#id_asigna_habitacion").val(respuesta.id_asigna_habitacion);
+                            if (respuesta.numero_habitacion == 0) {
+                                $("#numeroHabitacion").html("Sin Número de habitación");
+                            } else {
+                                $("#numeroHabitacion").html(respuesta.numero_habitacion);
+                            }
+                            $("#cont_btn_pdf").append(respuesta.anchor_abrir_pdf);
+                            $("#cont_btn_gatefe").append(respuesta.anchor_abrir_gafete);
+                            
+
 
                             if (respuesta.datos.img != '' || respuesta.datos.img != null || respuesta.datos.img != NULL || respuesta.datos.img != 'null') {
 
@@ -477,38 +512,9 @@
                             } else {
                                 // window.location.replace("/RegistroAsistencia/codigo/"+clave_a);
                                 //alert("aqui se se mete la habitacion");
-                                Swal.fire({
-                                    title: 'Ingresa el numero de habitacion',
-                                    input: 'text',
-                                    inputAttributes: {
-                                        autocapitalize: 'off'
-                                    },
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Look up',
-                                    showLoaderOnConfirm: true,
-                                    preConfirm: (login) => {
-                                        return fetch(`//api.github.com/users/${login}`)
-                                            .then(response => {
-                                                if (!response.ok) {
-                                                    throw new Error(response.statusText)
-                                                }
-                                                return response.json()
-                                            })
-                                            .catch(error => {
-                                                Swal.showValidationMessage(
-                                                    `Request failed: ${error}`
-                                                )
-                                            })
-                                    },
-                                    allowOutsideClick: () => !Swal.isLoading()
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        Swal.fire({
-                                            title: `${result.value.login}'s avatar`,
-                                            imageUrl: result.value.avatar_url
-                                        })
-                                    }
-                                })
+                                $("#asignar_habitacion").modal("show");
+
+
                             }
 
                             // mostrarDatos(clave_a);
@@ -538,6 +544,7 @@
                             $("#linea_user").html('Ninguna');
                             $("#bu_user").html('Ninguna');
                             $("#posicion_user").html('Ninguna');
+                            $("#numeroHabitacion").html('Ninguna');
                             $("#correo_user").html('_____');
                             $("#telefono_user").html('00 0000 0000');
                             console.log(respuesta);
@@ -580,8 +587,303 @@
                 });
             });
 
+            $("#asigna_cat_habitacion").on("change", function() {
+                var cat_habitacion = $(this).val();
+                $.ajax({
+                    url: "/Habitaciones/categoriaHabitacion",
+                    type: "POST",
+                    data: {
+                        cat_habitacion
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        console.log("Procesando....");
+
+                        $('#cont_asigna_huespedes .asign_huesped').remove();
+                        $('#cont_asigna_huespedes .card').remove();
+
+
+                    },
+                    success: function(respuesta) {
+                        // console.log(respuesta);
+                        // console.log(respuesta.asistentes.length);
+
+
+
+                        // $("#cont_asigna_huespedes").append('<div class="col-12 align-self-center asign_huesped">' +
+                        //     '<label class="form-label mt-4">Asistentes *</label><br>' +
+                        //     '<select class="form-control select_2" style="cursor: pointer;" name="asistente_name[]" id="asistente_name' + i + '" tabindex="-1" required>' +
+                        //     '<option value="" disabled selected>Selecciona una opción</option>' +
+                        //     '</select>' +
+                        //     '</div>');
+
+                        $("#cont_asigna_huespedes").append('<div class="card"><div class="card-body">' +
+                            '<div class="row mb-3">' +
+                            '<div class="col-md-6 col-sm-12 align-self-center asign_huesped">' +
+                            '<label class="form-label">IN *</label><br>' +
+                            '<input type="date" class="form-control" id="date_in" name="date_in[]" min="2022-04-06" max="2022-04-09">' +
+                            '</div>' +
+                            '<div class="col-md-6 col-sm-12 align-self-center asign_huesped">' +
+                            '<label class="form-label">OUT *</label><br>' +
+                            '<input type="date" class="form-control" id="date_out" name="date_out[]" min="2022-04-06" max="2022-04-09">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="row mb-3">' +
+                            '<div class="col-md-6 col-sm-12 align-self-center asign_huesped">' +
+                            '<label class="form-label">Numero de habitación (opcional)</label><br>' +
+                            '<input type="number" class="form-control numero_habitacion" data-item="1" id="numero_habitacion" name="numero_habitacion[]" min="1" pattern="^[0-9]+">' +
+                            '</div>' +
+                            '<div class="col-md-6 col-sm-12 align-self-center asign_huesped">' +
+
+                            '</div>' +
+                            '<div class="col-md-6 col-sm-12 align-self-center asign_huesped">' +
+                            '<span id="msg_numero_habitacion" style="font-size:13px; color:red;"></span>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="row mb-3">' +
+                            '<div class="col-md-12 align-self-center asign_huesped">' +
+                            '<label class="form-label">Comentarios (opcional)</label><br>' +
+                            '<textarea name="comentarios[]" id="comentarios" class="form-control" cols="30" rows="5"></textarea>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div><div class="asign_huesped"><br></div>');
+
+                        $("#svuelo").attr('data-toggle', 'tooltip');
+                        $("#svuelo").attr('data-original-title', 'Si usted desea modificar la hora consulte a la ejecutiva de linea');
+
+
+
+
+                        // $(".select_2").select2();
+
+                    },
+                    error: function(respuesta) {
+                        console.log(respuesta);
+                    }
+
+                });
+            });
+
+
+            $('#cont_asigna_huespedes').on("change", "select.select_2", function(event) {
+                console.log($(this).val());
+                var id_asis = $(this).val();
+                var data_item = $(this).attr('data-item');
+                console.log(data_item);
+                $.ajax({
+                    url: "/Habitaciones/getAsistenteId",
+                    type: "POST",
+                    data: {
+                        id_asis
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        console.log("Procesando....");
+
+                    },
+                    success: function(respuesta) {
+                        console.log(respuesta);
+                        if (respuesta.status == 'success') {
+                            $('#vuelo' + data_item).val(respuesta.pase.hora_llegada_destino);
+                        } else {
+                            $('#vuelo' + data_item).val(respuesta.msg);
+                        }
+
+                        var next_select = (parseInt(data_item) + 1);
+                        console.log($("#asistente_name" + next_select));
+                        $("#asistente_name" + next_select).empty();
+                        $("#asistente_name" + next_select).append('<option value="" disabled selected>Selecciona una opción</option>');
+
+                        for (var j = 0; j < respuesta.asistentes.length; j++) {
+                            // console.log(respuesta.asistentes[j].id_registro_acceso);
+                            // console.log(respuesta.asistentes[j].nombre);
+                            // console.log(respuesta.asistentes[j].apellido_paterno);
+                            // console.log(respuesta.asistentes[j].apellido_materno);
+                            $("#asistente_name" + next_select).append('<option value="' + respuesta.asistentes[j].id_registro_acceso + '">' + respuesta.asistentes[j].nombre + '</option>');
+                        }
+                    },
+                    error: function(respuesta) {
+                        console.log(respuesta);
+                    }
+
+                });
+
+            });
+
+            $('#cont_asigna_huespedes').on("keyup", "input#numero_habitacion", function(event) {
+
+                var no_habitacion = $(this).val();
+                var categoria_habitacion = $("#asigna_cat_habitacion").val();
+                $.ajax({
+                    url: "/Habitaciones/BuscaHabitacionCheckin",
+                    type: "POST",
+                    data: {
+                        no_habitacion,
+                        categoria_habitacion
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        console.log("Procesando....");
+
+                    },
+                    success: function(respuesta) {
+
+                        console.log(respuesta);
+                        if (respuesta.status == 'success') {
+                            $("#msg_numero_habitacion").html(respuesta.msg);
+                            $("#msg_numero_habitacion").css('color', respuesta.color);
+                            // $("#save_habitacion").attr("disabled", "disabled");
+                        } else {
+                            $("#msg_numero_habitacion").html('');
+                            // $("#save_habitacion").removeAttr("disabled");
+                        }
+
+
+                    },
+                    error: function(respuesta) {
+                        console.log(respuesta);
+                    }
+
+                });
+            });
+
+            $("#form_asignar_habitacion").on('submit', function(event) {
+                event.preventDefault();
+
+                var formData = new FormData(document.getElementById("form_asignar_habitacion"));
+
+                $.ajax({
+                    url: "/Habitaciones/AsignarHabitacion",
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        console.log("Procesando....");
+
+                    },
+                    success: function(respuesta) {
+
+                        if (respuesta == 'success') {
+                            swal("Se asigno la habitación correctamente!", "", "success").
+                            then((value) => {
+                                window.location.replace("/Habitaciones/");
+                            });
+                        }
+                        console.log(respuesta);
+
+
+                    },
+                    error: function(respuesta) {
+                        console.log(respuesta);
+                    }
+
+                });
+
+            });
+
+            $("#form_update_habitacion").on('submit', function(event) {
+                event.preventDefault();
+
+                // var formData = new FormData(document.getElementById("form_update_habitacion"));
+                var id_asigna_habitacion = $("#id_asigna_habitacion").val();
+                var num_habitacion = $("#num_habitacion").val();
+                var num_maletas = $("#num_maletas").val();
+
+                $.ajax({
+                    url: "/Habitaciones/UpdateHabitacion",
+                    type: "POST",
+                    data: {
+                        id_asigna_habitacion,
+                        num_habitacion
+                    },
+                    beforeSend: function() {
+                        console.log("Procesando....");
+
+                    },
+                    success: function(respuesta) {
+
+
+                        if (respuesta == 'success') {
+                            swal("Se asigno la habitación correctamente!", "", "success").
+                            then((value) => {
+                                var nombre = $("#nombre_completo").text();
+                                var codigo_user = $("#codigo_registro_aux").val() + '.pdf';
+
+                                $("#a_abrir_etiqueta").css('display', 'none');
+                                var ref = $("#a_abrir_etiqueta").attr('href');
+                                var href = ref + '/' + num_maletas;
+                                $("#a_abrir_etiqueta").attr('href', href);
+                                $("#a_abrir_etiqueta")[0].click();
+
+                                $("#a_abrir_gafete").css('display', 'block');
+                                var ref1 = $("#a_abrir_gafete").attr('href');
+                                var href1 = ref1;
+                                $("#a_abrir_gafete").attr('href', href1);
+                                $("#a_abrir_gafete")[0].click();
+
+                                $("#numeroHabitacion").html(num_habitacion);
+
+
+                            });
+                        }
+                        console.log(respuesta);
+
+
+                    },
+                    error: function(respuesta) {
+                        console.log(respuesta);
+                    }
+
+                });
+
+            });
 
         });
+
+        function imprimirPdf(nombrePdf) {
+
+            console.log("Este es el nomnre " + nombrePdf);
+
+
+            // Función ayudante
+            const reemplazarEspaciosConEntidad = cadena => cadena.replaceAll(" ", "%20");
+            // Estos parámetros podrían venir de cualquier lugar
+            // Presta atención al escape de la backslash \
+            var nombrePdf = "C:/pases_abordar/" + nombrePdf;
+            // Debemos remover los espacios:
+            //    nombrePdf = reemplazarEspaciosConEntidad(nombrePdf);
+
+            const nombreImpresora = "Brother QL-700";
+            const url = `http://localhost:8080/?nombrePdf=${nombrePdf}&impresora=${nombreImpresora}`;
+            // Elemento DOM, solo es para depurar
+            //    var $estado = document.querySelector("#estado");
+            //    $estado.textContent = "Imprimiendo...";
+            // Hacer petición...
+            fetch(url)
+                .then(respuesta => {
+                    // Si la respuesta es OK, entonces todo fue bien
+                    if (respuesta.status === 200) {
+                        //    $estado.textContent = "Impreso correctamente (salvo que se haya indicado un error por parte de PDFtoPrinter";
+                        console.log("Impresión OK");
+                    } else {
+                        // Si no, decodificamos el mensaje para ver el error
+                        respuesta.json()
+                            .then(mensaje => {
+                                //    $estado.textContent = "Error imprimiendo: " + mensaje;
+                                console.log("Error: " + mensaje);
+                            });
+                    }
+                });
+        }
+
+        
+    </script>
+
+    <script>
+
     </script>
 
 </body>
