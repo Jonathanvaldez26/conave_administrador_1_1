@@ -120,7 +120,7 @@ sql;
         $mysqli = Database::getInstance();
         $query=<<<sql
         SELECT ra.*, CONCAT(ra.nombre,' ',ra.segundo_nombre,' ',ra.apellido_paterno,' ',ra.apellido_materno) AS nombre_completo, ua.utilerias_asistentes_id,
-        le.nombre AS nombre_linea_ejecutivo
+        le.nombre AS nombre_linea_ejecutivo, tv.clave as clave_ticket
         FROM registros_acceso ra
         INNER JOIN utilerias_asistentes ua
         ON ua.id_registro_acceso = ra.id_registro_acceso

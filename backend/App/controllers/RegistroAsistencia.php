@@ -188,6 +188,7 @@ html;
         $id_asigna_habitacion = '';
 
         $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
+        $existe_user = RegistroCheckInDao::getInfo($clave);
         $linea_principal = RegistroAsistenciaDao::getLineaPrincipial();
         $bu = RegistroAsistenciaDao::getBu();
         $posiciones = RegistroAsistenciaDao::getPosiciones();
@@ -230,36 +231,44 @@ html;
         // || substr($hora_actual,0,2) > substr($asistencia['hora_asistencia_fin'],0,2)
 
 
-        if ($user_clave) {
-            $hay_asistente = RegistroAsistenciaDao::findAsistantById($user_clave['utilerias_asistentes_id'], $asistencia['id_asistencia'])[0];
-            if ($hay_asistente) {
-                $msg_insert = 'success_find_assistant';
+        if ($existe_user) {
+            if ($user_clave) {
+                $hay_asistente = RegistroAsistenciaDao::findAsistantById($user_clave['utilerias_asistentes_id'], $asistencia['id_asistencia'])[0];
+                if ($hay_asistente) {
+                    $msg_insert = 'success_find_assistant';
+                } else {
+                    $msg_insert = 'fail_not_found_assistant';
+                    $insert = RegistroAsistenciaDao::addRegister($asistencia['id_asistencia'], $user_clave['utilerias_asistentes_id'], $a_tiempo);
+                }
+    
+                $data = [
+                    'datos' => $user_clave,
+                    'linea_principal' => $linea_principal,
+                    'bu' => $bu,
+                    'posiciones' => $posiciones,
+                    'status' => 'success',
+                    'msg_insert' => $msg_insert,
+                    'hay_asistente' => $hay_asistente,
+                    'asistencia' => $asistencia,
+                    'hora_actual' => $hora_actual,
+                    'a_tiempo' => $a_tiempo,
+                    'aqui' => $aqui,
+                    'hora_actual' => intval(substr($hora_actual, 0, 2)),
+                    'hora_fin' => intval(substr($asistencia['hora_asistencia_fin'], 0, 2)),
+                    'clave_habitacion' => $clave_habitacion,
+                    'id_asigna_habitacion' => $id_asigna_habitacion,
+                    'numero_habitacion' => $numero_habitacion
+                ];
             } else {
-                $msg_insert = 'fail_not_found_assistant';
-                $insert = RegistroAsistenciaDao::addRegister($asistencia['id_asistencia'], $user_clave['utilerias_asistentes_id'], $a_tiempo);
+                $data = [
+                    'status' => 'fail'
+                ];
             }
-
-            $data = [
-                'datos' => $user_clave,
-                'linea_principal' => $linea_principal,
-                'bu' => $bu,
-                'posiciones' => $posiciones,
-                'status' => 'success',
-                'msg_insert' => $msg_insert,
-                'hay_asistente' => $hay_asistente,
-                'asistencia' => $asistencia,
-                'hora_actual' => $hora_actual,
-                'a_tiempo' => $a_tiempo,
-                'aqui' => $aqui,
-                'hora_actual' => intval(substr($hora_actual, 0, 2)),
-                'hora_fin' => intval(substr($asistencia['hora_asistencia_fin'], 0, 2)),
-                'clave_habitacion' => $clave_habitacion,
-                'id_asigna_habitacion' => $id_asigna_habitacion,
-                'numero_habitacion' => $numero_habitacion
-            ];
         } else {
             $data = [
-                'status' => 'fail'
+                'datos'=>$user_clave,
+                'linea'=>$linea,    
+                'status'=>'fail_user'
             ];
         }
 

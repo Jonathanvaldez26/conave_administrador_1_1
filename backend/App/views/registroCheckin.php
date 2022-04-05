@@ -826,12 +826,6 @@
 
                                 $("#numeroHabitacion").html(num_habitacion);
 
-                                //$("#asignar_habitacion").toggle();
-
-
-
-                                //imprimirPdf(codigo_user);
-
 
                             });
                         }
@@ -884,6 +878,8 @@
                     }
                 });
         }
+
+        
     </script>
 
     <script>

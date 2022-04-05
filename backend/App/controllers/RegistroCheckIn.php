@@ -7,6 +7,8 @@ use \Core\MasterDom;
 use \App\controllers\Contenedor;
 use \Core\Controller;
 use \App\models\RegistroCheckIn AS RegistroCheckInDao;
+use \App\models\Habitaciones as HabitacionesDao;
+use \App\models\Asistentes as AsistentesDao;
 use \DateTime;
 use \DatetimeZone;
 
@@ -1921,6 +1923,15 @@ html;
 
 html;
 
+        $optionsCategoriaHotel = '';
+
+        $CategoriasHabitacion = HabitacionesDao::getAllCategoriasHabitaciones();
+        foreach ($CategoriasHabitacion as $key => $value) {
+            $optionsCategoriaHotel .= <<<html
+            <option value="{$value['id_categoria_habitacion']}">{$value['nombre_categoria']}</option>
+        html;
+        }
+
         $codigo = RegistroCheckInDao::getById($id);
 
         $lista_registrados = RegistroCheckInDao::getRegistrosAsistenciasByCodeAndLinea($id,4);
@@ -2057,12 +2068,22 @@ html;
 
     public function registroChekIn($clave, $code, $linea){
 
+        $clave_habitacion = '';
+        $id_asigna_habitacion = '';
+
         $user_clave = RegistroCheckInDao::getInfoByLinea($clave,$linea)[0];
         $existe_user = RegistroCheckInDao::getInfo($clave);
         $linea_principal = RegistroCheckInDao::getLineaPrincipial();
         $bu = RegistroCheckInDao::getBu();
         $posiciones = RegistroCheckInDao::getPosiciones();
         $asistencia = RegistroCheckInDao::getIdRegistrosAsistenciasByCode($code)[0];
+        $habitaciones = HabitacionesDao::getAsignaHabitacionByIdRegAcceso($user_clave['id_registro_acceso'])[0];
+        
+        if ($habitaciones) {
+            $clave_habitacion = $habitaciones['clave'];
+            $id_asigna_habitacion = $habitaciones['id_asigna_habitacion'];
+            $numero_habitacion = $habitaciones['id_habitacion'];
+        }
 
         $fecha = new DateTime('now', new DateTimeZone('America/Cancun'));
         $hora_actual = substr($fecha->format(DATE_RFC822),15,5);
@@ -2120,6 +2141,13 @@ html;
                     'linea_ejecutivo'=>$linea_ejecutivo,
                     'hora_actual'=>intval(substr($hora_actual,0,2)),
                     'hora_fin'=>intval(substr($asistencia['hora_asistencia_fin'],0,2)),
+                    'clave_habitacion' => $clave_habitacion,
+                    'id_asigna_habitacion' => $id_asigna_habitacion,
+                    'numero_habitacion' => $numero_habitacion,
+                    'id_registros_Acceso'=>$user_clave['id_registro_acceso'],
+                    'anchor_abrir_pdf' => "<a href='/RegistroAsistencia/abrirpdf/{$user_clave['clave']}' target='_blank' style='display:none;' id='a_abrir_etiqueta'>abrir</a>",
+                    'anchor_abrir_gafete' => "<a href='/RegistroAsistencia/abrirpdfGafete/{$user_clave['clave']}/{$user_clave['clave_ticket']}' target='_blank' style='display:none;' id='a_abrir_gafete' class='btn btn-info'><i class='fa fal fa-address-card' style='font-size: 18px;'></i>Presione esté botón para descargar el gafete</a>",
+    
                 ];
             }else{
                 $data = [
@@ -2139,6 +2167,34 @@ html;
         
 
         echo json_encode($data);
+    }
+
+    public function abrirpdfGafete($clave, $clave_ticket = null)
+    {
+
+        $this->generaterQr($clave_ticket);
+        $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
+        $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_materno'] . " " . $datos_user['apellido_paterno'];
+
+        $pdf = new \FPDF($orientation = 'P', $unit = 'mm', array(390, 152));
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
+        $pdf->setY(1);
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Image('qrs/gafetes/'.$clave_ticket.'.png', 27, 40, 100, 100);
+
+        //$pdf->Image('1.png', 1, 0, 190, 190);
+        $pdf->SetFont('Arial', '', 5);    //Letra Arial, negrita (Bold), tam. 20
+        //$nombre = utf8_decode("Jonathan Valdez Martinez");
+        //$num_linea =utf8_decode("Línea: 39");
+        //$num_linea2 =utf8_decode("Línea: 39");
+
+        $pdf->SetXY(18.3, 300);
+        $pdf->SetFont('Times', 'B', 35);
+        #4D9A9B
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->Multicell(120, 10, $nombre_completo, 0, 'C');
+        $pdf->output();
     }
 
 }

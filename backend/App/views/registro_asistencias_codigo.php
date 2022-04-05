@@ -473,18 +473,38 @@
                         
                         // mostrarDatos(clave_a);
                         // let tabla_registrados = $("#lista-reg");
-                    } else {
+                    } else if (respuesta.status == 'fail_user') {
                         Swal.fire({
                             title: '¡Lo sentimos, esta persona no se encuentra registrada en nuestra base de datos!',
-                            // html: 'I will close in <b></b> milliseconds.',
                             icon: 'warning',
                             timer: 1000,
-                            // timerProgressBar: true,
                             didOpen: () => {
-                                // Swal.showLoading()
                                 const b = Swal.getHtmlContainer().querySelector('b')
                                 timerInterval = setInterval(() => {
-                                    // b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                            }).then((result) => {
+                            $("#codigo_registro").focus();
+                        })
+                        $("#nombre_completo").html('Nombre');
+                        $("#img_asistente").attr('src','/img/user.png');
+                        $("#linea_user").html('Ninguna');
+                        $("#bu_user").html('Ninguna');
+                        $("#posicion_user").html('Ninguna');
+                        $("#correo_user").html('_____');
+                        $("#telefono_user").html('00 0000 0000');
+                        console.log(respuesta);
+                    }else {
+                        Swal.fire({
+                            title: '¡Lo sentimos, esta persona no pertenece a la línea!',
+                            icon: 'warning',
+                            timer: 1000,
+                            didOpen: () => {
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
                                 }, 100)
                             },
                             willClose: () => {
