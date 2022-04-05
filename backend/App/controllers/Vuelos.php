@@ -28,6 +28,7 @@ class Vuelos extends Controller{
     public function index() {
      $extraHeader =<<<html
      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+     <link href="//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 html;
 
      $extraFooter =<<<html
@@ -62,6 +63,7 @@ html;
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
           <!-- VIEJO FIN -->
           <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+          <script src="//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
    <script>
     $( document ).ready(function() {
 
@@ -98,7 +100,7 @@ html;
                   {
                       console.log(respuesta);
                   }
-              });
+                });
           });
 
       });
@@ -148,7 +150,7 @@ html;
                      
                  </td>
                 <td style="text-align:center; vertical-align:middle;">
-                    <a href="Detalles/{$value['clave']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
+                    <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/{$value['link']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
                 </td>
                  
             </tr>
@@ -403,6 +405,7 @@ html;
 
     public function uploadVueloUno(){
 
+  
         $documento = new \stdClass();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -428,6 +431,20 @@ html;
             $hora_llegada = $_POST['hora_llegada'];
             $documento->_hora_llegada = $hora_llegada;
 
+            //Escala
+
+            $id_aeropuerto_origen_escala = $_POST['id_origen_escala'];
+            $documento->_id_aeropuerto_origen_escala = $id_aeropuerto_origen_escala;
+
+            $id_aeropuerto_destino_escala = $_POST['id_destino_escala'];
+            $documento->_id_aeropuerto_destino_escala = $id_aeropuerto_destino_escala;
+
+            $numero_vuelo_escala = $_POST['numero_vuelo_escala'];
+            $documento->_numero_vuelo_escala = $numero_vuelo_escala;
+
+            $hora_llegada_escala = $_POST['hora_llegada_escala'];
+            $documento->_hora_llegada_escala = $hora_llegada_escala;
+
             $file = $_FILES["file_"];
             $pdf = $this->generateRandomString();
             move_uploaded_file($file["tmp_name"], "comprobante_vuelo_uno/".$pdf.'.pdf');
@@ -435,6 +452,20 @@ html;
             $documento->_url = $pdf.'.pdf';
 
             $notas = $_POST['notas'];
+
+            $email = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['email'];
+            $nombre = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['nombre_completo'];
+
+            // echo $email;
+            // echo $utilerias_asistentes_id;
+            // exit;
+
+            $msg = [
+                'name' => $nombre,
+                'email' => $email,
+                'url'=>'https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/'.$pdf.'.pdf'
+            ];
+
             if($notas == '')
             {
                 $notas = 'Sin Notas';
@@ -449,6 +480,9 @@ html;
             $id = VuelosDao::insert($documento);
 
             if ($id) {
+
+                $mailer = new Mailer();
+                $mailer->mailVuelos($msg);
                 echo 'success';
 
             } else {
@@ -471,7 +505,7 @@ html;
         $asistentes = '';
         foreach (VuelosDao::getAsistenteNombre() as $key => $value) {
             $asistentes .=<<<html
-      <option value="{$value['utilerias_asistentes_id']}"> {$value['nombre']}</option>
+        <option value="{$value['utilerias_asistentes_id']}"> {$value['nombre']}</option>
 html;
         }
         return $asistentes;

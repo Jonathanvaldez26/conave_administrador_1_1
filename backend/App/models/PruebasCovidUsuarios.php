@@ -282,7 +282,7 @@ sql;
     public static function getComprobatesByLinea($id_linea){
         $mysqli = Database::getInstance(true);
         $query =<<<sql
-        SELECT pc.id_prueba_covid AS id_pc, pc.utilerias_asistentes_id, pc.nota, pc.status AS status_prueba,
+        SELECT pc.id_prueba_covid AS id_c_v, pc.utilerias_asistentes_id, pc.nota, pc.status AS status_prueba,
             email, telefono, fecha_carga_documento, numero_empleado, fecha_carga_documento, pc.tipo_prueba, pc.resultado, pc.fecha_prueba_covid, documento,
             b.nombre AS nombre_bu, 
             p.nombre as nombre_posicion,
