@@ -281,7 +281,6 @@ html;
         $clave_habitacion = '';
         $id_asigna_habitacion = '';
 
-
         $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
         $linea_principal = RegistroAsistenciaDao::getLineaPrincipial();
         $bu = RegistroAsistenciaDao::getBu();

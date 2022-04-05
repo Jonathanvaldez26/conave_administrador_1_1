@@ -357,6 +357,10 @@
         
         let numero_linea = 0;
         switch (linea_ejecutivo) {
+            case 'General':
+                numero_linea = 0;
+                break;
+
             case 'Directivos':
                 numero_linea = 1;
                 break;
@@ -637,8 +641,16 @@
                 },
                 error: function(respuesta) {
                     console.log(respuesta);
+                    $("#nombre_completo").html('Nombre');
+                        $("#img_asistente").attr('src','/img/user.png');
+                        $("#linea_user").html('Ninguna');
+                        $("#bu_user").html('Ninguna');
+                        $("#posicion_user").html('Ninguna');
+                        $("#correo_user").html('_____');
+                        $("#telefono_user").html('00 0000 0000');
                     Swal.fire({
-                        title: '¡Lo sentimos, ocurrió un error!',
+                        // title: '¡Lo sentimos, ocurrió un error!',
+                        title: '¡Lo sentimos, esta persona no se encuentra registrada en nuestra base de datos!',
                         icon: 'warning',
                         timer: 2000,
                         didOpen: () => {
