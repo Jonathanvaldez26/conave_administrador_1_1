@@ -87,6 +87,7 @@
                                                                 <h6>Linea: <span class="text-thin" id="linea_user"> Ninguna</span></h6> 
                                                                 <h6>Bu: <span class="text-thin" id="bu_user"> Ninguna</span></h6>
                                                                 <h6>Posicion: <span class="text-thin" id="posicion_user"> Ninguna</span></h6> 
+                                                                <h6>Talla Player: <span class="text-thin" id="talla_palyera"> Ninguna</span></h6>
                                                             </div>
                                                         </div>
                                                         <br>
@@ -520,7 +521,7 @@
                 success: function(respuesta) {
                     console.log(respuesta.status);
                     if (respuesta.status == 'success') {
-                        console.log(respuesta);
+                        console.log("talla playeta "+respuesta.datos.talla_playera);
                         console.log(respuesta.msg_insert);
                         // let nombre_completo = respuesta.datos.nombre_completo;
                         $("#nombre_completo").html(respuesta.datos.nombre_completo);
@@ -529,6 +530,14 @@
                         $("#asistente_name").val(respuesta.datos.id_registro_acceso);
                         $("#clave_habitacion").val(respuesta.clave_habitacion);
                         $("#id_asigna_habitacion").val(respuesta.id_asigna_habitacion);
+                        $("#num_habitacion").val(respuesta.numero_habitacion);
+                        // if(respuesta.talla_playera == null || respuesta.talla_playera == ''){
+                        //     $("#talla_playera").html("No se asigno talla");
+                        // }else{
+                        //     $("#talla_playera").html(respuesta.talla_playera);
+                        // }
+
+                        // $("#no_habitacion").val(respuesta.numero_habitacion);
                         if (respuesta.numero_habitacion == 0) {
                             $("#numeroHabitacion").html("Sin Número de habitación");
                         } else {
@@ -548,6 +557,8 @@
                             $("#img_asistente").attr('src','/img/user.png');
                         }
 
+                       
+
                         for (let index = 0; index < respuesta.linea_principal.length; index++) {
                             const element = respuesta.linea_principal[index];
                             if (element.id_linea_principal == respuesta.datos.id_linea_principal) {
@@ -559,6 +570,13 @@
                             const element = respuesta.bu[index];
                             if (element.id_bu == respuesta.datos.id_bu) {
                                 $("#bu_user").html(element.nombre);
+                            }
+                        }
+
+                        for (let index = 0; index < respuesta.posiciones.length; index++) {
+                            const element = respuesta.posiciones[index];
+                            if (element.id_posicion == respuesta.datos.id_posicion) {
+                                $("#posicion_user").html(element.nombre);
                             }
                         }
 
@@ -610,6 +628,7 @@
                         $("#linea_user").html('Ninguna');
                         $("#bu_user").html('Ninguna');
                         $("#posicion_user").html('Ninguna');
+                        $("#talla_playera").html('Ninguna');
                         $("#correo_user").html('_____');
                         $("#telefono_user").html('00 0000 0000');
                         console.log(respuesta);
@@ -892,7 +911,7 @@
 
                 },
                 success: function(respuesta) {
-                    if (respuesta == 'success') {
+                    // if (respuesta == 'success') {
                         swal("Se asigno la habitación correctamente!", "", "success").
                         then((value) => {
                             var nombre = $("#nombre_completo").text();
@@ -913,7 +932,7 @@
                             $("#numeroHabitacion").html(num_habitacion);
 
                         });
-                    }
+                    // }
                     console.log(respuesta);
 
 
