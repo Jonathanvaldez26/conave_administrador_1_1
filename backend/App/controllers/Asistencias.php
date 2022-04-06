@@ -175,7 +175,7 @@ html;
     
     foreach ($datos as $key => $value) {
 
-      var_dump($value['es_ckeckin']);
+      // var_dump($value['es_ckeckin']);
         if($value['es_ckeckin'] == 1){
           $url_checkin = $value['url_checkin'];
           $url_directivos	= $value['url_directivos'];
