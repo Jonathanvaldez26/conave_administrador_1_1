@@ -148,7 +148,11 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
+<<<<<<< HEAD
         $lista_faltantes = RegistroCheckInDao::getAsistenciasFaltantes($id);
+=======
+        // $lista_faltantes = RegistroCheckInDao::getAsistenciasFaltantes();
+>>>>>>> 96656abb553ab9e3cc3a724d9bb0dce44d547958
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -2366,7 +2370,7 @@ html;
 
         $this->generaterQr($clave_ticket);
         $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
-        $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_paterno'] . " " . $datos_user['apellido_materno'];
+        $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_materno'] . " " . $datos_user['apellido_paterno'];
 
         $pdf = new \FPDF($orientation = 'P', $unit = 'mm', array(390, 152));
         $pdf->AddPage();
