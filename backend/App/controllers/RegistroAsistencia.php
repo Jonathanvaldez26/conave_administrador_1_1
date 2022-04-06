@@ -416,7 +416,7 @@ html;
 
         $this->generaterQr($clave_ticket);
         $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
-        $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_materno'] . " " . $datos_user['apellido_paterno'];
+        $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_paterno'] . " " . $datos_user['apellido_materno'];
 
         $pdf = new \FPDF($orientation = 'P', $unit = 'mm', array(390, 152));
         $pdf->AddPage();
