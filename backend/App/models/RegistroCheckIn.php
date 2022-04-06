@@ -167,10 +167,10 @@ sql;
         return $mysqli->queryAll($query);
     }
 
-    public static function getRegistrosAsistenciasFaltantes($linea){
+    public static function getRegistrosAsistenciasFaltantes($clave, $linea){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        SELECT a.nombre AS nombre_asistencia, ua.usuario, ras.id_registro_asistencia
+        SELECT a.nombre AS nombre_asistencia, ua.usuario,
         ra.telefono, ra.email,
         lp.nombre AS nombre_linea,
         b.nombre AS nombre_bu,
@@ -182,13 +182,13 @@ sql;
         INNER JOIN utilerias_asistentes ua
         INNER JOIN linea_principal lp
         INNER JOIN posiciones p
-        INNER JOIN bu b
+        INNER JOIN bu b 
         INNER JOIN registros_asistencia ras
         ON ra.id_registro_acceso = ua.id_registro_acceso
         and lp.id_linea_principal = ra.id_linea_principal
         and b.id_bu = ra.id_bu
         and p.id_posicion = ra.id_posicion
-        and ras.id_asistencia = a.id_asistencia
+        and ras.id_asistencias = a.id_asistencia
         INNER JOIN linea_ejecutivo le
         ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo
         
@@ -199,7 +199,7 @@ sql;
         return $mysqli->queryAll($query);
     }
 
-    public static function getAsistenciasFaltantes(){
+    public static function getAsistenciasFaltantes($clave){
         $mysqli = Database::getInstance();
         $query=<<<sql
         SELECT a.nombre AS nombre_asistencia, ua.usuario,
@@ -224,7 +224,7 @@ sql;
         
         WHERE ua.utilerias_asistentes_id NOT IN 
         (SELECT ras.utilerias_asistentes_id FROM registros_asistencia ras 
-        WHERE a.id_asistencia = ras.id_asistencias)
+        WHERE a.id_asistencia = ras.id_asistencias) AND a.clave = '$clave'
 sql;
         return $mysqli->queryAll($query);
     }
