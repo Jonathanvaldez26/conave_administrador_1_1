@@ -355,7 +355,7 @@
         let linea_ejecutivo = linea_clave.substr(0,linea_clave.indexOf('/'));
         let clave_a = linea_clave.substr(linea_clave.indexOf('/')+1);
         
-        let numero_linea = 0;
+        let numero_linea;
         switch (linea_ejecutivo) {
             case 'General':
                 numero_linea = 0;
@@ -377,7 +377,7 @@
                 numero_linea = 4;
                 break;
             
-            case 'cardio':
+            case 'Cardio':
                 numero_linea = 6;
                 break;
 
