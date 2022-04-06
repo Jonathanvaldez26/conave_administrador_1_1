@@ -3,9 +3,6 @@ namespace App\controllers;
 defined("APPPATH") OR die("Access denied");
 
 use \Core\View;
-use \Core\MasterDom;
-use \App\controllers\Contenedor;
-use \Core\Controller;
 use \App\models\RegistroCheckIn AS RegistroCheckInDao;
 use \App\models\RegistroAsistencia AS RegistroAsistenciaDao;
 use \App\models\Habitaciones as HabitacionesDao;
@@ -14,10 +11,7 @@ use \DateTime;
 use \DatetimeZone;
 
 class RegistroCheckIn{
-   
-    // 873ec0be358a253dcb77fe0b75589a81
 
-    private $_contenedor;
 
     //----------Directivos----------//
     public function General($id) {
