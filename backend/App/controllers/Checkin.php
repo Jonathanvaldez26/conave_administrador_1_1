@@ -148,7 +148,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getAsistenciasFaltantes();
+        $lista_faltantes = RegistroCheckInDao::getAsistenciasFaltantes($id);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
