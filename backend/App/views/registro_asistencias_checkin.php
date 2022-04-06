@@ -531,11 +531,11 @@
                         $("#clave_habitacion").val(respuesta.clave_habitacion);
                         $("#id_asigna_habitacion").val(respuesta.id_asigna_habitacion);
                         $("#num_habitacion").val(respuesta.numero_habitacion);
-                        // if(respuesta.talla_playera == null || respuesta.talla_playera == ''){
-                        //     $("#talla_playera").html("No se asigno talla");
-                        // }else{
-                        //     $("#talla_playera").html(respuesta.talla_playera);
-                        // }
+                        if(respuesta.datos.talla_playera == null || respuesta.datos.talla_playera == ''){
+                            $("#talla_playera").html("No se asigno talla");
+                        }else{
+                            $("#talla_playera").html(respuesta.datos.talla_playera);
+                        }
 
                         // $("#no_habitacion").val(respuesta.numero_habitacion);
                         if (respuesta.numero_habitacion == 0) {
