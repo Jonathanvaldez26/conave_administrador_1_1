@@ -172,14 +172,17 @@ html;
     // $url_ole	= '#';
     // $url_analgesia= '#';
     $datos = AsistenciasDao::getAll();
+    
     foreach ($datos as $key => $value) {
 
+      var_dump($value['es_ckeckin']);
         if($value['es_ckeckin'] == 1){
           $url_checkin = $value['url_checkin'];
           $url_directivos	= $value['url_directivos'];
+          
           $url_staf	= $value['url_staf'];
           $url_neurociencias	= $value['url_neurociencias	'];
-          $url_kaes_osteo	= $value['url_kaes_osteo'];
+          $url_kaes_osteo	= $value['url_checkinurl_kaes_osteo'];
           $url_cardio	= $value['url_cardio'];
           $url_uro	= $value['url_uro'];
           $url_gastro	= $value['url_gastro'];
@@ -187,6 +190,30 @@ html;
           $url_medicina_general	= $value['url_medicina_general'];
           $url_ole	= $value['url_ole'];
           $url_analgesia= $value['url_analgesia'];
+
+          $style_checkin = 'display:block';
+
+          $style_directivos = 'display:block';
+         
+            $style_staf = 'display:block';
+          
+            $style_neurociencias = 'display:block';
+          
+            $style_kaes_osteo = 'display:block';
+         
+            $style_cardio = 'display:block';
+       
+            $style_uro = 'display:block';
+        
+            $style_gastro = 'display:block';
+          
+            $style_gineco = 'display:block';
+          
+            $style_medicina_general = 'display:block';
+         
+            $style_ole = 'display:block';
+          
+            $style_analgecia = 'display:block';
 
           // if($value['url_directivos'] == 0){
           //   $url_directivos = '#';
@@ -277,9 +304,17 @@ html;
           // else{
           //   $url_analgesia= $value['url_analgesia'];
           // }
-        }else if($value['es_ckeckin'] == 0){
+        }else if($value['es_ckeckin'] == '0'){
 
-          $url_checkin = $value['url_checkin'];
+          if($value['es_ckeckin'] == '0'){
+            $url_checkin = '#';
+            $style_checkin = 'display:none';
+          }
+          else{
+            $url_checkin = $value['url_checkin'];
+          }
+
+          
           // $url_directivos	= $value['url_directivos'];
           // $url_staf	= $value['url_staf'];
           // $url_neurociencias	= $value['url_neurociencias	'];
@@ -404,7 +439,7 @@ html;
         <td class="text-center"><a href='{$url_medicina_general}' style='{$style_medicina_general}'><i class='fas fa-globe'></i></a></td>
         <td class="text-center"><a href='{$url_ole}' style='{$style_ole}'><i class='fas fa-globe'></i></a></td>
         <td class="text-center"><a href='{$url_analgesia}' style='{$style_analgecia}'><i class='fas fa-globe'></i></a></td>
-        <td class="text-center"><a href='{$url_checkin}' style=''><i class='fas fa-globe'></i></a></td>
+        <td class="text-center"><a href='{$url_checkin}' style='{$style_checkin}'><i class='fas fa-globe'></i></a></td>
       </tr>
  
 html;
