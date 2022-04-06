@@ -285,7 +285,7 @@
 
     function borrarRegister(dato){
         $.ajax({
-            url: "/RegistroCheckIn/borrarRegistrado/"+dato,
+            url: "/CheckIn/borrarRegistrado/"+dato,
             type: "POST",
             dataType: 'json',
             beforeSend: function() {
