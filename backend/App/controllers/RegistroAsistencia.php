@@ -412,8 +412,7 @@ html;
 
 
 
-    public function abrirpdfGafete($clave, $clave_ticket = null)
-    {
+    public function abrirpdfGafete($clave, $clave_ticket = null){
 
         $this->generaterQr($clave_ticket);
         $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
