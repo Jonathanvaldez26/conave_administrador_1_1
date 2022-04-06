@@ -351,7 +351,7 @@ html;
       foreach (LineaDao::getLineasEjecutivo() as $key => $value) {
         $lineas .= <<<html
                   <option value="{$value['id_linea_ejecutivo']}-{$value['nombre']}">{$value['nombre']}</option>
-      html;
+html;
       }
 
 
