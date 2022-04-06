@@ -333,7 +333,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(1);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,1);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -517,7 +517,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(2);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,2);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -701,7 +701,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(3);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,3);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -885,7 +885,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(6);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,6);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -1067,7 +1067,7 @@ html;
         }
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(7);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,7);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -1251,7 +1251,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(8);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,8);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -1435,7 +1435,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(9);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,9);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -1619,7 +1619,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(10);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,10);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -1803,7 +1803,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(11);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,11);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -1987,7 +1987,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(12);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,12);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
@@ -2181,7 +2181,7 @@ html;
 
 
         ///--------------------FALTANTES--------------------///
-        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes(4);
+        $lista_faltantes = RegistroCheckInDao::getRegistrosAsistenciasFaltantes($id,4);
         $tabla_faltantes='';
         foreach ($lista_faltantes as $key => $value) {
             $tabla_faltantes.=<<<html
