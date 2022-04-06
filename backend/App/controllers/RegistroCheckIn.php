@@ -2114,7 +2114,7 @@ html;
         foreach ($CategoriasHabitacion as $key => $value) {
             $optionsCategoriaHotel .= <<<html
             <option value="{$value['id_categoria_habitacion']}">{$value['nombre_categoria']}</option>
-        html;
+html;
         }
 
         $codigo = RegistroCheckInDao::getById($id);
