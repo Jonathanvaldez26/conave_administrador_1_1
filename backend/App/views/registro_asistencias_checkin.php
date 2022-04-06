@@ -860,6 +860,7 @@
 
                 },
                 error: function(respuesta) {
+                    console.log('AQUI');
                     console.log(respuesta);
                 }
 
@@ -875,6 +876,10 @@
             var num_habitacion = $("#num_habitacion").val();
             var num_maletas = $("#num_maletas").val();
 
+
+            console.log(id_asigna_habitacion);
+            console.log(num_habitacion);
+            console.log(num_maletas);
             $.ajax({
                 url: "/Habitaciones/UpdateHabitacion",
                 type: "POST",
@@ -887,8 +892,6 @@
 
                 },
                 success: function(respuesta) {
-
-
                     if (respuesta == 'success') {
                         swal("Se asigno la habitación correctamente!", "", "success").
                         then((value) => {
@@ -909,13 +912,6 @@
 
                             $("#numeroHabitacion").html(num_habitacion);
 
-                            //$("#asignar_habitacion").toggle();
-
-
-
-                            //imprimirPdf(codigo_user);
-
-
                         });
                     }
                     console.log(respuesta);
@@ -923,6 +919,7 @@
 
                 },
                 error: function(respuesta) {
+                    console.log('AQUI 2');
                     console.log(respuesta);
                 }
 
