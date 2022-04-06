@@ -272,6 +272,7 @@ html;
         $nombre_asistencia = RegistroCheckInDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
 
         $tabla='';
+        var_dump($lista_registrados);
         foreach ($lista_registrados as $key => $value) {
             $tabla.=<<<html
             <tr>

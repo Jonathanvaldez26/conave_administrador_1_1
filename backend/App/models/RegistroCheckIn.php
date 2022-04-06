@@ -154,15 +154,14 @@ sql;
         INNER JOIN linea_principal lp
         INNER JOIN posiciones p
         INNER JOIN bu b
-        ON a.id_asistencia = id_asistencias
+        ON a.id_asistencia = ras.id_asistencias
         and ua.utilerias_asistentes_id = ras.utilerias_asistentes_id
         and ra.id_registro_acceso = ua.id_registro_acceso
         and lp.id_linea_principal = ra.id_linea_principal
         and b.id_bu = ra.id_bu
         and p.id_posicion = ra.id_posicion
         INNER JOIN linea_ejecutivo le
-        ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo
-        
+        ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo        
         WHERE a.clave = '$code' and le.id_linea_ejecutivo = $linea
 sql;
         return $mysqli->queryAll($query);
