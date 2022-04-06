@@ -175,7 +175,7 @@ html;
     
     foreach ($datos as $key => $value) {
 
-      var_dump($value['es_ckeckin']);
+      // var_dump($value['es_ckeckin']);
         if($value['es_ckeckin'] == 1){
           $url_checkin = $value['url_checkin'];
           $url_directivos	= $value['url_directivos'];
@@ -195,115 +195,27 @@ html;
 
           $style_directivos = "display:block";
          
-            $style_staf = "display:block";
-          
-            $style_neurociencias = "display:block";
-          
-            $style_kaes_osteo = "display:block";
-         
-            $style_cardio = "display:block";
-       
-            $style_uro = "display:block";
+          $style_staf = "display:block";
         
-            $style_gastro = "display:block";
-          
-            $style_gineco = "display:block";
-          
-            $style_medicina_general = "display:block";
-         
-            $style_ole = "display:block";
-          
-            $style_analgecia = "display:block";
+          $style_neurociencias = "display:block";
+        
+          $style_kaes_osteo = "display:block";
+        
+          $style_cardio = "display:block";
+      
+          $style_uro = "display:block";
+      
+          $style_gastro = "display:block";
+        
+          $style_gineco = "display:block";
+        
+          $style_medicina_general = "display:block";
+        
+          $style_ole = "display:block";
+        
+          $style_analgecia = "display:block";
 
-          // if($value['url_directivos'] == 0){
-          //   $url_directivos = '#';
-          //   $style_directivos = 'display:none';
-          // }
-          // else{
-          //   $url_directivos	= $value['url_directivos'];
-          //   $style_directivos = 'display:block';
-            
-          // }
-  
-          // if($value['url_staf'] == 0){
-          //   $url_staf = '#';
-          //   $style_staf = 'display:none';
-          // }
-          // else{
-          //   $url_staf	= $value['url_staf'];
-          // }
-  
-          // if($value['url_neurociencias'] == 0){
-          //   $url_neurociencias = '#';
-          //   $style_neurociencias = 'display:none';
-          // }
-          // else{
-          //   $url_neurociencias	= $value['url_neurociencias'];
-          // }
-  
-          // if($value['url_kaes_osteo'] == 0){
-          //   $url_kaes_osteo = '#';
-          //   $style_kaes_osteo = 'display:none';
-          // }
-          // else{
-          //   $url_kaes_osteo	= $value['url_kaes_osteo'];
-          // }
-  
-          // if($value['url_cardio'] == 0){
-          //   $url_cardio = '#';
-          //   $style_cardio = 'display:none';
-          // }
-          // else{
-          //   $url_cardio	= $value['url_cardio'];
-          // }
-  
-          // if($value['url_uro'] == 0){
-          //   $url_uro = '#';
-          //   $style_uro = 'display:none';
-          // }
-          // else{
-          //   $url_uro	= $value['url_uro'];
-          // }
-  
-          // if($value['url_gastro'] == 0){
-          //   $url_gastro = '#';
-          //   $style_gastro = 'display:none';
-          // }
-          // else{
-          //   $url_gastro	= $value['url_gastro'];
-          // }
-  
-          // if($value['url_gineco'] == 0){
-          //   $url_gineco = '#';
-          //   $style_gineco = 'display:none';
-          // }
-          // else{
-          //   $url_gineco	= $value['url_gineco'];
-          // }
-  
-          // if($value['url_medicina_general'] == 0){
-          //   $url_medicina_general = '#';
-          //   $style_medicina_general = 'display:none';
-          // }
-          // else{
-          //   $url_medicina_general	= $value['url_medicina_general'];
-          // }
-  
-          // if($value['url_ole'] == 0){
-          //   $url_ole = '#';
-          //   $style_ole = 'display:none';
-          // }
-          // else{
-          //   $url_ole	= $value['url_ole'];
-          // }
-  
-          // if($value['url_analgesia'] == 0){
-          //   $url_analgesia = '#';
-          //   $style_analgecia = 'display:none';
-          // }
-          // else{
-          //   $url_analgesia= $value['url_analgesia'];
-          // }
+          
         }else if($value['es_ckeckin'] == '0'){
 
           if($value['es_ckeckin'] == '0'){
@@ -315,18 +227,7 @@ html;
           }
 
           
-          // $url_directivos	= $value['url_directivos'];
-          // $url_staf	= $value['url_staf'];
-          // $url_neurociencias	= $value['url_neurociencias	'];
-          // $url_kaes_osteo	= $value['url_kaes_osteo'];
-          // $url_cardio	= $value['url_cardio'];
-          // $url_uro	= $value['url_uro'];
-          // $url_gastro	= $value['url_gastro'];
-          // $url_gineco	= $value['url_gineco'];
-          // $url_medicina_general	= $value['url_medicina_general'];
-          // $url_ole	= $value['url_ole'];
-          // $url_analgesia= $value['url_analgesia'];
-
+          
           if($value['url_directivos'] == '0'){
             $url_directivos = "#";
             $style_directivos = "display:none";
@@ -487,43 +388,43 @@ html;
         $data->_es_plenaria_individual = '0';
         $data->_es_prueba_covid = '0';
         $data->_url_prueba_covid = '0';
-        $data->_url_directivos = "https://admin.convencionasofarma2022.mx//RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
-        $data->_url_staf = "https://admin.convencionasofarma2022.mx//RegistroCheckin/STAFF/"."".$data->_clave;
-        $data->_url_neurociencias = "https://admin.convencionasofarma2022.mx//RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
-        $data->_url_kaes_osteo = "https://admin.convencionasofarma2022.mx//RegistroCheckin/KAESOSTEO/"."".$data->_clave;
-        $data->_url_cardio = "https://admin.convencionasofarma2022.mx//RegistroCheckin/CARDIO/"."".$data->_clave;
-        $data->_url_uro = "https://admin.convencionasofarma2022.mx//RegistroCheckin/URO/"."".$data->_clave;
-        $data->_url_gastro = "https://admin.convencionasofarma2022.mx//RegistroCheckin/GASTRO/"."".$data->_clave;
-        $data->_url_gineco = "https://admin.convencionasofarma2022.mx//RegistroCheckin/GINECO/"."".$data->_clave;
-        $data->_url_medicina_general = "https://admin.convencionasofarma2022.mx//RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
-        $data->_url_ole = "https://admin.convencionasofarma2022.mx//RegistroCheckin/OLE/"."".$data->_clave;
-        $data->_url_analgesia = "https://admin.convencionasofarma2022.mx//RegistroCheckin/ANALGESIA/"."".$data->_clave;
+        $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
+        $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
+        $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
+        $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
+        $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
+        $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
+        $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
+        $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
+        $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
+        $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
+        $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
        
       }else{
 
         if($data->_es_plenaria_individual == 0){
 
-          $data->_url_checkin = "https://admin.convencionasofarma2022.mx//RegistroCheckin/general/"."".$data->_clave;
+          $data->_url_checkin = "/RegistroCheckin/General/"."".$data->_clave;
           $data->_plenaria_general = "1";
-          $data->_url_plenaria_general = "https://admin.convencionasofarma2022.mx//RegistroCheckin/general/"."".$data->_clave;
+          $data->_url_plenaria_general = "/RegistroCheckin/General/"."".$data->_clave;
           $data->_es_prueba_covid = '0';
           $data->_url_prueba_covid = '0';
-          $data->_url_directivos = "https://admin.convencionasofarma2022.mx/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
-          $data->_url_staf = "https://admin.convencionasofarma2022.mx//RegistroCheckin/STAFF/"."".$data->_clave;
-          $data->_url_neurociencias = "https://admin.convencionasofarma2022.mx//RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
-          $data->_url_kaes_osteo = "https://admin.convencionasofarma2022.mx//RegistroCheckin/KAESOSTEO/"."".$data->_clave;
-          $data->_url_cardio = "https://admin.convencionasofarma2022.mx//RegistroCheckin/CARDIO/"."".$data->_clave;
-          $data->_url_uro = "https://admin.convencionasofarma2022.mx//RegistroCheckin/URO/"."".$data->_clave;
-          $data->_url_gastro = "https://admin.convencionasofarma2022.mx//RegistroCheckin/GASTRO/"."".$data->_clave;
-          $data->_url_gineco = "https://admin.convencionasofarma2022.mx//RegistroCheckin/GINECO/"."".$data->_clave;
-          $data->_url_medicina_general = "https://admin.convencionasofarma2022.mx//RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
-          $data->_url_ole = "https://admin.convencionasofarma2022.mx//RegistroCheckin/OLE/"."".$data->_clave;
-          $data->_url_analgesia = "https://admin.convencionasofarma2022.mx//RegistroCheckin/ANALGESIA/"."".$data->_clave;
+          $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
+          $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
+          $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
+          $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
+          $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
+          $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
+          $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
+          $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
+          $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
+          $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
+          $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
          
           
         }else{
 
-          $data->_url_checkin = "https://admin.convencionasofarma2022.mx//RegistroCheckin/general/"."".$data->_clave;
+          $data->_url_checkin = "/RegistroCheckin/General/"."".$data->_clave;
           $data->_plenaria_general = '0';
           $data->_url_plenaria_general = "0";
           $data->_es_prueba_covid = '0';
@@ -532,7 +433,7 @@ html;
 
           if($nombre_linea == 'DIRECTIVOS'){
 
-            $data->_url_directivos = "https://admin.convencionasofarma2022.mx//RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
+            $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
             $data->_url_staf = "0";
             $data->_url_neurociencias = "0";
             $data->_url_kaes_osteo = "0";
@@ -546,7 +447,7 @@ html;
 
           }else if($nombre_linea == 'STAFF'){
             $data->_url_directivos = "0";
-            $data->_url_staf = "https://admin.convencionasofarma2022.mx//RegistroCheckin/STAFF/"."".$data->_clave;
+            $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
             $data->_url_neurociencias = "0";
             $data->_url_kaes_osteo = "0";
             $data->_url_cardio = "0";
@@ -562,7 +463,7 @@ html;
 
             $data->_url_directivos = "0";
             $data->_url_staf = "0";
-            $data->_url_neurociencias = "https://admin.convencionasofarma2022.mx//RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
+            $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
             $data->_url_kaes_osteo = "0";
             $data->_url_cardio = "0";
             $data->_url_uro = "0";
@@ -577,7 +478,7 @@ html;
             $data->_url_directivos = "0";
             $data->_url_staf = "0";
             $data->_url_neurociencias ="0";
-            $data->_url_kaes_osteo = "https://admin.convencionasofarma2022.mx//RegistroCheckin/KAESOSTEO/"."".$data->_clave;
+            $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
             $data->_url_cardio = "0";
             $data->_url_uro = "0";
             $data->_url_gastro = "0";
@@ -592,7 +493,7 @@ html;
             $data->_url_staf = "0";
             $data->_url_neurociencias = "0";
             $data->_url_kaes_osteo = "0";
-            $data->_url_cardio = "https://admin.convencionasofarma2022.mx//RegistroCheckin/CARDIO/"."".$data->_clave;
+            $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
             $data->_url_uro = "0";
             $data->_url_gastro = "0";
             $data->_url_gineco = "0";
@@ -607,7 +508,7 @@ html;
             $data->_url_neurociencias = "0";
             $data->_url_kaes_osteo = "0";
             $data->_url_cardio = "0";
-            $data->_url_uro = "https://admin.convencionasofarma2022.mx//RegistroCheckin/URO/"."".$data->_clave;
+            $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
             $data->_url_gastro = "0";
             $data->_url_gineco = "0";
             $data->_url_medicina_general = "0";
@@ -622,7 +523,7 @@ html;
             $data->_url_kaes_osteo = "0";
             $data->_url_cardio = "0";
             $data->_url_uro = "0";
-            $data->_url_gastro = "https://admin.convencionasofarma2022.mx//RegistroCheckin/GASTRO/"."".$data->_clave;
+            $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
             $data->_url_gineco = "0";
             $data->_url_medicina_general = "0";
             $data->_url_ole = "0";
@@ -637,7 +538,7 @@ html;
             $data->_url_cardio = "0";
             $data->_url_uro = "0";
             $data->_url_gastro = "0";
-            $data->_url_gineco = "https://admin.convencionasofarma2022.mx//RegistroCheckin/GINECO/"."".$data->_clave;
+            $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
             $data->_url_medicina_general = "0";
             $data->_url_ole = "0";
             $data->_url_analgesia = "0";
@@ -652,7 +553,7 @@ html;
             $data->_url_uro = "0";
             $data->_url_gastro = "0";
             $data->_url_gineco = "0";
-            $data->_url_medicina_general = "https://admin.convencionasofarma2022.mx//RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
+            $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
             $data->_url_ole = "0";
             $data->_url_analgesia = "0";
             
@@ -667,7 +568,7 @@ html;
             $data->_url_gastro = "0";
             $data->_url_gineco = "0";
             $data->_url_medicina_general = "0";
-            $data->_url_ole = "https://admin.convencionasofarma2022.mx//RegistroCheckin/OLE/"."".$data->_clave;
+            $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
             $data->_url_analgesia = "0";
             
           }else if($nombre_linea == 'ANALGESIA'){
@@ -682,7 +583,7 @@ html;
             $data->_url_gineco = "0";
             $data->_url_medicina_general = "0";
             $data->_url_ole = "0";
-            $data->_url_analgesia = "https://admin.convencionasofarma2022.mx//RegistroCheckin/ANALGESIA/"."".$data->_clave;
+            $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
             
           }
         }
