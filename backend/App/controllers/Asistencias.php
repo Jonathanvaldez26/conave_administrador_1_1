@@ -175,7 +175,7 @@ html;
     
     foreach ($datos as $key => $value) {
 
-      // var_dump($value['es_ckeckin']);
+      var_dump($value['es_ckeckin']);
         if($value['es_ckeckin'] == 1){
           $url_checkin = $value['url_checkin'];
           $url_directivos	= $value['url_directivos'];
@@ -191,29 +191,29 @@ html;
           $url_ole	= $value['url_ole'];
           $url_analgesia= $value['url_analgesia'];
 
-          $style_checkin = 'display:block';
+          $style_checkin = "display:block";
 
-          $style_directivos = 'display:block';
+          $style_directivos = "display:block";
          
-            $style_staf = 'display:block';
+            $style_staf = "display:block";
           
-            $style_neurociencias = 'display:block';
+            $style_neurociencias = "display:block";
           
-            $style_kaes_osteo = 'display:block';
+            $style_kaes_osteo = "display:block";
          
-            $style_cardio = 'display:block';
+            $style_cardio = "display:block";
        
-            $style_uro = 'display:block';
+            $style_uro = "display:block";
         
-            $style_gastro = 'display:block';
+            $style_gastro = "display:block";
           
-            $style_gineco = 'display:block';
+            $style_gineco = "display:block";
           
-            $style_medicina_general = 'display:block';
+            $style_medicina_general = "display:block";
          
-            $style_ole = 'display:block';
+            $style_ole = "display:block";
           
-            $style_analgecia = 'display:block';
+            $style_analgecia = "display:block";
 
           // if($value['url_directivos'] == 0){
           //   $url_directivos = '#';
@@ -307,8 +307,8 @@ html;
         }else if($value['es_ckeckin'] == '0'){
 
           if($value['es_ckeckin'] == '0'){
-            $url_checkin = '#';
-            $style_checkin = 'display:none';
+            $url_checkin = "#";
+            $style_checkin = "display:none";
           }
           else{
             $url_checkin = $value['url_checkin'];
@@ -328,88 +328,88 @@ html;
           // $url_analgesia= $value['url_analgesia'];
 
           if($value['url_directivos'] == '0'){
-            $url_directivos = '#';
-            $style_directivos = 'display:none';
+            $url_directivos = "#";
+            $style_directivos = "display:none";
           }
           else{
             $url_directivos	= $value['url_directivos'];
           }
   
           if($value['url_staf'] == '0'){
-            $url_staf = '#';
-            $style_staf = 'display:none';
+            $url_staf = "#";
+            $style_staf = "display:none";
           }
           else{
             $url_staf	= $value['url_staf'];
           }
   
           if($value['url_neurociencias'] == '0'){
-            $url_neurociencias = '#';
-            $style_neurociencias = 'display:none';
+            $url_neurociencias = "#";
+            $style_neurociencias = "display:none";
           }
           else{
             $url_neurociencias	= $value['url_neurociencias'];
           }
   
           if($value['url_kaes_osteo'] == '0'){
-            $url_kaes_osteo = '#';
-            $style_kaes_osteo = 'display:none';
+            $url_kaes_osteo = "#";
+            $style_kaes_osteo = "display:none";
           }
           else{
             $url_kaes_osteo	= $value['url_kaes_osteo'];
           }
   
           if($value['url_cardio'] == '0'){
-            $url_cardio = '#';
-            $style_cardio = 'display:none';
+            $url_cardio = "#";
+            $style_cardio = "display:none";
           }
           else{
             $url_cardio	= $value['url_cardio'];
           }
   
           if($value['url_uro'] == '0'){
-            $url_uro = '#';
-            $style_uro = 'display:none';
+            $url_uro =  "#";
+            $style_uro = "display:none";
           }
           else{
             $url_uro	= $value['url_uro'];
           }
   
           if($value['url_gastro'] == '0'){
-            $url_gastro = '#';
-            $style_gastro = 'display:none';
+            $url_gastro = "#";
+            $style_gastro = "display:none";
           }
           else{
             $url_gastro	= $value['url_gastro'];
           }
   
           if($value['url_gineco'] == '0'){
-            $url_gineco = '#';
-            $style_gineco = 'display:none';
+            $url_gineco = "#";
+            $style_gineco = "display:none";
           }
           else{
             $url_gineco	= $value['url_gineco'];
           }
   
           if($value['url_medicina_general'] == '0'){
-            $url_medicina_general = '#';
-            $style_medicina_general = 'display:none';
+            $url_medicina_general = "#";
+            $style_medicina_general = "display:none";
           }
           else{
             $url_medicina_general	= $value['url_medicina_general'];
           }
   
           if($value['url_ole'] == '0'){
-            $url_ole = '#';
-            $style_ole = 'display:none';
+            $url_ole = "#";
+            $style_ole = "display:none";
           }
           else{
             $url_ole	= $value['url_ole'];
           }
   
           if($value['url_analgesia'] == '0'){
-            $url_analgesia = '#';
-            $style_analgecia = 'display:none';
+            $url_analgesia = "#";
+            $style_analgecia = "display:none";
           }
           else{
             $url_analgesia= $value['url_analgesia'];
