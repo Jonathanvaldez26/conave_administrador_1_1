@@ -919,7 +919,7 @@
 
                 },
                 error: function(respuesta) {
-                    console.log('AQUI 2');
+                    // console.log('AQUI 2');
                     console.log(respuesta);
                 }
 

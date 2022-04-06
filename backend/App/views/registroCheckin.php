@@ -434,7 +434,7 @@
                         console.log("Procesando....");
                     },
                     success: function(respuesta) {
-                        console.log(respuesta.status);
+                        console.log(respuesta);
                         if (respuesta.status == 'success') {
                             console.log(respuesta);
                             console.log(respuesta.msg_insert);

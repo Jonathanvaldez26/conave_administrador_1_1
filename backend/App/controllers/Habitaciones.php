@@ -825,7 +825,7 @@ html;
 
     $documento->_id_asigna_habitacion = $id_asigna_habitacion;
     $documento->_numero_habitacion = $numero_habitacion;
-    
+
 
     $update = HabitacionesDao::updateHabitacionUsuario($documento);
     if ($update) {
