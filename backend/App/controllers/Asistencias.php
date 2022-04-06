@@ -382,49 +382,49 @@ html;
      
 
       if($data->_es_ckeckin == 1){
-        $data->_url_checkin = "/RegistroCheckin/General/"."".$data->_clave;
+        $data->_url_checkin = "/Checkin/General/"."".$data->_clave;
         $data->_plenaria_general = '0';
         $data->_url_plenaria_general = "0";
         $data->_es_plenaria_individual = '0';
         $data->_es_prueba_covid = '0';
         $data->_url_prueba_covid = '0';
-        $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
-        $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
-        $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
-        $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
-        $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
-        $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
-        $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
-        $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
-        $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
-        $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
-        $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
+        $data->_url_directivos = "/Checkin/DIRECTIVOS/"."".$data->_clave;
+        $data->_url_staf = "/Checkin/STAFF/"."".$data->_clave;
+        $data->_url_neurociencias = "/Checkin/NEUROCIENCIAS/"."".$data->_clave;
+        $data->_url_kaes_osteo = "/Checkin/KAESOSTEO/"."".$data->_clave;
+        $data->_url_cardio = "/Checkin/CARDIO/"."".$data->_clave;
+        $data->_url_uro = "/Checkin/URO/"."".$data->_clave;
+        $data->_url_gastro = "/Checkin/GASTRO/"."".$data->_clave;
+        $data->_url_gineco = "/Checkin/GINECO/"."".$data->_clave;
+        $data->_url_medicina_general = "/Checkin/MEDICINA GENERAL/"."".$data->_clave;
+        $data->_url_ole = "/Checkin/OLE/"."".$data->_clave;
+        $data->_url_analgesia = "/Checkin/ANALGESIA/"."".$data->_clave;
        
       }else{
 
         if($data->_es_plenaria_individual == 0){
 
-          $data->_url_checkin = "/RegistroCheckin/General/"."".$data->_clave;
+          $data->_url_checkin = "/Checkin/General/"."".$data->_clave;
           $data->_plenaria_general = "1";
-          $data->_url_plenaria_general = "/RegistroCheckin/General/"."".$data->_clave;
+          $data->_url_plenaria_general = "/Checkin/General/"."".$data->_clave;
           $data->_es_prueba_covid = '0';
           $data->_url_prueba_covid = '0';
-          $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
-          $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
-          $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
-          $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
-          $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
-          $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
-          $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
-          $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
-          $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
-          $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
-          $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
+          $data->_url_directivos = "/Checkin/DIRECTIVOS/"."".$data->_clave;
+          $data->_url_staf = "/Checkin/STAFF/"."".$data->_clave;
+          $data->_url_neurociencias = "/Checkin/NEUROCIENCIAS/"."".$data->_clave;
+          $data->_url_kaes_osteo = "/Checkin/KAESOSTEO/"."".$data->_clave;
+          $data->_url_cardio = "/Checkin/CARDIO/"."".$data->_clave;
+          $data->_url_uro = "/Checkin/URO/"."".$data->_clave;
+          $data->_url_gastro = "/Checkin/GASTRO/"."".$data->_clave;
+          $data->_url_gineco = "/Checkin/GINECO/"."".$data->_clave;
+          $data->_url_medicina_general = "/Checkin/MEDICINA GENERAL/"."".$data->_clave;
+          $data->_url_ole = "/Checkin/OLE/"."".$data->_clave;
+          $data->_url_analgesia = "/Checkin/ANALGESIA/"."".$data->_clave;
          
           
         }else{
 
-          $data->_url_checkin = "/RegistroCheckin/General/"."".$data->_clave;
+          $data->_url_checkin = "/Checkin/General/"."".$data->_clave;
           $data->_plenaria_general = '0';
           $data->_url_plenaria_general = "0";
           $data->_es_prueba_covid = '0';
@@ -433,7 +433,7 @@ html;
 
           if($nombre_linea == 'DIRECTIVOS'){
 
-            $data->_url_directivos = "/RegistroCheckin/DIRECTIVOS/"."".$data->_clave;
+            $data->_url_directivos = "/Checkin/DIRECTIVOS/"."".$data->_clave;
             $data->_url_staf = "0";
             $data->_url_neurociencias = "0";
             $data->_url_kaes_osteo = "0";
@@ -447,7 +447,7 @@ html;
 
           }else if($nombre_linea == 'STAFF'){
             $data->_url_directivos = "0";
-            $data->_url_staf = "/RegistroCheckin/STAFF/"."".$data->_clave;
+            $data->_url_staf = "/Checkin/STAFF/"."".$data->_clave;
             $data->_url_neurociencias = "0";
             $data->_url_kaes_osteo = "0";
             $data->_url_cardio = "0";
@@ -463,7 +463,7 @@ html;
 
             $data->_url_directivos = "0";
             $data->_url_staf = "0";
-            $data->_url_neurociencias = "/RegistroCheckin/NEUROCIENCIAS/"."".$data->_clave;
+            $data->_url_neurociencias = "/Checkin/NEUROCIENCIAS/"."".$data->_clave;
             $data->_url_kaes_osteo = "0";
             $data->_url_cardio = "0";
             $data->_url_uro = "0";
@@ -478,7 +478,7 @@ html;
             $data->_url_directivos = "0";
             $data->_url_staf = "0";
             $data->_url_neurociencias ="0";
-            $data->_url_kaes_osteo = "/RegistroCheckin/KAESOSTEO/"."".$data->_clave;
+            $data->_url_kaes_osteo = "/Checkin/KAESOSTEO/"."".$data->_clave;
             $data->_url_cardio = "0";
             $data->_url_uro = "0";
             $data->_url_gastro = "0";
@@ -493,7 +493,7 @@ html;
             $data->_url_staf = "0";
             $data->_url_neurociencias = "0";
             $data->_url_kaes_osteo = "0";
-            $data->_url_cardio = "/RegistroCheckin/CARDIO/"."".$data->_clave;
+            $data->_url_cardio = "/Checkin/CARDIO/"."".$data->_clave;
             $data->_url_uro = "0";
             $data->_url_gastro = "0";
             $data->_url_gineco = "0";
@@ -508,7 +508,7 @@ html;
             $data->_url_neurociencias = "0";
             $data->_url_kaes_osteo = "0";
             $data->_url_cardio = "0";
-            $data->_url_uro = "/RegistroCheckin/URO/"."".$data->_clave;
+            $data->_url_uro = "/Checkin/URO/"."".$data->_clave;
             $data->_url_gastro = "0";
             $data->_url_gineco = "0";
             $data->_url_medicina_general = "0";
@@ -523,7 +523,7 @@ html;
             $data->_url_kaes_osteo = "0";
             $data->_url_cardio = "0";
             $data->_url_uro = "0";
-            $data->_url_gastro = "/RegistroCheckin/GASTRO/"."".$data->_clave;
+            $data->_url_gastro = "/Checkin/GASTRO/"."".$data->_clave;
             $data->_url_gineco = "0";
             $data->_url_medicina_general = "0";
             $data->_url_ole = "0";
@@ -538,7 +538,7 @@ html;
             $data->_url_cardio = "0";
             $data->_url_uro = "0";
             $data->_url_gastro = "0";
-            $data->_url_gineco = "/RegistroCheckin/GINECO/"."".$data->_clave;
+            $data->_url_gineco = "/Checkin/GINECO/"."".$data->_clave;
             $data->_url_medicina_general = "0";
             $data->_url_ole = "0";
             $data->_url_analgesia = "0";
@@ -553,7 +553,7 @@ html;
             $data->_url_uro = "0";
             $data->_url_gastro = "0";
             $data->_url_gineco = "0";
-            $data->_url_medicina_general = "/RegistroCheckin/MEDICINA GENERAL/"."".$data->_clave;
+            $data->_url_medicina_general = "/Checkin/MEDICINA GENERAL/"."".$data->_clave;
             $data->_url_ole = "0";
             $data->_url_analgesia = "0";
             
@@ -568,7 +568,7 @@ html;
             $data->_url_gastro = "0";
             $data->_url_gineco = "0";
             $data->_url_medicina_general = "0";
-            $data->_url_ole = "/RegistroCheckin/OLE/"."".$data->_clave;
+            $data->_url_ole = "/Checkin/OLE/"."".$data->_clave;
             $data->_url_analgesia = "0";
             
           }else if($nombre_linea == 'ANALGESIA'){
@@ -583,7 +583,7 @@ html;
             $data->_url_gineco = "0";
             $data->_url_medicina_general = "0";
             $data->_url_ole = "0";
-            $data->_url_analgesia = "/RegistroCheckin/ANALGESIA/"."".$data->_clave;
+            $data->_url_analgesia = "/Checkin/ANALGESIA/"."".$data->_clave;
             
           }
         }
