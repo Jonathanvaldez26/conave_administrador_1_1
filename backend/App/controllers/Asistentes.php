@@ -682,7 +682,7 @@ html;
     public function generarClave($email)
     {
 
-        $clave_user = AsistentesDao::getClaveByEmail($email)[0]['clave'];
+        // $clave_user = AsistentesDao::getClaveByEmail($email)[0]['clave'];
         $tiene_ticket = AsistentesDao::getClaveByEmail($email)[0]['clave_ticket'];
         $tiene_clave = '';
         $clave_random = $this->generateRandomString(6);

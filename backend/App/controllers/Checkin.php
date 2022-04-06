@@ -2206,6 +2206,8 @@ html;
                 </td>
             </tr>
 html;
+
+            var_dump($value['id_registro_asistencia']);
         }
         ///-------------------------------------------------///
 
