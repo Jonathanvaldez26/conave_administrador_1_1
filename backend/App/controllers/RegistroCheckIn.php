@@ -2258,7 +2258,7 @@ html;
             $user_clave = RegistroCheckInDao::getInfoByLinea($clave,$linea)[0];
         } else {
             $es_general = 'Si es';
-            $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
+            $user_clave = RegistroCheckInDao::getInfo($clave)[0];
         }
 
         $clave_habitacion = '';
@@ -2270,13 +2270,14 @@ html;
         $bu = RegistroCheckInDao::getBu();
         $posiciones = RegistroCheckInDao::getPosiciones();
         $asistencia = RegistroCheckInDao::getIdRegistrosAsistenciasByCode($code)[0];
-        $habitaciones = HabitacionesDao::getAsignaHabitacionByIdRegAcceso($user_clave['id_registro_acceso'])[0];
         
-        if ($habitaciones) {
-            $clave_habitacion = $habitaciones['clave'];
-            $id_asigna_habitacion = $habitaciones['id_asigna_habitacion'];
-            $numero_habitacion = $habitaciones['id_habitacion'];
-        }
+        // $habitaciones = HabitacionesDao::getAsignaHabitacionByIdRegAcceso($user_clave['id_registro_acceso'])[0];
+        
+        // if ($habitaciones) {
+        //     $clave_habitacion = $habitaciones['clave'];
+        //     $id_asigna_habitacion = $habitaciones['id_asigna_habitacion'];
+        //     $numero_habitacion = $habitaciones['id_habitacion'];
+        // }
 
         $fecha = new DateTime('now', new DateTimeZone('America/Cancun'));
         $hora_actual = substr($fecha->format(DATE_RFC822),15,5);

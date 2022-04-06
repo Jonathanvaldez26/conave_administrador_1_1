@@ -351,7 +351,7 @@
 
         let codigo = '';
         var link_a = $(location).attr('href');
-        var linea_clave = link_a.substr(link_a.indexOf('RegistroCheckIn/')+16,link_a.length);
+        var linea_clave = link_a.substr(link_a.indexOf('RegistroCheckin/')+16,link_a.length);
         let linea_ejecutivo = linea_clave.substr(0,linea_clave.indexOf('/'));
         let clave_a = linea_clave.substr(linea_clave.indexOf('/')+1);
         
