@@ -2267,13 +2267,13 @@ html;
         $posiciones = RegistroCheckInDao::getPosiciones();
         $asistencia = RegistroCheckInDao::getIdRegistrosAsistenciasByCode($code)[0];
 
-        $habitaciones = HabitacionesDao::getAsignaHabitacionByIdRegAcceso($user_clave['id_registro_acceso'])[0];
+        // $habitaciones = HabitacionesDao::getAsignaHabitacionByIdRegAcceso($user_clave['id_registro_acceso'])[0];
 
-        if ($habitaciones) {
-            $clave_habitacion = $habitaciones['clave'];
-            $id_asigna_habitacion = $habitaciones['id_asigna_habitacion'];
-            $numero_habitacion = $habitaciones['id_habitacion'];
-        }
+        // if ($habitaciones) {
+        //     $clave_habitacion = $habitaciones['clave'];
+        //     $id_asigna_habitacion = $habitaciones['id_asigna_habitacion'];
+        //     $numero_habitacion = $habitaciones['id_habitacion'];
+        // }
 
         $fecha = new DateTime('now', new DateTimeZone('America/Cancun'));
         $hora_actual = substr($fecha->format(DATE_RFC822),15,5);
