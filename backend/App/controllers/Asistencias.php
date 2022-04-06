@@ -693,9 +693,17 @@ html;
   
       $id = AsistenciasDao::insert($data);
       if($id >= 1){
-        $this->alerta($id,'add');
+        // $this->alerta($id,'add');
+        echo '<script>
+          alert("Asistencia Registrada con exito");
+          window.location.href = "/Asistencias";
+        </script>';
       }else{
-        $this->alerta($id,'error');
+        // $this->alerta($id,'error');
+        echo '<script>
+        alert("Error al registrar la aistencia, consulte a soporte");
+        window.location.href = "/Asistencias";
+      </script>';
       }
 
 

@@ -443,11 +443,7 @@
 
             <div class="card-body p-1 mt-1">
                 <div class="tab-content" id="v-pills-tabContent">
-<<<<<<< HEAD
-                    <div class="tab-pane fade position-relative active height-350 border-radius-lg" id="cam1" role="tabpanel" aria-labelledby="cam1" style="background-image: url('../../assets/img/miercoles.jpeg'); background-size:cover;">
-=======
                     <div class="tab-pane fade show position-relative active height-350 border-radius-lg" id="vuelos_llegada" role="tabpanel" aria-labelledby="vuelos_llegada">
->>>>>>> 9bfc54e612ab9c919df949bd3917e97d771951b5
                         <div class="d-flex m-1">
                             <div class="ms-auto d-flex">
                                 <div class="pe-4 mt-1 position-relative">
