@@ -511,7 +511,7 @@
             console.log(linea_ejecutivo);
         
             $.ajax({
-                url: "/RegistroCheckIn/registroChekIn/"+codigo+'/'+clave_a+'/'+numero_linea,
+                url: "/Checkin/registroChekIn/"+codigo+'/'+clave_a+'/'+numero_linea,
                 type: "POST",
                 dataType: 'json',
                 beforeSend: function() {
