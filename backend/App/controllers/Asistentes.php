@@ -513,6 +513,8 @@ html;
 
         $email = AsistentesDao::getByClaveRA($id)[0]['usuario'];
         $clave_user = AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['clave_ticket'];
+        $nombre = AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['nombre'].' '.AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['segundo_nombre'];
+        $apellidos = AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['apellido_paterno'].' '.AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['apellido_materno'];
         if ($clave_user == '' || $clave_user == NULL || $clave_user == 'NULL') {
             $msg_clave = 'No posee ningún código';
             $btn_clave = '';
@@ -559,6 +561,8 @@ html;
         View::set('detalles', $detalles[0]);
         View::set('img_asistente', $img_asistente);
         View::set('email', $email);
+        View::set('nombre', $nombre);
+        View::set('apellidos', $apellidos);
         View::set('clave_user', $clave_user);
         View::set('msg_clave', $msg_clave);
         View::set('btn_clave', $btn_clave);
