@@ -7,11 +7,7 @@ defined("APPPATH") or die("Access denied");
 use \Core\View;
 use \Core\MasterDom;
 use \App\controllers\Contenedor;
-<<<<<<< HEAD
 use \App\models\Login AS LoginDao;
-=======
-use \App\models\Login as LoginDao;
->>>>>>> 5c239e9707bd2224881e8c493a4b995c6645379e
 
 require_once dirname(__DIR__) . '/../public/librerias/fpdf/fpdf.php';
 
