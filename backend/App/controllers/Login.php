@@ -151,7 +151,6 @@ html;
         View::render("login");
     }
 
-<<<<<<< HEAD
     public function isUserValidate(){
         echo (count(LoginDao::getUser($_POST['usuario']))>=1)? 'true' : 'false';
     }
@@ -168,28 +167,10 @@ html;
     }
 
     public function crearSession(){
-=======
-                                                    });
-                                                    </script>
-html;
-        View::set('header', $extraHeader);
-        View::set('footer', $extraFooter);
-        View::render("login");
-    }
-
-    public function isUserValidate()
-    {
-        echo (count(LoginDao::getUser($_POST['usuario'])) >= 1) ? 'true' : 'false';
-    }
-
-    public function verificarUsuario()
-    {
->>>>>>> 5c239e9707bd2224881e8c493a4b995c6645379e
         $usuario = new \stdClass();
         $usuario->_usuario = MasterDom::getData("usuario");
         $usuario->_password = MD5(MasterDom::getData("password"));
         $user = LoginDao::getById($usuario);
-<<<<<<< HEAD
         session_start();
         $_SESSION['usuario'] = $user['usuario'];
         $_SESSION['nombre'] = $user['nombre'];
@@ -199,30 +180,6 @@ html;
     }
 
     public function cerrarSession(){
-=======
-        if (count($user) >= 1) {
-            $user['nombre'] = utf8_encode($user['nombre']);
-            echo json_encode($user);
-        }
-    }
-
-    public function crearSession()
-    {
-        $usuario = new \stdClass();
-        $usuario->_usuario = MasterDom::getData("usuario");
-        $usuario->_password = MD5(MasterDom::getData("password"));
-        $user = LoginDao::getById($usuario);
-        session_start();
-        $_SESSION['usuario'] = $user['usuario'];
-        $_SESSION['nombre'] = $user['nombre'];
-        $_SESSION['utilerias_administradores_id'] = $user['utilerias_administradores_id'];
-
-        header("location: /Principal/");
-    }
-
-    public function cerrarSession()
-    {
->>>>>>> 5c239e9707bd2224881e8c493a4b995c6645379e
         //session_start();
         unset($_SESSION);
         session_unset();
@@ -231,49 +188,4 @@ html;
     }
 
   
-    
-
-<<<<<<< HEAD
-=======
-    public function abrirpdf()
-    {
-
-        $pdf = new \FPDF($orientation = 'L', $unit = 'mm', array(37, 155));
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
-        $textypos = 5;
-        $pdf->setY(2);
-
-        $pdf->Image('https://convencionasofarma2022.mx/assets/pdf/iMAGEN_aso.png', 1, 0, 150, 40);
-        $pdf->SetFont('Arial', '', 5);    //Letra Arial, negrita (Bold), tam. 20
-        $nombre = utf8_decode("Nombre: Carlos Cruz Castañeda");
-        $numero_habitacion = 5;
-
-
-
-        $pdf->SetXY(8.3, 9);
-        $pdf->SetFont('Times', 'B', 15);
-        #4D9A9B
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->Multicell(120, 4.2, $nombre ." #habitación - ".utf8_decode($numero_habitacion), 0, 'C');
-        // $pdf->Multicell(120, 3.5, $numero_habitacion, 0, 'C');
-
-
-
-        $textypos += 6;
-        $pdf->setX(2);
-
-        $textypos += 6;
-
-
-
-        //$pdf->output();
-
-        if ($pdf->output()) {
-            echo "exito";
-        } else {
-            echo "Error";
-        }
-    }
->>>>>>> 5c239e9707bd2224881e8c493a4b995c6645379e
 }
