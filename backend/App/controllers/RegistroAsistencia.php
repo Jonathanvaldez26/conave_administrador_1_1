@@ -184,6 +184,9 @@ html;
     public function registroAsistencia($clave, $code)
     {
 
+        var_dump($clave);
+        exit;
+
         $clave_habitacion = '';
         $id_asigna_habitacion = '';
 
