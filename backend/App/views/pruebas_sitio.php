@@ -425,6 +425,7 @@
                                         <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Clave</th> -->
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Hora Cita</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Fecha Cita</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>

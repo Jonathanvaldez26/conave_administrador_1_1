@@ -182,6 +182,11 @@ html;
           </td>
           <td><p class="text-center" style="font-size: small;"><span class="fa fa-calendar" style="font-size: 13px;"> </span> {$value['fecha_cita']}</p></td>
           <td><p class="text-center" style="font-size: small;"><span class="fa fa-clock" style="font-size: 13px;"> </span> {$value['hora_cita']}</p></td>
+          <td class="text-center">
+              <a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Estimado%20(a):%20*****{$value['nombre_completo']}*****%20Le%20informamos%20que%20como%20parte%20de%20las%20medidas%20de%20seguridad%20sanitaria,%20hemos%20seleccionado%20a%20un%20grupo%20de%20personas%20de%20manera%20aleatoria%20para%20la%20aplicaci%C3%B3n%20de%20la%20prueba%20Ant%C3%ADgenos%20de%20detecci%C3%B3n%20del%20virus%20SARS%20CoV-2,%20para%20lo%20cu%C3%A1l%20le%20solicitamos%20que%20asista%20sin%20aseo%20nasal%20ni%20lavado%20dental,%20previo%20a%20la%20siguiente%20cita:%20%F0%9F%97%93%EF%B8%8F%20D%C3%ADa:%2007%20de%20Abril%20de%202022%20%E2%8F%B0%20Hora:%209:00%20am%20a%2011:45%20am%20%F0%9F%8F%A2%20Lugar:%20Consultorio%20M%C3%A9dico%20ubicado%20en%20Sal%C3%B3n%20Balam" class="btn bg-gradient-success btn-icon-only" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Enviar mensaje a {$value['nombre_completo']} con número {$value['telefono']}">
+                  <span class="fa fa-whatsapp" style="font-size: initial; "></span>
+              </a>
+          </td>
         </tr>
 html;
     }
