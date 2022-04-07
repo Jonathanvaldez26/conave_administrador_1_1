@@ -30,10 +30,10 @@ sql;
         $mysqli = Database::getInstance();
         $query=<<<sql
         SELECT s.fecha_cita, s.hora_cita, u.usuario, CONCAT(ra.nombre,' ', ra.apellido_paterno,' ', ra.apellido_materno) as nombre_completo, ra.telefono, 
-        le.nombre as nombre_linea, u.utilerias_asistentes_id
+        le.nombre as linea, u.utilerias_asistentes_id
         FROM asigna_sorteo as ass
         INNER JOIN sorteo s on s.id_sorteo = ass.id_sorteo
-        INNER JOIN utilerias_asistentes u ON ass.id_registro_acceso = u.utilerias_asistentes_id
+        INNER JOIN utilerias_asistentes u ON ass.utilerias_asistentes_id = u.utilerias_asistentes_id
         INNER JOIN registros_acceso ra ON u.id_registro_acceso = ra.id_registro_acceso
         INNER JOIN bu b ON b.id_bu = ra.id_bu
         INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.id_linea_principal
