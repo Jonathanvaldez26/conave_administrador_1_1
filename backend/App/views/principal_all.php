@@ -137,6 +137,15 @@
                     </a>
                 </li>
 
+                <li class="nav-item" <?= $pruebasHidden; ?>>
+                    <a href="/PruebasCovidEnSitio/" class="nav-link" aria-controls="basicExamples" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                            <span class="fa fa-virus" ></span>
+                        </div>
+                        <span class="nav-link-text ms-1">Pruebas Covid En Sitio</span>
+                    </a>
+                </li>
+
                 <li class="nav-item" <?= $configuracionHidden; ?>>
                     <hr class="horizontal dark" />
                     <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">OTROS</h6>
