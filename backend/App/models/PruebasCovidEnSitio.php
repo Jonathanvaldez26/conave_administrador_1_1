@@ -30,9 +30,9 @@ sql;
         $mysqli = Database::getInstance();
         $query=<<<sql
         SELECT esta.nombre, s.fecha_cita, s.hora_cita, u.usuario, CONCAT(ra.nombre,' ', ra.apellido_paterno,' ', ra.apellido_materno) as nombre_completo, ra.telefono, le.nombre as linea, u.utilerias_asistentes_id, le.color
-        FROM asigna_sorteo as ass INNER JOIN sorteo s on s.id_sorteo = ass.id_sorteo INNER JOIN utilerias_asistentes u ON ass.utilerias_asistentes_id = u.utilerias_asistentes_id INNER JOIN registros_acceso ra ON u.id_registro_acceso = ra.id_registro_acceso INNER JOIN bu b ON b.id_bu = ra.id_bu INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.id_linea_principal INNER JOIN posiciones p ON p.id_posicion = ra.id_posicion INNER JOIN linea_ejecutivo le ON le.id_linea_ejecutivo = lp.id_linea_ejecutivo INNER JOIN asigna_linea al ON al.id_linea_ejecutivo = le.id_linea_ejecutivo INNER JOIN utilerias_administradores uad ON uad.utilerias_administradores_id = al.utilerias_administradores_id_linea_asignada 
-        INNER JOIN ciudades esta on esta.id_ciudades = ra.id_ciudades
-        WHERE fecha_cita = '2022-04-07' and esta.nombre != 'Guadalajara' and esta.nombre !='Aguascalientes'
+FROM asigna_sorteo as ass INNER JOIN sorteo s on s.id_sorteo = ass.id_sorteo INNER JOIN utilerias_asistentes u ON ass.utilerias_asistentes_id = u.utilerias_asistentes_id INNER JOIN registros_acceso ra ON u.id_registro_acceso = ra.id_registro_acceso INNER JOIN bu b ON b.id_bu = ra.id_bu INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.id_linea_principal INNER JOIN posiciones p ON p.id_posicion = ra.id_posicion INNER JOIN linea_ejecutivo le ON le.id_linea_ejecutivo = lp.id_linea_ejecutivo INNER JOIN asigna_linea al ON al.id_linea_ejecutivo = le.id_linea_ejecutivo INNER JOIN utilerias_administradores uad ON uad.utilerias_administradores_id = al.utilerias_administradores_id_linea_asignada 
+INNER JOIN ciudades esta on esta.id_ciudades = ra.id_ciudades
+WHERE fecha_cita = '2022-04-07' and esta.nombre != 'Guadalajara' and esta.nombre !='Aguascalientes' GROUP BY ra.id_registro_acceso
 
 sql;
         return $mysqli->queryAll($query);
