@@ -347,50 +347,96 @@
                     </div>
                 </div>
                 <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex"></div>
+                <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                    <div class="nav-wrapper position-relative end-0">
+                        <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1 active" id="registro-tab" href="#pruebas" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+                                    <span class="fa fa-clock-o"></span>
+                                    <span class="ms-1">Pruebas</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1" id="lista-tab" href="#asistentes" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                                    <span class="fa fa-check-circle-o"></span>
+                                    <span class="ms-1">Asistentes</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <br>
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show position-relative active height-350 border-radius-lg" id="pruebas" role="tabpanel" aria-labelledby="pruebas">
+                <div class="d-flex m-0">
+                    <div class="ms-auto d-flex">
+                        <div class="pe-4 mt-1 position-relative">
+                            <hr class="vertical dark mt-0">
+                        </div>
+                        <div class="ps-4">
+                            <div class="panel-body" <?php echo $visible; ?>></div>
+                            <button type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3" data-toggle="modal" data-target="#Modal_Add"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button type="button" class="btn bg-gradient-secondary btn-icon-only mb-0 mt-3" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Todo cambio que usted realice en el sistema será guardado con fecha, usuario y transacción.">
+                                <span class="fa fa-info"></span>
+                            </button>
 
-        <div class="d-flex m-0">
-            <div class="ms-auto d-flex">
-                <div class="pe-4 mt-1 position-relative">
-                    <hr class="vertical dark mt-0">
+                        </div>
+                    </div>
                 </div>
-                <div class="ps-4">
-                    <div class="panel-body" <?php echo $visible; ?>></div>
-                    <button type="button" class="btn bg-gradient-info btn-icon-only mb-0 mt-3" data-toggle="modal" data-target="#Modal_Add"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button type="button" class="btn bg-gradient-secondary btn-icon-only mb-0 mt-3" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Todo cambio que usted realice en el sistema será guardado con fecha, usuario y transacción.">
-                        <span class="fa fa-info"></span>
-                    </button>
-
+                <br>
+                
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive text-center">
+                            <table class="table align-items-center mb-0 table table-striped table-bordered" id="pruebas-list">
+                                <thead>
+                                    <tr>
+                                        <!-- <th><input type="checkbox" name="checkAll" id="checkAll" value=""/></th> -->
+                                        <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th> -->
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
+                                        <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Clave</th> -->
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de la Prueba</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tipo de Prueba</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Resultado</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Documento</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php echo $tabla; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade position-relative height-350 border-radius-lg" id="asistentes" role="tabpanel" aria-labelledby="asistentes">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0 table table-striped table-bordered" id="sorteados-list">
+                                <thead>
+                                    <tr>
+                                        <!-- <th><input type="checkbox" name="checkAll" id="checkAll" value=""/></th> -->
+                                        <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th> -->
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Nombre</th>
+                                        <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Clave</th> -->
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Hora Cita</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Fecha Cita</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php echo $sorteado; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
-        <div class="col-12">
-            <div class="card">
-                <div class="table-responsive text-center">
-                    <table class="table align-items-center mb-0 table table-striped table-bordered" id="pruebas-list">
-                        <thead>
-                            <tr>
-                                <!-- <th><input type="checkbox" name="checkAll" id="checkAll" value=""/></th> -->
-                                <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th> -->
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
-                                <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Clave</th> -->
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de la Prueba</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tipo de Prueba</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Resultado</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Documento</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php echo $tabla; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        
     </div>
 
     <div class="modal fade" id="Modal_Add" role="dialog" aria-labelledby="Modal_AddLabel" aria-hidden="true">

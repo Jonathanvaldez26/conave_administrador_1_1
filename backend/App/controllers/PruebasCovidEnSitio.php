@@ -88,6 +88,48 @@ $extraFooter =<<<html
              }
          }
       });
+
+      $('#sorteados-list').DataTable({
+        "drawCallback": function( settings ) {
+          $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
+          $('.paginate_button').addClass("btn").removeClass("paginate_button");
+          $('.dataTables_length').addClass("m-4");
+          $('.dataTables_info').addClass("mx-4");
+          $('.dataTables_filter').addClass("m-4");
+          $('input').addClass("form-control");
+          $('select').addClass("form-control");
+          $('.previous.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+          $('.next.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+          $('.previous').addClass("btn-outline-danger btn-rounded mx-2");
+          $('.next').addClass("btn-outline-danger btn-rounded mx-2");
+          $('a.btn').addClass("btn-rounded");
+        },
+        "language": {
+         
+             "sProcessing":     "Procesando...",
+             "sLengthMenu":     "Mostrar _MENU_ registros",
+             "sZeroRecords":    "No se encontraron resultados",
+             "sEmptyTable":     "Ningún dato disponible en esta tabla",
+             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+             "sInfoPostFix":    "",
+             "sSearch":         "Buscar:",
+             "sUrl":            "",
+             "sInfoThousands":  ",",
+             "sLoadingRecords": "Cargando...",
+             "oPaginate": {
+                 "sFirst":    "Primero",
+                 "sLast":     "Último",
+                 "sNext":     "Siguiente",
+                 "sPrevious": "Anterior"
+             },
+             "oAria": {
+                 "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+             }
+         }
+      });
   });
 </script>
 html;
@@ -125,6 +167,25 @@ html;
 html;
     }
 
+    $sorteados = PruebasCovidEnSitioDao::getAsistentes();
+    $sorteado = '';
+    foreach ($sorteados as $key => $value) {
+      $sorteado .=<<<html
+        <tr>
+          <td>
+            <h6 class="mx-8 m-auto text-sm">{$value['nombre_completo']} <span class="badge badge-info" style="color: white; background-color:{$value['color']};">{$value['linea']}</span></h6> 
+            <hr>
+            <div class="mx-8 m-auto d-flex flex-column justify-content-center">
+              <u><a href="mailto:{$value['usuario']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['usuario']}</h6></a></u>
+              <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
+            </div>
+          </td>
+          <td><p class="text-center" style="font-size: small;"><span class="fa fa-calendar" style="font-size: 13px;"> </span> {$value['fecha_cita']}</p></td>
+          <td><p class="text-center" style="font-size: small;"><span class="fa fa-clock" style="font-size: 13px;"> </span> {$value['hora_cita']}</p></td>
+        </tr>
+html;
+    }
+
     $permisoGlobalHidden = (Controller::getPermisoGlobalUsuario($this->__usuario)[0]['permisos_globales']) != 1 ? "style=\"display:none;\"" : "";
     $asistentesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistentes", 1) == 0) ? "style=\"display:none;\"" : "";
     $vuelosHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vuelos", 1) == 0) ? "style=\"display:none;\"" : "";
@@ -150,6 +211,7 @@ html;
     View::set('configuracionHidden', $configuracionHidden);
     View::set('utileriasHidden', $utileriasHidden);
     View::set('asistente', $asistente);
+    View::set('sorteado', $sorteado);
     View::set('tabla', $tabla);
     View::set('modal', $modal);
     View::set('header', $this->_contenedor->header($extraHeader));
