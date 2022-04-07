@@ -403,7 +403,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" id="add_prueba" action="/PruebasCovidEnSitio/pruebaAdd">
+                    <form method="POST" id="editar_prueba" action="/PruebasCovidEnSitio/pruebaAdd">
                         <div class="form-group row">
                             <div class="col-md-12 col-12" >
                                 <label class="form-label">Nombre del Asistente*</label>
@@ -494,7 +494,7 @@
 
     $(document).ready(function() {
     
-        $('.add_prueba').on("submit", function(event) {
+        $('.editar_prueba').on("submit", function(event) {
             event.preventDefault();
 
             var formData = $(this).serialize();

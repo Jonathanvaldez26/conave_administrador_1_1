@@ -210,13 +210,13 @@ html;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal add_prueba" id="add_prueba" action="" method="POST">
+                    <form class="form-horizontal editar_prueba" id="editar_prueba" action="" method="POST">
                         <input id="id_prueba_covid" name="id_prueba_covid" type="text" value="{$datos['id_prueba_covid']}" readonly hidden>
                         <div class="form-group row">
                             <div class="col-md-12 col-12" >
                                 <label class="form-label">Nombre del Asistente*</label>
+                                <input hidden id="asistente" name="asistente" class="form-control" type="number" value="{$datos['utilerias_asistentes_id']}" style="text-transform:uppercase;" readonly> 
                                 <div class="input-group">
-                                    <input hidden id="asistente" name="asistente" maxlength="29" pattern="[a-zA-Z ÑñáÁéÉíÍóÚ]*{2,254}" class="form-control" type="text" placeholder="Le Bon Vine" required="" onfocus="focused(this)" onfocusout="defocused(this)" value="{$datos['utilerias_asistentes_id']}" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly> 
                                     <input id="nombre" name="nombre" maxlength="29" pattern="[a-zA-Z ÑñáÁéÉíÍóÚ]*{2,254}" class="form-control" type="text" placeholder="Le Bon Vine" required="" onfocus="focused(this)" onfocusout="defocused(this)" value="{$datos['nombre_completo']} " style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly> 
                                 </div>
                             </div>

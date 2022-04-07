@@ -11,8 +11,7 @@ class PruebasCovidEnSitio implements Crud{
     public static function getAll(){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        SELECT pc.*, CONCAT(ra.nombre,' ',ra.segundo_nombre,' ',ra.apellido_paterno,' ',ra.apellido_materno) AS nombre_completo,
-        ua.utilerias_asistentes_id
+        SELECT pc.*, CONCAT(ra.nombre,' ',ra.segundo_nombre,' ',ra.apellido_paterno,' ',ra.apellido_materno) AS nombre_completo
 		FROM prueba_covid pc
         INNER JOIN utilerias_asistentes ua
         ON ua.utilerias_asistentes_id = pc.utilerias_asistentes_id
@@ -94,12 +93,11 @@ sql;
         tipo_prueba = :tipo_prueba,
         resultado = :resultado,
         documento = :documento,
-        nota = :nota,
-        status = 3
+        nota = :nota
 
-        WHERE id_prueba_covid = :id_pruba_covid
+        WHERE id_prueba_covid = :id_prueba_covid
 sql;
-        var_dump($data);
+        // var_dump($data);
         $parametros = array(
             ':id_prueba_covid'=>$data->_id_prueba_covid,
             ':utilerias_asistentes_id'=>$data->_asistente,
@@ -110,7 +108,7 @@ sql;
             ':documento'=>$data->_url    
         );
 
-        var_dump($parametros);
+        // var_dump($parametros);
 
         $accion = new \stdClass();
         $accion->_sql= $query;
