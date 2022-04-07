@@ -434,6 +434,7 @@ html;
      
 
      View::set('idAsistente',$this->getAsistentes());
+     View::set('idAsistenteSalida',$this->getAsistentesSalida());
      View::set('idAeropuertoOrigen',$this->getAeropuertosOrigen());
      View::set('idAeropuertoDestino',$this->getAeropuertosDestino());
      View::set('tabla',$tabla);
@@ -638,6 +639,16 @@ html;
     public function getAsistentes(){
         $asistentes = '';
         foreach (VuelosDao::getAsistenteNombre() as $key => $value) {
+            $asistentes .=<<<html
+        <option value="{$value['utilerias_asistentes_id']}"> {$value['nombre']}</option>
+html;
+        }
+        return $asistentes;
+    }
+
+    public function getAsistentesSalida(){
+        $asistentes = '';
+        foreach (VuelosDao::getAsistenteNombreSalida() as $key => $value) {
             $asistentes .=<<<html
         <option value="{$value['utilerias_asistentes_id']}"> {$value['nombre']}</option>
 html;

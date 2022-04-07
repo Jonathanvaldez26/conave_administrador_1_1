@@ -764,12 +764,12 @@
                         <form method="POST" enctype="multipart/form-data" id="form_vuelo_dos">
                             <div class="form-group row">
                                 <div class="form-group col-md-12">
-                                    <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_asistente">Nombre del Invitado al que Cargaran el Pase de Abordar <span class="required">*</span></label>
+                                    <label class="control-label col-md-12 col-sm-1 col-xs-12" for="id_asistente_salida">Nombre del Invitado al que Cargaran el Pase de Abordar <span class="required">*</span></label>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <!-- <input type="text" name="nombre_asistente" id="nombre_asistente" class="form-control col-md-7 col-xs-12" value=""> -->
                                         <select class="form-control select_2_salida" name="id_asistente_salida" id="id_asistente_salida" required>
                                             <option selected disabled>Seleccione una Opción</option>
-                                            <?php echo $idAsistente; ?>
+                                            <?php echo $idAsistenteSalida; ?>
                                         </select>
                                     </div>
                                     <span id="availability_"></span>
