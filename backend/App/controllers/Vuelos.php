@@ -229,10 +229,10 @@ html;
                       </div>
                  </td>
                  <td class="align-middle text-center text-sm">
-                     <p class="text-sm font-weight-bold mb-0 text-dark">{$value['nombre_registro']}</p>
+                     <p class="text-sm font-weight-bold mb-0 text-dark">{$value['nombre_registro']}</p><span class="badge badge-info" style="background-color: {$value['color']}; color: white;">{$value['nombre_linea_ejecutivo']}</span>
                  </td>
-                <td style="text-align:center; vertical-align:middle;">
-                    <a href="Detalles/{$value['clave']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
+                 <td style="text-align:center; vertical-align:middle;">
+                    <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_dos/{$value['link']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
                 </td>
                  
             </tr>
