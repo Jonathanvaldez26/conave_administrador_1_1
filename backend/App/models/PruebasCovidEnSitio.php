@@ -29,12 +29,27 @@ sql;
     public static function getAsistentes(){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        SELECT * FROM registros_acceso ra
-        INNER JOIN utilerias_asistentes ua
-        ON ua.id_registro_acceso = ra.id_registro_acceso
+        SELECT s.fecha_cita, s.hora_cita, u.usuario, CONCAT(ra.nombre,' ', ra.apellido_paterno,' ', ra.apellido_materno) as nombre_completo, ra.telefono, 
+        le.nombre as nombre_linea, u.utilerias_asistentes_id
+        FROM asigna_sorteo as ass
+        INNER JOIN sorteo s on s.id_sorteo = ass.id_sorteo
+        INNER JOIN utilerias_asistentes u ON ass.id_registro_acceso = u.utilerias_asistentes_id
+        INNER JOIN registros_acceso ra ON u.id_registro_acceso = ra.id_registro_acceso
+        INNER JOIN bu b ON b.id_bu = ra.id_bu
+        INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.id_linea_principal
+        INNER JOIN posiciones p ON p.id_posicion = ra.id_posicion
+        INNER JOIN linea_ejecutivo le ON le.id_linea_ejecutivo = lp.id_linea_ejecutivo
+        INNER JOIN asigna_linea al ON al.id_linea_ejecutivo = le.id_linea_ejecutivo
+        INNER JOIN utilerias_administradores uad ON uad.utilerias_administradores_id = al.utilerias_administradores_id_linea_asignada
+        
 sql;
         return $mysqli->queryAll($query);
     }
+
+    // CONSULTA ANTERIOR--------------
+    // SELECT * FROM registros_acceso ra
+    //     INNER JOIN utilerias_asistentes ua
+    //     ON ua.id_registro_acceso = ra.id_registro_acceso
 
     public static function insert($data){
         $fecha_carga_documento = date("Y-m-d");

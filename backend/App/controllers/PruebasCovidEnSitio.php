@@ -121,7 +121,7 @@ html;
     $asistente = '';
     foreach ($asistentes as $key => $value) {
       $asistente .=<<<html
-        <option value="{$value['utilerias_asistentes_id']}">{$value['nombre']} {$value['segundo_nombre']} {$value['apellido_paterno']} {$value['apellido_materno']}</option>
+        <option value="{$value['utilerias_asistentes_id']}">{$value['nombre_completo']} </option>
 html;
     }
 
