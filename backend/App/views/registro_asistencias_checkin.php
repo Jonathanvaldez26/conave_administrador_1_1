@@ -604,8 +604,25 @@
                                 }).then((result) => {
                                 $("#codigo_registro").focus();
                             })
-                        } else {
-                            $("#asignar_habitacion").modal("show");
+                        } 
+                        else {
+                           // $("#asignar_habitacion").modal("show");
+
+                           Swal.fire({
+                            title: '¡Asistencia Registrada con éxito!',
+                            icon: 'success',
+                            timer: 1000,
+                            didOpen: () => {
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                            }).then((result) => {
+                            $("#codigo_registro").focus();
+                        })
                         }
                         
                     } else if (respuesta.status == 'fail_user') {

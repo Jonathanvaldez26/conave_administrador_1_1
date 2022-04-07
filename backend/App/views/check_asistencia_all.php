@@ -507,7 +507,7 @@
         
         $("#codigo_registro").on('change',function(){
 
-            // codigo = $('#codigo_registro').val();
+            codigo = $('#codigo_registro').val();
             // $('#codigo_registro').val('');
 
             // console.log(codigo);
@@ -516,9 +516,9 @@
             // console.log(linea_ejecutivo);
         
             $.ajax({
-                url: "/CheckinAsistencia/registroChekIn",
+                url: "/CheckAsistecia/registroChekIn",
                 type: "POST",
-                // dataType: 'json',
+                dataType: 'json',
                 data: {codigo},
                 beforeSend: function() {
                     console.log("Procesando....");

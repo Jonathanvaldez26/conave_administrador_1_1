@@ -43,7 +43,6 @@ sql;
         ON ua.id_registro_acceso = ra.id_registro_acceso
         INNER JOIN ticket_virtual tv
         ON tv.id_ticket_virtual = ra.id_ticket_virtual
-
         WHERE tv.clave = '$clave'
 sql;
 

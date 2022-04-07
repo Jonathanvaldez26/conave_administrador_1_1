@@ -2248,12 +2248,8 @@ html;
         echo json_encode($delete_registrado);
     }
 
-    public function registroChekIn(){
-
-        $clave = $_PO
-
-        echo $clave;
-        exit;
+    public function registroChekIn($clave, $code, $linea){
+        
 
         // if ($linea != 0 ) {
         //     $es_general = 'No es';
