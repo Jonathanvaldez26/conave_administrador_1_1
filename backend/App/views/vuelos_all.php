@@ -415,17 +415,17 @@
                         <div class="col-lg-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
                             <div class="nav-wrapper position-relative end-0">
                                 <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
-
-                                    <li class="nav-item">
-                                        <a class="nav-link mb-0 px-0 py-1 active" href="#vuelos_llegada" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-                                            <span class="fa fa-plane-arrival"></span>
-                                            <span class="ms-1">Vuelos Llegada</span>
+                                    
+                                <li class="nav-item">
+                                        <a class="nav-link mb-0 px-0 py-1 active" href="#vuelos_salida" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+                                            <span class="fa fa-plane-departure"></span>
+                                            <span class="ms-1">Vuelos Salida</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link mb-0 px-0 py-1" href="#vuelos_salida" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                            <span class="fa fa-plane-departure"></span>
-                                            <span class="ms-1">Vuelos Salida</span>
+                                        <a class="nav-link mb-0 px-0 py-1 " href="#vuelos_llegada" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                                            <span class="fa fa-plane-arrival"></span>
+                                            <span class="ms-1">Vuelos Llegada</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -443,7 +443,7 @@
 
             <div class="card-body p-1 mt-1">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show position-relative active height-350 border-radius-lg" id="vuelos_llegada" role="tabpanel" aria-labelledby="vuelos_llegada">
+                    <div class="tab-pane fade show position-relative height-350 border-radius-lg" id="vuelos_llegada" role="tabpanel" aria-labelledby="vuelos_llegada">
                         <div class="d-flex m-1">
                             <div class="ms-auto d-flex">
                                 <div class="pe-4 mt-1 position-relative">
@@ -494,7 +494,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade show position-relative height-350 border-radius-lg" id="vuelos_salida" role="tabpanel" aria-labelledby="vuelos_salida">
+                    <div class="tab-pane fade show position-relative active height-350 border-radius-lg" id="vuelos_salida" role="tabpanel" aria-labelledby="vuelos_salida">
                         <div class="d-flex m-1">
                             <div class="ms-auto d-flex">
                                 <div class="pe-4 mt-1 position-relative">
