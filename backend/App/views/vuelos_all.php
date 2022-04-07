@@ -1285,6 +1285,7 @@
         }); 
 
         $('#id_origen_salida').select2();
+        $('#id_destino_salida').select2();
 
         $('#id_asistente').on('change', function(){
             $('#div_escala').prop('hidden',false)
