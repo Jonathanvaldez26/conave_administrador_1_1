@@ -38,7 +38,7 @@ sql;
         return $mysqli->queryAll($query);
     }
 
-    // CONSULTA ANTERIOR--------------
+    // CONSULTA INICIAL--------------
     // SELECT * FROM registros_acceso ra
     //     INNER JOIN utilerias_asistentes ua
     //     ON ua.id_registro_acceso = ra.id_registro_acceso

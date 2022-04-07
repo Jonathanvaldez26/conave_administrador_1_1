@@ -103,6 +103,42 @@ html;
                 });
           });
 
+          $("#form_vuelo_dos").on("submit",function(event){
+            event.preventDefault();
+            
+                var formData = new FormData(document.getElementById("form_vuelo_dos"));
+                for (var value of formData.values()) 
+                {
+                   console.log(value);
+                }
+                $.ajax({
+                    url:"/Vuelos/uploadVueloDos",
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function(){
+                    console.log("Procesando....");
+                },
+                success: function(respuesta){
+                    if(respuesta == 'success'){
+                       // $('#modal_payment_ticket').modal('toggle');
+                       
+                        swal("¡El vuelo se Cargo Correctamente!", "", "success").
+                        then((value) => {
+                            window.location.replace("/Vuelos/");
+                        });
+                    }
+                    console.log(respuesta);
+                },
+                error:function (respuesta)
+                {
+                    console.log(respuesta);
+                }
+              });
+        });
+
       });
 </script>
 
@@ -157,9 +193,17 @@ html;
 html;
         }
 
-     $vuelos = VuelosDao::getAllSalida();
+    //  $vuelos = VuelosDao::getAllSalida();
+
+    if($permisos['permisos_globales'] == 1 || $permisos['permisos_globales'] == 5){
+        $vuelos_salida = VuelosDao::getAllSalida();
+    }else{
+        $id_linea = LineaDao::getLineaByAdmin($_SESSION['utilerias_administradores_id'])[0];
+        // var_dump($id_linea['id_linea_ejecutivo']);
+        $vuelos_salida = VuelosDao::getSalidaByLinea($id_linea['id_linea_ejecutivo']);
+    }
      $tabla1= '';
-     foreach ($vuelos as $key => $value) {
+     foreach ($vuelos_salida as $key => $value) {
             $tabla1.= <<<html
             <tr>
                  <td>
@@ -478,6 +522,96 @@ html;
             }
 
             $id = VuelosDao::insert($documento);
+
+            if ($id) {
+
+                $mailer = new Mailer();
+                $mailer->mailVuelos($msg);
+                echo 'success';
+
+            } else {
+                echo 'fail';
+            }
+        } else {
+            echo 'fail REQUEST';
+        }
+    }
+
+    public function uploadVueloDos(){
+
+  
+        $documento = new \stdClass();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $utilerias_asistentes_id = $_POST['id_asistente_salida'];
+            $documento->_utilerias_asistentes_id = $utilerias_asistentes_id;
+
+            $utilerias_administradores_id = $_POST["user_salida"];
+            $documento->_utilerias_administradores_id = $utilerias_administradores_id;
+
+            $clave = $this->generateClave();
+            $documento->_clave = $clave;
+
+            $id_aeropuerto_origen = $_POST['id_origen_salida'];
+            $documento->_id_aeropuerto_origen = $id_aeropuerto_origen;
+
+            $id_aeropuerto_destino = $_POST['id_destino_salida'];
+            $documento->_id_aeropuerto_destino = $id_aeropuerto_destino;
+
+            $numero_vuelo = $_POST['numero_vuelo_salida'];
+            $documento->_numero_vuelo = $numero_vuelo;
+
+            $hora_llegada = $_POST['hora_llegada_salida'];
+            $documento->_hora_llegada = $hora_llegada;
+
+            //Escala
+
+            $id_aeropuerto_origen_escala = $_POST['id_origen_escala_salida'];
+            $documento->_id_aeropuerto_origen_escala = $id_aeropuerto_origen_escala;
+
+            $id_aeropuerto_destino_escala = $_POST['id_destino_escala_salida'];
+            $documento->_id_aeropuerto_destino_escala = $id_aeropuerto_destino_escala;
+
+            $numero_vuelo_escala = $_POST['numero_vuelo_escala_salida'];
+            $documento->_numero_vuelo_escala = $numero_vuelo_escala;
+
+            $hora_llegada_escala = $_POST['hora_llegada_escala_salida'];
+            $documento->_hora_llegada_escala = $hora_llegada_escala;
+
+            $file = $_FILES["file_"];
+            $pdf = $this->generateRandomString();
+            move_uploaded_file($file["tmp_name"], "comprobante_vuelo_uno/".$pdf.'.pdf');
+
+            $documento->_url = $pdf.'.pdf';
+
+            $notas = $_POST['notas'];
+
+            $email = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['email'];
+            $nombre = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['nombre_completo'];
+
+            // echo $email;
+            // echo $utilerias_asistentes_id;
+            // exit;
+
+            $msg = [
+                'name' => $nombre,
+                'email' => $email,
+                'url'=>'https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/'.$pdf.'.pdf'
+            ];
+
+            if($notas == '')
+            {
+                $notas = 'Sin Notas';
+                $documento->_notas = $notas;
+            }
+            else
+            {
+                $notas = $_POST['notas_salida'];
+                $documento->_notas = $notas;
+            }
+
+            $id = VuelosDao::insertSalida($documento);
 
             if ($id) {
 
