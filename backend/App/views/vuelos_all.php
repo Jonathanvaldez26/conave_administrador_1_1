@@ -836,7 +836,7 @@
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
                                             <select class="form-control" name="id_origen_salida" id="id_origen_salida" required>
                                                 <option selected disabled>Seleccione una Opción</option>
-                                                <?php echo $idAeropuertoOrigen; ?>
+                                                <?php echo $idAeropuertoDestino; ?>
                                             </select>
                                         </div>
                                         <span id="availability_"></span>
@@ -846,7 +846,8 @@
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
                                             <select class="form-control " name="id_destino_salida" id="id_destino_salida" required>
-                                                <?php echo $idAeropuertoDestino; ?>
+                                                
+                                                <?php echo $idAeropuertoOrigen; ?>
                                             </select>
                                         </div>
                                         <span id="availability_"></span>
@@ -1282,6 +1283,8 @@
             
             
         }); 
+
+        $('#id_origen_salida').select2();
 
         $('#id_asistente').on('change', function(){
             $('#div_escala').prop('hidden',false)
