@@ -823,8 +823,8 @@
             $.ajax({
                 url: "/Asistentes/generarClave/" + email_user,
                 type: "POST",
-                // data: formData,
-                dataType: 'json',
+                data: formData,
+                // dataType: 'json',
                 beforeSend: function() {
                     console.log("Procesando....");
 
@@ -855,7 +855,7 @@
                     }
                 },
                 error: function(respuesta) {
-                    console.log(respuesta);
+                    console.log(respuesta.statuss);
                 }
 
             });

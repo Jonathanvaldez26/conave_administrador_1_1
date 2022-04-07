@@ -474,11 +474,7 @@
                                     </div>
                                     <div class="card-body px-0 pt-0 pb-2">
                                         <div class="table-responsive p-0">
-<<<<<<< HEAD
-                                            <table class="table align-items-center mb-0">
-=======
                                             <table class="table align-items-center mb-0" id="vuelos_llegada_tabla">
->>>>>>> 9bfc54e612ab9c919df949bd3917e97d771951b5
                                                 <thead>
                                                     <tr>
                                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre del Asistente</th>
