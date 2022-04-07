@@ -484,7 +484,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php echo $tabla; ?>
+                                                    <?php //echo //$tabla; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -545,7 +545,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade show position-relative  height-350 border-radius-lg" id="cam3" role="tabpanel" aria-labelledby="cam2" style="background-image: url('../../assets/img/jueves.jpeg'); background-size:cover;">
+                    <div class="tab-pane fade show position-relative height-350 border-radius-lg" id="itinerario" role="tabpanel" aria-labelledby="itinerario">
                         <div class="d-flex m-1">
                             <div class="ms-auto d-flex">
                                 <div class="pe-4 mt-1 position-relative">

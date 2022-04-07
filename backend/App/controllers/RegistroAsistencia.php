@@ -184,6 +184,9 @@ html;
     public function registroAsistencia($clave, $code)
     {
 
+        var_dump($clave);
+        exit;
+
         $clave_habitacion = '';
         $id_asigna_habitacion = '';
 
@@ -367,8 +370,10 @@ html;
     {
 
         $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
-        $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_paterno'] . " " . $datos_user['apellido_materno'];
+        // $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_paterno'] . " " . $datos_user['apellido_materno'];
 
+        
+        $nombre_completo = "MARISOL ACEVEDO FUENTES";
 
 
         //$nombre_completo = utf8_decode($_POST['nombre']);
@@ -416,7 +421,8 @@ html;
 
         $this->generaterQr($clave_ticket);
         $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
-        $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_paterno'] . " " . $datos_user['apellido_materno'];
+        // $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_paterno'] . " " . $datos_user['apellido_materno'];
+        $nombre_completo = "MARISOL ACEVEDO FUENTES";
 
         $pdf = new \FPDF($orientation = 'P', $unit = 'mm', array(390, 152));
         $pdf->AddPage();
