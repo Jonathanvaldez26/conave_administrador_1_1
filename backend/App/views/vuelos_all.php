@@ -494,11 +494,7 @@
                         </div>
                     </div>
 
-<<<<<<< HEAD
-                    < class="tab-pane fade position-relative height-350 border-radius-lg" id="cam2" role="tabpanel" aria-labelledby="cam2" style="background-image: url('../../assets/img/jueves.jpeg'); background-size:cover;">
-=======
                     <div class="tab-pane fade show position-relative height-350 border-radius-lg" id="vuelos_salida" role="tabpanel" aria-labelledby="vuelos_salida">
->>>>>>> 9bfc54e612ab9c919df949bd3917e97d771951b5
                         <div class="d-flex m-1">
                             <div class="ms-auto d-flex">
                                 <div class="pe-4 mt-1 position-relative">
@@ -549,11 +545,7 @@
                         </div>
                     </div>
 
-<<<<<<< HEAD
-                    <div class="tab-pane fade show position-relative  height-350 border-radius-lg" id="cam3" role="tabpanel" aria-labelledby="cam2" style="background-image: url('../../assets/img/jueves.jpeg'); background-size:cover;">
-=======
                     <div class="tab-pane fade show position-relative height-350 border-radius-lg" id="itinerario" role="tabpanel" aria-labelledby="itinerario">
->>>>>>> 9bfc54e612ab9c919df949bd3917e97d771951b5
                         <div class="d-flex m-1">
                             <div class="ms-auto d-flex">
                                 <div class="pe-4 mt-1 position-relative">

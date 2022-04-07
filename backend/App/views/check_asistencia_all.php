@@ -146,7 +146,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="text-center">
-                                                            <button onclick="focus_input()" class="btn bg-gradient-danger w-100 my-0 mb-5 ms-auto" type="submit" id="btn_registro_email">Verifica tu Código</button>
+                                                            <button  class="btn bg-gradient-danger w-100 my-0 mb-5 ms-auto" type="submit" id="btn_registro_email">Verifica tu Código</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -279,9 +279,8 @@
 <script src="../../assets/js/plugins/orbit-controls.js"></script>
 
 <script>
-    function focus_input(){
-        $("#codigo_registro").focus();
-    }
+   
+
 
     function borrarRegister(dato){
         $.ajax({
@@ -349,6 +348,11 @@
     }
     
     $(document).ready(function() {
+
+        $("#btn_registro_email").on("click",function(){
+    $("#codigo_registro").focus();
+   });
+        
 
         let codigo = '';
         var link_a = $(location).attr('href');
@@ -503,24 +507,25 @@
         
         $("#codigo_registro").on('change',function(){
 
-            codigo = $('#codigo_registro').val();
-            $('#codigo_registro').val('');
+            // codigo = $('#codigo_registro').val();
+            // $('#codigo_registro').val('');
 
-            console.log(codigo);
-            console.log(clave_a);
-            console.log(numero_linea);
-            console.log(linea_ejecutivo);
+            // console.log(codigo);
+            // console.log(clave_a);
+            // console.log(numero_linea);
+            // console.log(linea_ejecutivo);
         
             $.ajax({
-                url: "/Checkin/registroChekIn/"+codigo+'/'+clave_a+'/'+numero_linea,
+                url: "/CheckinAsistencia/registroChekIn",
                 type: "POST",
-                dataType: 'json',
+                // dataType: 'json',
+                data: {codigo},
                 beforeSend: function() {
                     console.log("Procesando....");
                 },
                 success: function(respuesta) {
-                    console.log(respuesta.status);
-                    console.log("ddsfdsf"+respuesta);
+                    console.log(respuesta);
+                    
                     if (respuesta.status == 'success') {
                         console.log("talla playeta "+respuesta.datos.talla_playera);
                         console.log(respuesta.msg_insert);
