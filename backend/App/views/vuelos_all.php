@@ -484,7 +484,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php echo $tabla; ?>
+                                                    <?php //echo //$tabla; ?>
                                                 </tbody>
                                             </table>
                                         </div>

@@ -156,42 +156,42 @@ html;
       }
     //  var_dump($id_linea);
      $tabla= '';
-     foreach ($vuelos as $key => $value) {
-            $tabla.= <<<html
-            <tr>
-                 <td>
-                      <div class="d-flex px-3 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm"><span class="fa fa-user-md" style="font-size: 13px"></span> {$value['nombre']} <span class="badge badge-sm bg-gradient-success"> Activo</span></h6>
-                              <p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-calendar" style="font-size: 13px"></span> {$value['fecha_alta']}</p>
-                              <p class="text-sm mb-0"><span class="fa fa-plane" style="color: #125a16; font-size: 13px"></span> {$value['aeropuerto_llegada']}</p>
-                              <p class="text-sm mb-0"><span class="fa fa-flag" style="color: #353535; font-size: 13px"></span> {$value['aeropuerto_salida']}</p>
-                              <p class="text-sm mb-0"><span class="fa fa-ticket" style="color: #1a8fdd; font-size: 13px"></span> Número de Vuelo: <strong>{$value['numero_vuelo']}</strong></p>
-                              <p class="text-sm mb-0"><span class="fa fa-clock-o" font-size: 13px"></span> Hora Estimada de Llegada: {$value['hora_llegada_destino']}</p>
-                              <hr>
-                              <p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-sticky-note" style="font-size: 13px"></span> {$value['nota']}</p>
-                          </div>
-                      </div>
-                 </td>
-                 <td>
-                      <div class="d-flex px-3 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                              <u><a href="mailto:{$value['email']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['email']}</h6></a></u>
-                              <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
-                          </div>
-                      </div>
-                 </td>
-                 <td class="align-middle text-center text-sm">
-                     <p class="text-sm font-weight-bold mb-0 text-dark">{$value['nombre_registro']}</p><span class="badge badge-info" style="background-color: {$value['color']}; color: white;">{$value['nombre_linea_ejecutivo']}</span>
+//      foreach ($vuelos as $key => $value) {
+//             $tabla.= <<<html
+//             <tr>
+//                  <td>
+//                       <div class="d-flex px-3 py-1">
+//                           <div class="d-flex flex-column justify-content-center">
+//                               <h6 class="mb-0 text-sm"><span class="fa fa-user-md" style="font-size: 13px"></span> {$value['nombre']} <span class="badge badge-sm bg-gradient-success"> Activo</span></h6>
+//                               <p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-calendar" style="font-size: 13px"></span> {$value['fecha_alta']}</p>
+//                               <p class="text-sm mb-0"><span class="fa fa-plane" style="color: #125a16; font-size: 13px"></span> {$value['aeropuerto_llegada']}</p>
+//                               <p class="text-sm mb-0"><span class="fa fa-flag" style="color: #353535; font-size: 13px"></span> {$value['aeropuerto_salida']}</p>
+//                               <p class="text-sm mb-0"><span class="fa fa-ticket" style="color: #1a8fdd; font-size: 13px"></span> Número de Vuelo: <strong>{$value['numero_vuelo']}</strong></p>
+//                               <p class="text-sm mb-0"><span class="fa fa-clock-o" font-size: 13px"></span> Hora Estimada de Llegada: {$value['hora_llegada_destino']}</p>
+//                               <hr>
+//                               <p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-sticky-note" style="font-size: 13px"></span> {$value['nota']}</p>
+//                           </div>
+//                       </div>
+//                  </td>
+//                  <td>
+//                       <div class="d-flex px-3 py-1">
+//                           <div class="d-flex flex-column justify-content-center">
+//                               <u><a href="mailto:{$value['email']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['email']}</h6></a></u>
+//                               <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
+//                           </div>
+//                       </div>
+//                  </td>
+//                  <td class="align-middle text-center text-sm">
+//                      <p class="text-sm font-weight-bold mb-0 text-dark">{$value['nombre_registro']}</p><span class="badge badge-info" style="background-color: {$value['color']}; color: white;">{$value['nombre_linea_ejecutivo']}</span>
                      
-                 </td>
-                <td style="text-align:center; vertical-align:middle;">
-                    <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/{$value['link']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
-                </td>
+//                  </td>
+//                 <td style="text-align:center; vertical-align:middle;">
+//                     <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/{$value['link']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
+//                 </td>
                  
-            </tr>
-html;
-        }
+//             </tr>
+// html;
+//         }
 
     //  $vuelos = VuelosDao::getAllSalida();
 
@@ -579,9 +579,9 @@ html;
             $hora_llegada_escala = $_POST['hora_llegada_escala_salida'];
             $documento->_hora_llegada_escala = $hora_llegada_escala;
 
-            $file = $_FILES["file_"];
+            $file = $_FILES["file_salida"];
             $pdf = $this->generateRandomString();
-            move_uploaded_file($file["tmp_name"], "comprobante_vuelo_uno/".$pdf.'.pdf');
+            move_uploaded_file($file["tmp_name"], "comprobante_vuelo_dos/".$pdf.'.pdf');
 
             $documento->_url = $pdf.'.pdf';
 
@@ -597,7 +597,7 @@ html;
             $msg = [
                 'name' => $nombre,
                 'email' => $email,
-                'url'=>'https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/'.$pdf.'.pdf'
+                'url'=>'https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_dos/'.$pdf.'.pdf'
             ];
 
             if($notas == '')
@@ -615,8 +615,8 @@ html;
 
             if ($id) {
 
-                $mailer = new Mailer();
-                $mailer->mailVuelos($msg);
+                // $mailer = new Mailer();
+                // $mailer->mailVuelosRegreso($msg);
                 echo 'success';
 
             } else {
