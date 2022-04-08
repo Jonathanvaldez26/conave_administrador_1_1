@@ -9,7 +9,8 @@ use \App\models\PickUp as PickUpDao;
 
 class PickUp extends Controller{
     private $_contenedor;
-        function __construct(){
+
+    function __construct(){
             parent::__construct();
             $this->_contenedor = new Contenedor;
             View::set('header',$this->_contenedor->header());
@@ -18,11 +19,11 @@ class PickUp extends Controller{
               header('Location: /Principal/');
         }
 
-        public function getUsuario(){
+    public function getUsuario(){
           return $this->__usuario;
         }
 
-        public function index()
+    public function index()
       {
         $extraHeader = <<<html
           <style>
@@ -150,6 +151,7 @@ html;
         View::set('footer', $this->_contenedor->footer($extraFooter));
         View::render("pickup_all");
     }
+
     public function pickupAdd() {
         $data = new \stdClass();
         $data->_clave = $this->generateRandomString(6);
