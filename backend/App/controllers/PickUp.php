@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 namespace App\controllers;
 defined("APPPATH") OR die("Access denied");
 use \Core\View;
