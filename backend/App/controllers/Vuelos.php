@@ -437,6 +437,7 @@ html;
      View::set('idAsistenteSalida',$this->getAsistentesSalida());
      View::set('idAeropuertoOrigen',$this->getAeropuertosOrigen());
      View::set('idAeropuertoDestino',$this->getAeropuertosDestino());
+     View::set('idOrigenEscala',$this->getAeropuertosDestino());
      View::set('tabla',$tabla);
      View::set('tabla1',$tabla1);
      View::set('tabla_itinerarios',$tabla_itinerarios);
