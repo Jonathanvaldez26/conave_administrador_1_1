@@ -6,32 +6,35 @@ use \Core\MasterDom;
 use \App\controllers\Contenedor;
 use \Core\Controller;
 use \App\models\PickUp as PickUpDao;
+
 class PickUp extends Controller{
     private $_contenedor;
-    function __construct(){
-        parent::__construct();
-        $this->_contenedor = new Contenedor;
-        View::set('header',$this->_contenedor->header());
-        View::set('footer',$this->_contenedor->footer());
-        if(Controller::getPermisosUsuario($this->__usuario, "seccion_pickup",1) == 0)
-          header('Location: /Principal/');
-    }
-    public function getUsuario(){
-      return $this->__usuario;
-    }
-    public function index()
-  {
-    $extraHeader = <<<html
-      <style>
-        .logo{
-          width:100%;
-          height:150px;
-          margin: 0px;
-          padding: 0px;
+        function __construct(){
+            parent::__construct();
+            $this->_contenedor = new Contenedor;
+            View::set('header',$this->_contenedor->header());
+            View::set('footer',$this->_contenedor->footer());
+            if(Controller::getPermisosUsuario($this->__usuario, "seccion_pickup",1) == 0)
+              header('Location: /Principal/');
         }
-      </style>
+
+        public function getUsuario(){
+          return $this->__usuario;
+        }
+
+        public function index()
+      {
+        $extraHeader = <<<html
+          <style>
+            .logo{
+              width:100%;
+              height:150px;
+              margin: 0px;
+              padding: 0px;
+            }
+          </style>
 html;
-$extraFooter =<<<html
+        $extraFooter =<<<html
 <script>
   $(document).ready(function(){
     $('#pickup-list').DataTable({
@@ -78,11 +81,11 @@ $extraFooter =<<<html
   });
 </script>
 html;
-    $pickup = PickUpDao::getAll();
-    $tabla= '';
-    $modal = '';
-    foreach ($pickup as $key => $value) {
-      $tabla.=<<<html
+        $pickup = PickUpDao::getAll();
+        $tabla= '';
+        $modal = '';
+        foreach ($pickup as $key => $value) {
+        $tabla.=<<<html
               <tr>
                 <!--td><input type="checkbox" name="borrar[]" value="{$value['id_pickup']}"/></td-->
                 <!--td><h6 class="mb-0 text-sm">{$value['id_pickup']}</h6></td-->
@@ -108,64 +111,64 @@ html;
                 </td>
               </tr>
 html;
-    $modal .= $this->generarModal($value);
-    }
-    $asistentes = PickUpDao::getAllAsistentes();
-    $select_asist = '';
-    foreach ($asistentes as $key => $value) {
+     $modal .= $this->generarModal($value);
+     }
+     $asistentes = PickUpDao::getAllAsistentes();
+     $select_asist = '';
+     foreach ($asistentes as $key => $value) {
       $select_asist .= <<<html
       <option value="{$value['utilerias_asistentes_id']}">{$value['nombre_completo']}</option>
 html;
+        }
+        $permisoGlobalHidden = (Controller::getPermisoGlobalUsuario($this->__usuario)[0]['permisos_globales']) != 1 ? "style=\"display:none;\"" : "";
+        $asistentesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistentes", 1) == 0) ? "style=\"display:none;\"" : "";
+        $vuelosHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vuelos", 1) == 0) ? "style=\"display:none;\"" : "";
+        $pickUpHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pickup", 1) == 0) ? "style=\"display:none;\"" : "";
+        $habitacionesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_habitaciones", 1) == 0) ? "style=\"display:none;\"" : "";
+        $cenasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_cenas", 1) == 0) ? "style=\"display:none;\"" : "";
+        $cenasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_cenas", 1) == 0) ? "style=\"display:none;\"" : "";
+        $aistenciasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistencias", 1) == 0) ? "style=\"display:none;\"" : "";
+        $vacunacionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vacunacion", 1) == 0) ? "style=\"display:none;\"" : "";
+        $pruebasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pruebas_covid", 1) == 0) ? "style=\"display:none;\"" : "";
+        $configuracionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_configuracion", 1) == 0) ? "style=\"display:none;\"" : "";
+        $utileriasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_utilerias", 1) == 0) ? "style=\"display:none;\"" : "";
+        View::set('permisoGlobalHidden', $permisoGlobalHidden);
+        View::set('asistentesHidden', $asistentesHidden);
+        View::set('vuelosHidden', $vuelosHidden);
+        View::set('pickUpHidden', $pickUpHidden);
+        View::set('habitacionesHidden', $habitacionesHidden);
+        View::set('cenasHidden', $cenasHidden);
+        View::set('aistenciasHidden', $aistenciasHidden);
+        View::set('vacunacionHidden', $vacunacionHidden);
+        View::set('pruebasHidden', $pruebasHidden);
+        View::set('configuracionHidden', $configuracionHidden);
+        View::set('utileriasHidden', $utileriasHidden);
+        View::set('tabla', $tabla);
+        View::set('modal', $modal);
+        View::set('select_asist', $select_asist);
+        View::set('header', $this->_contenedor->header($extraHeader));
+        View::set('footer', $this->_contenedor->footer($extraFooter));
+        View::render("pickup_all");
     }
-    $permisoGlobalHidden = (Controller::getPermisoGlobalUsuario($this->__usuario)[0]['permisos_globales']) != 1 ? "style=\"display:none;\"" : "";
-    $asistentesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistentes", 1) == 0) ? "style=\"display:none;\"" : "";
-    $vuelosHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vuelos", 1) == 0) ? "style=\"display:none;\"" : "";
-    $pickUpHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pickup", 1) == 0) ? "style=\"display:none;\"" : "";
-    $habitacionesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_habitaciones", 1) == 0) ? "style=\"display:none;\"" : "";
-    $cenasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_cenas", 1) == 0) ? "style=\"display:none;\"" : "";
-    $cenasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_cenas", 1) == 0) ? "style=\"display:none;\"" : "";
-    $aistenciasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistencias", 1) == 0) ? "style=\"display:none;\"" : "";
-    $vacunacionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vacunacion", 1) == 0) ? "style=\"display:none;\"" : "";
-    $pruebasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pruebas_covid", 1) == 0) ? "style=\"display:none;\"" : "";
-    $configuracionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_configuracion", 1) == 0) ? "style=\"display:none;\"" : "";
-    $utileriasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_utilerias", 1) == 0) ? "style=\"display:none;\"" : "";
-    View::set('permisoGlobalHidden', $permisoGlobalHidden);
-    View::set('asistentesHidden', $asistentesHidden);
-    View::set('vuelosHidden', $vuelosHidden);
-    View::set('pickUpHidden', $pickUpHidden);
-    View::set('habitacionesHidden', $habitacionesHidden);
-    View::set('cenasHidden', $cenasHidden);
-    View::set('aistenciasHidden', $aistenciasHidden);
-    View::set('vacunacionHidden', $vacunacionHidden);
-    View::set('pruebasHidden', $pruebasHidden);
-    View::set('configuracionHidden', $configuracionHidden);
-    View::set('utileriasHidden', $utileriasHidden);
-    View::set('tabla', $tabla);
-    View::set('modal', $modal);
-    View::set('select_asist', $select_asist);
-    View::set('header', $this->_contenedor->header($extraHeader));
-    View::set('footer', $this->_contenedor->footer($extraFooter));
-    View::render("pickup_all");
-  }
-  public function pickupAdd() {
-    $data = new \stdClass();
-    $data->_clave = $this->generateRandomString(6);
-    $data->_fecha_cita = MasterDom::getData('fecha_cita');
-    $data->_hora_cita = MasterDom::getData('hora_cita');
-    $data->_utilerias_asistentes_id = MasterDom::getData('asistente');
-    $data->_punto_reunion = MasterDom::getData('punto_reunion');
-    $data->_utilerias_administrador_id = $_SESSION['utilerias_administradores_id'];
+    public function pickupAdd() {
+        $data = new \stdClass();
+        $data->_clave = $this->generateRandomString(6);
+        $data->_fecha_cita = MasterDom::getData('fecha_cita');
+        $data->_hora_cita = MasterDom::getData('hora_cita');
+        $data->_utilerias_asistentes_id = MasterDom::getData('asistente');
+        $data->_punto_reunion = MasterDom::getData('punto_reunion');
+        $data->_utilerias_administrador_id = $_SESSION['utilerias_administradores_id'];
 
-    $id = PickUpDao::insert($data);
-    if($id >= 1){
+        $id = PickUpDao::insert($data);
+        if($id >= 1){
       // $this->alerta($id,'add');
       header('Location: /PickUp');
-    }else{
-      // header('Location: /PickUp');
-      var_dump($id);
+        }else{
+        // header('Location: /PickUp');
+        var_dump($id);
+        }
     }
-  }
-  public function generarModal($datos){
+    public function generarModal($datos){
     $modal = <<<html
     <div class="modal fade" id="Modal_Editar-{$datos['id_pickup']}" role="dialog" aria-labelledby="Modal_Editar_Label" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -210,13 +213,13 @@ html;
               </form>
           </div>
       </div>
-    </div>
+     </div>
 html;
-    return $modal;
-  }
-  public function Actualizar(){
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $documento = new \stdClass();
+        return $modal;
+    }
+    public function Actualizar(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $documento = new \stdClass();
         $id_pickup = $_POST['id_pickup'];
         $fecha_cita = $_POST['fecha_cita'];
         $hora_cita = $_POST['hora_cita'];
@@ -231,15 +234,15 @@ html;
             echo "fail";
          // header("Location: /Home/");
         }
-    } else {
+        } else {
         echo 'fail REQUEST';
+        }
     }
-  }
-  public function borrarPickUp($id){
-    $delete_registrado = PickUpDao::delete($id);
-    echo json_encode($delete_registrado);
-  }
-  function generateRandomString($length = 6) { 
-    return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length); 
-  }
+    public function borrarPickUp($id){
+        $delete_registrado = PickUpDao::delete($id);
+        echo json_encode($delete_registrado);
+    }
+    function generateRandomString($length = 6) {
+        return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+    }
 }
