@@ -106,6 +106,7 @@ html;
                 </td>
                 <td><h6 class="mb-0 text-sm">{$value['fecha_cita']}</h6></td>
                 <td><h6 class="mb-0 text-sm">{$value['hora_cita']}</h6></td>
+                <td><h6 class="mb-0 text-sm">{$value['id_punto_reunion_pickup']}</h6></td>
                 <td><h6 class="mb-0 text-sm">{$value['nombre_admin']}</h6></td>
                 <td><h6 class="mb-0 text-sm">{$value['fecha_alta']}</h6></td>
                 <td>
@@ -166,6 +167,7 @@ html;
     $data->_fecha_cita = MasterDom::getData('fecha_cita');
     $data->_hora_cita = MasterDom::getData('hora_cita');
     $data->_utilerias_asistentes_id = MasterDom::getData('asistente');
+    $data->_punto_reunion = MasterDom::getData('punto_reunion');
     $data->_utilerias_administrador_id = $_SESSION['utilerias_administradores_id'];
 
     $id = PickUpDao::insert($data);

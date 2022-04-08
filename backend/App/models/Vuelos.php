@@ -553,7 +553,7 @@ sql;
     public static function getCountVuelosSalida(){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        SELECT COUNT(*) as total FROM `pases_abordar` where status = 1 and tipo = 2;
+        SELECT COUNT(*) as total FROM `pases_abordar` where status = 2 and tipo = 2;
 sql;
         return $mysqli->queryAll($query);
     }

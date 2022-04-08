@@ -42,8 +42,8 @@ sql;
     public static function insert($data){
         $mysqli = Database::getInstance(1);
         $query=<<<sql
-        INSERT INTO pickup(clave, fecha_cita, hora_cita, utilerias_asistentes_id, utilerias_administradores_id )
-        VALUES(:clave, :fecha_cita, :hora_cita, :utilerias_asistentes_id, :utilerias_administrador_id);
+        INSERT INTO pickup(clave, id_punto_reunion_pickup,fecha_cita, hora_cita, utilerias_asistentes_id, utilerias_administradores_id )
+        VALUES(:clave, :punto_reunion,:fecha_cita, :hora_cita, :utilerias_asistentes_id, :utilerias_administrador_id);
 sql;
             $parametros = array(
             
@@ -53,7 +53,7 @@ sql;
             ':hora_cita'=>$data->_hora_cita,
             ':utilerias_administrador_id'=>$data->_utilerias_administrador_id,
             ':utilerias_asistentes_id'=>$data->_utilerias_asistentes_id,
-            // ':codigo_vestimenta'=>$data->_codigo_vestimenta,
+            ':punto_reunion'=>$data->_punto_reunion
             // ':telefono'=>$data->_telefono,
 
             );

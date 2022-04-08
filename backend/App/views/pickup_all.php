@@ -310,6 +310,7 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Asistente</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Cita</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hora de Cita</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Punto de Reunión</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Encargado</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Alta</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
@@ -324,7 +325,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="Modal_Add" tabindex="-1" role="dialog" aria-labelledby="Modal_AddLabel" aria-hidden="true">
+    <div class="modal fade" id="Modal_Add"  role="dialog" aria-labelledby="Modal_AddLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -339,7 +340,7 @@
                             <div class="col-md-12 col-12" >
                                 <label class="form-label">Asistente *</label>
                                 <div class="input-group">
-                                    <select id="asistente" name="asistente" class="form-control" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    <select id="asistente" name="asistente" class="form-control select_2" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                         <option value="" disabled selected>Seleccione un asistente</option>
                                         <?php echo $select_asist;?>
                                     </select>
@@ -358,6 +359,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-12 col-12" >
+                                <label class="form-label">Punto de reunión *</label>
+                                <div class="input-group">
+                                    <!-- <select id="punto_reunion" name="punto_reunion" class="form-control select_2" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <option value="" disabled selected>Seleccione un asistente</option>
+                                        <option value="punto" >punto de reunion</option>
+                                    </select> -->
+                                    <input id="punto_reunion" name="punto_reunion" class="form-control" type="text" placeholder="" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                </div>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn bg-gradient-success">Agregar</button>
@@ -403,6 +415,8 @@
     }
 
     $(document).ready(function() {
+
+        $('.select_2').select2();
     
         $('.add_pickup').on("submit", function(event) {
             event.preventDefault();
