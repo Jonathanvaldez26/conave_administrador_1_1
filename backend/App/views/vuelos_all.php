@@ -798,7 +798,7 @@
                                             <!-- <input type="date" name="fecha_" id="fecha_" class="form-control col-md-7 col-xs-12"> -->
                                             <select class="form-control select_2_salida" name="id_origen_escala_salida" id="id_origen_escala_salida">
                                                 <option value="0" selected>Seleccione una Opción</option>
-                                                <?php echo $idAeropuertoOrigen; ?>
+                                                <?php echo $idAeropuertoDestino; ?>
                                             </select>
                                         </div>
                                         <span id="availability_"></span>
