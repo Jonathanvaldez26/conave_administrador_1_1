@@ -10,6 +10,7 @@ use \App\controllers\Mailer;
 
 class PickUpLahe extends Controller{
 
+
     private $_contenedor;
 
     function __construct(){
@@ -17,831 +18,237 @@ class PickUpLahe extends Controller{
         $this->_contenedor = new Contenedor;
         View::set('header',$this->_contenedor->header());
         View::set('footer',$this->_contenedor->footer());
-        if(Controller::getPermisosUsuario($this->__usuario, "seccion_vuelos",1) == 0)
-          header('Location: /Principal/');
+        if(Controller::getPermisosUsuario($this->__usuario, "seccion_pickup",1) == 0)
+            header('Location: /Principal/');
     }
 
     public function getUsuario(){
-      return $this->__usuario;
+        return $this->__usuario;
     }
 
-    public function index() {
-     $extraHeader =<<<html
-     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-     <link href="//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    public function index()
+    {
+        $extraHeader = <<<html
+          <style>
+            .logo{
+              width:100%;
+              height:150px;
+              margin: 0px;
+              padding: 0px;
+            }
+          </style>
 html;
-
-     $extraFooter =<<<html
-
-          <!-- jQuery -->
-            <script src="/js/jquery.min.js"></script>
-            <!--   Core JS Files   -->
-            <script src="/assets/js/core/popper.min.js"></script>
-            <script src="/assets/js/core/bootstrap.min.js"></script>
-            <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
-            <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
-            <!-- Kanban scripts -->
-            <script src="/assets/js/plugins/dragula/dragula.min.js"></script>
-            <script src="/assets/js/plugins/jkanban/jkanban.js"></script>
-            <script src="/assets/js/plugins/chartjs.min.js"></script>
-            <script src="/assets/js/plugins/threejs.js"></script>
-            <script src="/assets/js/plugins/orbit-controls.js"></script>
-            
-          <!-- Github buttons -->
-            <script async defer src="https://buttons.github.io/buttons.js"></script>
-          <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-            <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.5"></script>
-
-          <!-- VIEJO INICIO -->
-            <script src="/js/jquery.min.js"></script>
-          
-            <script src="/js/custom.min.js"></script>
-
-            <script src="/js/validate/jquery.validate.js"></script>
-            <script src="/js/alertify/alertify.min.js"></script>
-            <script src="/js/login.js"></script>
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-          <!-- VIEJO FIN -->
-          <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-          <script src="//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-   <script>
-    $( document ).ready(function() {
-
-          $("#form_vuelo_uno").on("submit",function(event){
-              event.preventDefault();
-              
-                  var formData = new FormData(document.getElementById("form_vuelo_uno"));
-                  for (var value of formData.values()) 
-                  {
-                     console.log(value);
-                  }
-                  $.ajax({
-                      url:"/Vuelos/uploadVueloUno",
-                      type: "POST",
-                      data: formData,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      beforeSend: function(){
-                      console.log("Procesando....");
-                  },
-                  success: function(respuesta){
-                      if(respuesta == 'success'){
-                         // $('#modal_payment_ticket').modal('toggle');
-                         
-                          swal("¡El vuelo se Cargo Correctamente!", "", "success").
-                          then((value) => {
-                              window.location.replace("/Vuelos/");
-                          });
-                      }
-                      console.log(respuesta);
-                  },
-                  error:function (respuesta)
-                  {
-                      console.log(respuesta);
-                  }
-                });
-          });
-
-          $("#form_vuelo_dos").on("submit",function(event){
-            event.preventDefault();
-            
-                var formData = new FormData(document.getElementById("form_vuelo_dos"));
-                for (var value of formData.values()) 
-                {
-                   console.log(value);
-                }
-                $.ajax({
-                    url:"/Vuelos/uploadVueloDos",
-                    type: "POST",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    beforeSend: function(){
-                    console.log("Procesando....");
-                },
-                success: function(respuesta){
-                    if(respuesta == 'success'){
-                       // $('#modal_payment_ticket').modal('toggle');
-                       
-                        swal("¡El vuelo se Cargo Correctamente!", "", "success").
-                        then((value) => {
-                            window.location.replace("/Vuelos/");
-                        });
-                    }
-                    console.log(respuesta);
-                },
-                error:function (respuesta)
-                {
-                    console.log(respuesta);
-                }
-              });
-        });
-
-      });
-</script>
-
-html;
-
-    $permisos = Controller::getPermisoGlobalUsuario($this->__usuario)[0];
-
-    //  $vuelos = VuelosDao::getAllLlegada();
-     if($permisos['permisos_globales'] == 1 || $permisos['permisos_globales'] == 5){
-        $vuelos = VuelosDao::getAllLlegada();
-      }else{
-        $id_linea = LineaDao::getLineaByAdmin($_SESSION['utilerias_administradores_id'])[0];
-        // var_dump($id_linea['id_linea_ejecutivo']);
-        $vuelos = VuelosDao::getLlegadaByLinea($id_linea['id_linea_ejecutivo']);
-      }
-    //  var_dump($id_linea);
-     $tabla= '';
-//      foreach ($vuelos as $key => $value) {
-//             $tabla.= <<<html
-//             <tr>
-//                  <td>
-//                       <div class="d-flex px-3 py-1">
-//                           <div class="d-flex flex-column justify-content-center">
-//                               <h6 class="mb-0 text-sm"><span class="fa fa-user-md" style="font-size: 13px"></span> {$value['nombre']} <span class="badge badge-sm bg-gradient-success"> Activo</span></h6>
-//                               <p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-calendar" style="font-size: 13px"></span> {$value['fecha_alta']}</p>
-//                               <p class="text-sm mb-0"><span class="fa fa-plane" style="color: #125a16; font-size: 13px"></span> {$value['aeropuerto_llegada']}</p>
-//                               <p class="text-sm mb-0"><span class="fa fa-flag" style="color: #353535; font-size: 13px"></span> {$value['aeropuerto_salida']}</p>
-//                               <p class="text-sm mb-0"><span class="fa fa-ticket" style="color: #1a8fdd; font-size: 13px"></span> Número de Vuelo: <strong>{$value['numero_vuelo']}</strong></p>
-//                               <p class="text-sm mb-0"><span class="fa fa-clock-o" font-size: 13px"></span> Hora Estimada de Llegada: {$value['hora_llegada_destino']}</p>
-//                               <hr>
-//                               <p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-sticky-note" style="font-size: 13px"></span> {$value['nota']}</p>
-//                           </div>
-//                       </div>
-//                  </td>
-//                  <td>
-//                       <div class="d-flex px-3 py-1">
-//                           <div class="d-flex flex-column justify-content-center">
-//                               <u><a href="mailto:{$value['email']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['email']}</h6></a></u>
-//                               <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
-//                           </div>
-//                       </div>
-//                  </td>
-//                  <td class="align-middle text-center text-sm">
-//                      <p class="text-sm font-weight-bold mb-0 text-dark">{$value['nombre_registro']}</p><span class="badge badge-info" style="background-color: {$value['color']}; color: white;">{$value['nombre_linea_ejecutivo']}</span>
-                     
-//                  </td>
-//                 <td style="text-align:center; vertical-align:middle;">
-//                     <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/{$value['link']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
-//                 </td>
-                 
-//             </tr>
-// html;
-//         }
-
-    //  $vuelos = VuelosDao::getAllSalida();
-
-    if($permisos['permisos_globales'] == 1 || $permisos['permisos_globales'] == 5){
-        $vuelos_salida = VuelosDao::getAllSalida();
-    }else{
-        $id_linea = LineaDao::getLineaByAdmin($_SESSION['utilerias_administradores_id'])[0];
-        // var_dump($id_linea['id_linea_ejecutivo']);
-        $vuelos_salida = VuelosDao::getSalidaByLinea($id_linea['id_linea_ejecutivo']);
-    }
-     $tabla1= '';
-     foreach ($vuelos_salida as $key => $value) {
-            $tabla1.= <<<html
-            <tr>
-                 <td>
-                      <div class="d-flex px-3 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm"><span class="fa fa-user-md" style="font-size: 13px"></span> {$value['nombre']} <span class="badge badge-sm bg-gradient-success"> Activo</span> </h6>
-                              <p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-calendar" style="font-size: 13px"></span> {$value['fecha_alta']}</p>
-                              <p class="text-sm mb-0"><span class="fa fa-plane" style="color: #125a16; font-size: 13px"></span> {$value['aeropuerto_llegada']}</p>
-                              <p class="text-sm mb-0"><span class="fa fa-flag" style="color: #353535; font-size: 13px"></span> {$value['aeropuerto_salida']}</p>
-                              <p class="text-sm mb-0"><span class="fa fa-ticket" style="color: #1a8fdd; font-size: 13px"></span> Número de Vuelo: <strong>{$value['numero_vuelo']}</strong></p>
-                              <p class="text-sm mb-0"><span class="fa fa-clock-o" font-size: 13px"></span> Hora Estimada de Llegada: {$value['hora_llegada_destino']}</p>
-                              <hr>
-                              <p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-sticky-note" style="font-size: 13px"></span> {$value['nota']}</p>
-                          </div>
-                      </div>
-                 </td>
-                 <td>
-                      <div class="d-flex px-3 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                              <u><a href="mailto:{$value['email']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['email']}</h6></a></u>
-                              <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
-                          </div>
-                      </div>
-                 </td>
-                 <td class="align-middle text-center text-sm">
-                     <p class="text-sm font-weight-bold mb-0 text-dark">{$value['nombre_registro']}</p><span class="badge badge-info" style="background-color: {$value['color']}; color: white;">{$value['nombre_linea_ejecutivo']}</span>
-                 </td>
-                 <td style="text-align:center; vertical-align:middle;">
-                    <a href="https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_dos/{$value['link']}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Ver .PDF Pase de Abordar"><i class="fa fa-eye"></i></a>
-                </td>
-                 
-            </tr>
-html;
-        }
-
-    
-    $permisos = Controller::getPermisoGlobalUsuario($this->__usuario)[0];
-    
-    if($permisos['permisos_globales'] == 1 || $permisos['permisos_globales'] == 5){
-        $itienerarios = VuelosDao::getItinerarios();
-    }else{
-        $id_linea = LineaDao::getLineaByAdmin($_SESSION['utilerias_administradores_id'])[0];
-        $itienerarios = VuelosDao::getItinerariosByLinea($id_linea['id_linea_ejecutivo']);
-    }
-
-    //$itienerarios = VuelosDao::getItinerarios();
-    $tabla_itinerarios = '';
-
-    foreach ($itienerarios as $key => $value) {
-        if ($value['aerolinea_escala_origen'] != NULL || $value['aerolinea_escala_destino'] != NULL || $value['aeropuerto_escala_salida'] != NULL || $value['aeropuerto_escala_regreso'] != NULL) {
-            $tabla_itinerarios .=<<<html
-        <tr>
-            <td class="text-center">
-                <span class="badge badge-secondary">Folio <i class="fas fa-hashtag"> </i> {$value['id_itinerario'] }</span>
-                  <span class="badge badge-success">CON escala</span>
-                 <hr>
-                 <p class="text-sm font-weight-bold mb-0 "><span class="fa fas fa-user-tie" style="font-size: 13px;"></span><b> Ejecutivo Asignado a Línea: </b><br><span class="fas fa-suitcase"> </span> {$value['nombre_ejecutivo']} <span class="badge badge-success" style="background-color:  {$value['color']}; color:white "><strong>{$value['nombre_linea_ejecutivo']}</strong></span></p>
-                 
-            </td>
-            <td>
-                  <h6 class="mb-0 text-sm"> <span class="fas fa-user-md"> </span>  {$value['nombre_completo']}</h6>
-                  <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-business-time" style="font-size: 13px;"></span><b> Bu: </b>{$value['nombre_bu']}</p>
-                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-pills" style="font-size: 13px;"></span><b> Linea Principal: </b>{$value['nombre_linea']}</p>
-                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-hospital" style="font-size: 13px;"></span><b> Posición: </b>{$value['nombre_posicion']}</p>
-
-                  <hr>
-
-                    <!--p class="text-sm font-weight-bold mb-0 "><span class="fa fas fa-user-tie" style="font-size: 13px;"></span><b> Ejecutivo Asignado a Línea: </b><br></p-->
-
-                    <!--p class="text-sm font-weight-bold mb-0 "><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span><b> </b>{$value['telefono']}</p>
-                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-mail-bulk" style="font-size: 13px;"></span><b>  </b><a "mailto:{$value['email']}">{$value['email']}</a></p-->
-
-                    <div class="d-flex flex-column justify-content-center">
-                        <u><a href="mailto:{$value['email']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['email']}</h6></a></u>
-                        <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
-                    </div>
-            </td> 
-            <td>
-                  
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-plane"> </span> {$value['aeropuerto_salida']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-paper-plane"> </span> AEROLÍNEA: {$value['aerolinea_origen']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-calendar"> </span>: {$value['fecha_salida']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-clock"> </span>: {$value['hora_salida']}</h6>
-html;                  
-                  if($value['aeropuerto_escala_salida'] != NULL){
-                    $tabla_itinerarios .=<<<html
-                  <hr>
-                  <span class="badge badge-success">Escala</span><br>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-plane"> </span> {$value['aeropuerto_escala_salida']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-paper-plane"> </span> AEROLÍNEA: {$value['aerolinea_escala_origen']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-calendar"> </span>: {$value['fecha_escala_salida']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-clock"> </span>: {$value['hora_escala_salida']}</h6>
-html;
-                }
-                $tabla_itinerarios .=<<<html
-                </div>
-            </td> 
-             <td>
-                  
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-plane"> </span> {$value['aeropuerto_regreso']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-paper-plane"> </span> AEROLÍNEA: {$value['aerolinea_destino']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-calendar"> </span>: {$value['fecha_regreso']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-clock"> </span>: {$value['hora_regreso']}</h6>
-html;
-                if($value['aeropuerto_escala_regreso'] != NULL){
-                $tabla_itinerarios .=<<<html
-                  <hr>
-                  <span class="badge badge-success">Escala</span><br>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-plane"> </span> {$value['aeropuerto_escala_regreso']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-paper-plane"> </span> AEROLÍNEA: {$value['aerolinea_escala_destino']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-calendar"> </span>: {$value['fecha_escala_regreso']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-clock"> </span>: {$value['hora_escala_regreso']}</h6>
-                    
-html;
-                }
+        $extraFooter =<<<html
+<script>
+  $(document).ready(function(){
+    $('#pickup-list').DataTable({
+        "drawCallback": function( settings ) {
+          $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
+          $('.paginate_button').addClass("btn").removeClass("paginate_button");
+          $('.dataTables_length').addClass("m-4");
+          $('.dataTables_info').addClass("mx-4");
+          $('.dataTables_filter').addClass("m-4");
+          $('input').addClass("form-control");
+          $('select').addClass("form-control");
+          $('.previous.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+          $('.next.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+          $('.previous').addClass("btn-outline-danger btn-rounded mx-2");
+          $('.next').addClass("btn-outline-danger btn-rounded mx-2");
+          $('a.btn').addClass("btn-rounded");
+        },
+        "language": {
          
-                $tabla_itinerarios .=<<<html
+             "sProcessing":     "Procesando...",
+             "sLengthMenu":     "Mostrar _MENU_ registros",
+             "sZeroRecords":    "No se encontraron resultados",
+             "sEmptyTable":     "Ningún dato disponible en esta tabla",
+             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+             "sInfoPostFix":    "",
+             "sSearch":         "Buscar:",
+             "sUrl":            "",
+             "sInfoThousands":  ",",
+             "sLoadingRecords": "Cargando...",
+             "oPaginate": {
+                 "sFirst":    "Primero",
+                 "sLast":     "Último",
+                 "sNext":     "Siguiente",
+                 "sPrevious": "Anterior"
+             },
+             "oAria": {
+                 "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+             }
+         }
+      });
+  });
+</script>
+html;
+        $pickup = PickUpDao::getAll();
+        $tabla= '';
+        $modal = '';
+        foreach ($pickup as $key => $value) {
+            $tabla.=<<<html
+              <tr>
+                <!--td><input type="checkbox" name="borrar[]" value="{$value['id_pickup']}"/></td-->
+                <!--td><h6 class="mb-0 text-sm">{$value['id_pickup']}</h6></td-->
+                <td class="text-justify">
+                  <h6 class="mb-0 text-sm">
+                    <span class="fas fa-user"> </span> {$value['nombre_completo']}<br>
+                    <span class="badge badge-secondary text-dark">#Folio {$value['id_pickup']}</span>
+                    <hr>
+                    <u><a href="mailto:{$value['email']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['email']}</h6></a></u>
+                    <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
+                  </h6>
+                </td>
+                <td><h6 class="mb-0 text-sm">{$value['fecha_cita']}</h6></td>
+                <td><h6 class="mb-0 text-sm">{$value['hora_cita']}</h6></td>
+                <td><h6 class="mb-0 text-sm">{$value['id_punto_reunion_pickup']}</h6></td>
+                <td><h6 class="mb-0 text-sm">{$value['nombre_admin']}</h6></td>
+                <td><h6 class="mb-0 text-sm">{$value['fecha_alta']}</h6></td>
+                <td>
+                  <button type="button" class="btn bg-gradient-primary btn-icon-only" data-toggle="modal" data-target="#Modal_Editar-{$value['id_pickup']}" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Editar Registro de {$value['nombre_completo']} - {$value['id_pickup']}"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                  <button type="button" class="btn bg-gradient-danger btn-icon-only" onclick="borrarPickUp({$value['id_pickup']})" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Eliminar Registro de {$value['nombre_completo']} - {$value['id_pickup']}">
+                      <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+html;
+            $modal .= $this->generarModal($value);
+        }
+        $asistentes = PickUpDao::getAllAsistentes();
+        $select_asist = '';
+        foreach ($asistentes as $key => $value) {
+            $select_asist .= <<<html
+      <option value="{$value['utilerias_asistentes_id']}">{$value['nombre_completo']}</option>
+html;
+        }
+        $permisoGlobalHidden = (Controller::getPermisoGlobalUsuario($this->__usuario)[0]['permisos_globales']) != 1 ? "style=\"display:none;\"" : "";
+        $asistentesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistentes", 1) == 0) ? "style=\"display:none;\"" : "";
+        $vuelosHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vuelos", 1) == 0) ? "style=\"display:none;\"" : "";
+        $pickUpHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pickup", 1) == 0) ? "style=\"display:none;\"" : "";
+        $habitacionesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_habitaciones", 1) == 0) ? "style=\"display:none;\"" : "";
+        $cenasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_cenas", 1) == 0) ? "style=\"display:none;\"" : "";
+        $cenasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_cenas", 1) == 0) ? "style=\"display:none;\"" : "";
+        $aistenciasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistencias", 1) == 0) ? "style=\"display:none;\"" : "";
+        $vacunacionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vacunacion", 1) == 0) ? "style=\"display:none;\"" : "";
+        $pruebasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pruebas_covid", 1) == 0) ? "style=\"display:none;\"" : "";
+        $configuracionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_configuracion", 1) == 0) ? "style=\"display:none;\"" : "";
+        $utileriasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_utilerias", 1) == 0) ? "style=\"display:none;\"" : "";
+        View::set('permisoGlobalHidden', $permisoGlobalHidden);
+        View::set('asistentesHidden', $asistentesHidden);
+        View::set('vuelosHidden', $vuelosHidden);
+        View::set('pickUpHidden', $pickUpHidden);
+        View::set('habitacionesHidden', $habitacionesHidden);
+        View::set('cenasHidden', $cenasHidden);
+        View::set('aistenciasHidden', $aistenciasHidden);
+        View::set('vacunacionHidden', $vacunacionHidden);
+        View::set('pruebasHidden', $pruebasHidden);
+        View::set('configuracionHidden', $configuracionHidden);
+        View::set('utileriasHidden', $utileriasHidden);
+        View::set('tabla', $tabla);
+        View::set('modal', $modal);
+        View::set('select_asist', $select_asist);
+        View::set('header', $this->_contenedor->header($extraHeader));
+        View::set('footer', $this->_contenedor->footer($extraFooter));
+        View::render("pickup_all");
+    }
+
+    public function pickupAdd() {
+        $data = new \stdClass();
+        $data->_clave = $this->generateRandomString(6);
+        $data->_fecha_cita = MasterDom::getData('fecha_cita');
+        $data->_hora_cita = MasterDom::getData('hora_cita');
+        $data->_utilerias_asistentes_id = MasterDom::getData('asistente');
+        $data->_punto_reunion = MasterDom::getData('punto_reunion');
+        $data->_utilerias_administrador_id = $_SESSION['utilerias_administradores_id'];
+
+        $id = PickUpDao::insert($data);
+        if($id >= 1){
+            // $this->alerta($id,'add');
+            header('Location: /PickUp');
+        }else{
+            // header('Location: /PickUp');
+            var_dump($id);
+        }
+    }
+    public function generarModal($datos){
+        $modal = <<<html
+    <div class="modal fade" id="Modal_Editar-{$datos['id_pickup']}" role="dialog" aria-labelledby="Modal_Editar_Label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="Modal_AddLabel">Agregar PickUp</h5>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <form class="form-horizontal add_pickup" id="add_pickup action="" method="POST">
+                      <input id="id_pickup" name="id_pickup" type="text" value="{$datos['id_pickup']}" readonly hidden>
+                      <div class="form-group row">
+                          <!--div class="col-md-12 col-12" >
+                              <label class="form-label">Asistente *</label>
+                              <div class="input-group">
+                                  <select id="asistente" name="asistente" class="form-control" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                      <option value="" disabled selected>Seleccione un asistente</option>
+                                      <?php echo ;?>
+                                  </select>
+                              </div>
+                          </div-->
+                          <div class="col-md-6 col-12" >
+                              <label class="form-label">Fecha de Cita *</label>
+                              <div class="input-group">
+                                  <input id="fecha_cita" name="fecha_cita" class="form-control" type="date" placeholder="Le Bon Vine" value="{$datos['fecha_cita']}" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                              </div>
+                          </div>
+                          <div class="col-md-6 col-12" >
+                              <label class="form-label">Hora de Cita *</label>
+                              <div class="input-group">
+                                  <input id="hora_cita" name="hora_cita" class="form-control" type="time" placeholder="+52 55 1234 5678" value="{$datos['hora_cita']}" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                              </div>
+                          </div>
+                      </div>
                   </div>
-            </td> 
-             <td>
-                {$value['fecha_registro']}
-            </td>
-        </tr>
-        
+                  <div class="modal-footer">
+                      <button type="submit" class="btn bg-gradient-success">Agregar</button>
+                      <button type="button" class="btn bg-gradient-secondary" data-dismiss="modal">Cancelar</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+     </div>
 html;
-        } else {
-            $tabla_itinerarios .=<<<html
-        <tr>
-            <td class="text-center">
-                <span class="badge badge-secondary">Folio <i class="fas fa-hashtag"> </i> {$value['id_itinerario'] }</span>
-                <span class="badge badge-primary">Sin escala</span>
-                 <hr>
-                 <p class="text-sm font-weight-bold mb-0 "><span class="fa fas fa-user-tie" style="font-size: 13px;"></span><b> Ejecutivo Asignado a Línea: </b><br><span class="fas fa-suitcase"> </span> {$value['nombre_ejecutivo']} <span class="badge badge-success" style="background-color:  {$value['color']}; color:white "><strong>{$value['nombre_linea_ejecutivo']}</strong></span></p>
-                 
-            </td>
-            <td>
-                  <h6 class="mb-0 text-sm"> <span class="fas fa-user-md"> </span>  {$value['nombre_completo']}</h6>
-                  <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-business-time" style="font-size: 13px;"></span><b> Bu: </b>{$value['nombre_bu']}</p>
-                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-pills" style="font-size: 13px;"></span><b> Linea Principal: </b>{$value['nombre_linea']}</p>
-                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-hospital" style="font-size: 13px;"></span><b> Posición: </b>{$value['nombre_posicion']}</p>
-
-                  <hr>
-
-                    <!--p class="text-sm font-weight-bold mb-0 "><span class="fa fas fa-user-tie" style="font-size: 13px;"></span><b> Ejecutivo Asignado a Línea: </b><br></p-->
-
-                    <!--p class="text-sm font-weight-bold mb-0 "><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span><b> </b>{$value['telefono']}</p>
-                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-mail-bulk" style="font-size: 13px;"></span><b>  </b><a "mailto:{$value['email']}">{$value['email']}</a></p-->
-
-                    <div class="d-flex flex-column justify-content-center">
-                        <u><a href="mailto:{$value['email']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['email']}</h6></a></u>
-                        <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
-                    </div>
-            </td> 
-            <td>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-plane"> </span> {$value['aeropuerto_salida']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-paper-plane"> </span> AEROLÍNEA: {$value['aerolinea_origen']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-calendar"> </span>: {$value['fecha_salida']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-clock"> </span>: {$value['hora_salida']} - Formato 24 horas</h6>
-            </td> 
-             <td>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-plane"> </span> {$value['aeropuerto_regreso']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-paper-plane"> </span> AEROLÍNEA: {$value['aerolinea_destino']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-calendar"> </span>: {$value['fecha_regreso']}</h6>
-                  <h6 class="mb-0 text-sm"> <span class="fa fa-clock"> </span>: {$value['hora_regreso']} - Formato 24 horas</h6>
-             
-            </td> 
-             <td>
-                {$value['fecha_registro']}
-            </td>
-        </tr>
-        
-html;
-        }
-
-        
+        return $modal;
     }
-
-    $id_linea = LineaDao::getLineaByAdmin($_SESSION['utilerias_administradores_id'])[0];
-
-    // var_dump($id_linea);
-
-     $totalvuelos = '';
-     foreach (VuelosDao::getCountVuelos() as $key => $value)
-     {
-         $totalvuelos  = $value['usuarios'];
-     }
-
-     $totalvueloscargadosllegada = '';
-     foreach (VuelosDao::getCountVuelosLlegada() as $key => $value)
-     {
-         $totalvueloscargadosllegada  = $value['total'];
-     }
-
-     $totalvueloscargadossalida = '';
-     foreach (VuelosDao::getCountVuelosSalida() as $key => $value)
-     {
-         $totalvueloscargadossalida  = $value['total'];
-     }
-
-     $permisoGlobalHidden = (Controller::getPermisoGlobalUsuario($this->__usuario)[0]['permisos_globales']) != 1 ? "style=\"display:none;\"" : "";
-     $asistentesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistentes", 1) == 0) ? "style=\"display:none;\"" : "";
-     $vuelosHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vuelos", 1) == 0) ? "style=\"display:none;\"" : "";
-     $pickUpHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pickup", 1) == 0) ? "style=\"display:none;\"" : "";
-     $habitacionesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_habitaciones", 1) == 0) ? "style=\"display:none;\"" : "";
-     $cenasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_cenas", 1) == 0) ? "style=\"display:none;\"" : "";
-     $cenasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_cenas", 1) == 0) ? "style=\"display:none;\"" : "";
-     $aistenciasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistencias", 1) == 0) ? "style=\"display:none;\"" : "";
-     $vacunacionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vacunacion", 1) == 0) ? "style=\"display:none;\"" : "";
-     $pruebasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pruebas_covid", 1) == 0) ? "style=\"display:none;\"" : "";
-     $configuracionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_configuracion", 1) == 0) ? "style=\"display:none;\"" : "";
-     $utileriasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_utilerias", 1) == 0) ? "style=\"display:none;\"" : "";
-
-     View::set('permisoGlobalHidden', $permisoGlobalHidden);
-     View::set('asistentesHidden', $asistentesHidden);
-     View::set('vuelosHidden', $vuelosHidden);
-     View::set('pickUpHidden', $pickUpHidden);
-     View::set('habitacionesHidden', $habitacionesHidden);
-     View::set('cenasHidden', $cenasHidden);
-     View::set('aistenciasHidden', $aistenciasHidden);
-     View::set('vacunacionHidden', $vacunacionHidden);
-     View::set('pruebasHidden', $pruebasHidden);
-     View::set('configuracionHidden', $configuracionHidden);
-     View::set('utileriasHidden', $utileriasHidden);
-
-     View::set('aerolineas', $this->getAerolineas());
-     View::set('aeropuertos', $this->getAeropuertosAll());
-     View::set('asistentesItinerartio', $this->getAsistentesItinerario());     
-     
-
-     View::set('idAsistente',$this->getAsistentes());
-     View::set('idAsistenteSalida',$this->getAsistentesSalida());
-     View::set('idAeropuertoOrigen',$this->getAeropuertosOrigen());
-     View::set('idAeropuertoDestino',$this->getAeropuertosDestino());
-     View::set('idOrigenEscala',$this->getAeropuertosDestino());
-     View::set('tabla',$tabla);
-     View::set('tabla1',$tabla1);
-     View::set('tabla_itinerarios',$tabla_itinerarios);
-     View::set('totalvuelos',$totalvuelos);
-     View::set('totalvueloscargadossalida',$totalvueloscargadossalida);
-     View::set('totalvueloscargadosllegada',$totalvueloscargadosllegada);
-     View::set('header',$this->_contenedor->header($extraHeader));
-     View::set('footer',$extraFooter);
-     View::render("vuelos_all");
-    }
-
-    public function uploadVueloUno(){
-
-  
-        $documento = new \stdClass();
-
+    public function Actualizar(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $utilerias_asistentes_id = $_POST['id_asistente'];
-            $documento->_utilerias_asistentes_id = $utilerias_asistentes_id;
-
-            $utilerias_administradores_id = $_POST["user_"];
-            $documento->_utilerias_administradores_id = $utilerias_administradores_id;
-
-            $clave = $this->generateClave();
-            $documento->_clave = $clave;
-
-            $id_aeropuerto_origen = $_POST['id_origen'];
-            $documento->_id_aeropuerto_origen = $id_aeropuerto_origen;
-
-            $id_aeropuerto_destino = $_POST['id_destino'];
-            $documento->_id_aeropuerto_destino = $id_aeropuerto_destino;
-
-            $numero_vuelo = $_POST['numero_vuelo'];
-            $documento->_numero_vuelo = $numero_vuelo;
-
-            $hora_llegada = $_POST['hora_llegada'];
-            $documento->_hora_llegada = $hora_llegada;
-
-            //Escala
-
-            $id_aeropuerto_origen_escala = $_POST['id_origen_escala'];
-            $documento->_id_aeropuerto_origen_escala = $id_aeropuerto_origen_escala;
-
-            $id_aeropuerto_destino_escala = $_POST['id_destino_escala'];
-            $documento->_id_aeropuerto_destino_escala = $id_aeropuerto_destino_escala;
-
-            $numero_vuelo_escala = $_POST['numero_vuelo_escala'];
-            $documento->_numero_vuelo_escala = $numero_vuelo_escala;
-
-            $hora_llegada_escala = $_POST['hora_llegada_escala'];
-            $documento->_hora_llegada_escala = $hora_llegada_escala;
-
-            $file = $_FILES["file_"];
-            $pdf = $this->generateRandomString();
-            move_uploaded_file($file["tmp_name"], "comprobante_vuelo_uno/".$pdf.'.pdf');
-
-            $documento->_url = $pdf.'.pdf';
-
-            $notas = $_POST['notas'];
-
-            $email = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['email'];
-            $nombre = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['nombre_completo'];
-
-            // echo $email;
-            // echo $utilerias_asistentes_id;
-            // exit;
-
-            $msg = [
-                'name' => $nombre,
-                'email' => $email,
-                'url'=>'https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_uno/'.$pdf.'.pdf'
-            ];
-
-            if($notas == '')
-            {
-                $notas = 'Sin Notas';
-                $documento->_notas = $notas;
-            }
-            else
-            {
-                $notas = $_POST['notas'];
-                $documento->_notas = $notas;
-            }
-
-            $id = VuelosDao::insert($documento);
-
-            if ($id) {
-
-                $mailer = new Mailer();
-                $mailer->mailVuelos($msg);
-                echo 'success';
-
-            } else {
-                echo 'fail';
+            $documento = new \stdClass();
+            $id_pickup = $_POST['id_pickup'];
+            $fecha_cita = $_POST['fecha_cita'];
+            $hora_cita = $_POST['hora_cita'];
+            $documento->_id_pickup = $id_pickup;
+            $documento->_fecha_cita = $fecha_cita;
+            $documento->_hora_cita = $hora_cita;
+            $id = PickUpDao::update($documento);
+            if($id){
+                echo "success";
+                //header("Location: /Home");
+            }else{
+                echo "fail";
+                // header("Location: /Home/");
             }
         } else {
             echo 'fail REQUEST';
         }
     }
-
-    public function uploadVueloDos(){
-
-  
-        $documento = new \stdClass();
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $utilerias_asistentes_id = $_POST['id_asistente_salida'];
-            $documento->_utilerias_asistentes_id = $utilerias_asistentes_id;
-
-            $utilerias_administradores_id = $_POST["user_salida"];
-            $documento->_utilerias_administradores_id = $utilerias_administradores_id;
-
-            $clave = $this->generateClave();
-            $documento->_clave = $clave;
-
-            $id_aeropuerto_origen = $_POST['id_origen_salida'];
-            $documento->_id_aeropuerto_origen = $id_aeropuerto_origen;
-
-            $id_aeropuerto_destino = $_POST['id_destino_salida'];
-            $documento->_id_aeropuerto_destino = $id_aeropuerto_destino;
-
-            $numero_vuelo = $_POST['numero_vuelo_salida'];
-            $documento->_numero_vuelo = $numero_vuelo;
-
-            $hora_llegada = $_POST['hora_llegada_salida'];
-            $documento->_hora_llegada = $hora_llegada;
-
-            //Escala
-
-            $id_aeropuerto_origen_escala = $_POST['id_origen_escala_salida'];
-            $documento->_id_aeropuerto_origen_escala = $id_aeropuerto_origen_escala;
-
-            $id_aeropuerto_destino_escala = $_POST['id_destino_escala_salida'];
-            $documento->_id_aeropuerto_destino_escala = $id_aeropuerto_destino_escala;
-
-            $numero_vuelo_escala = $_POST['numero_vuelo_escala_salida'];
-            $documento->_numero_vuelo_escala = $numero_vuelo_escala;
-
-            $hora_llegada_escala = $_POST['hora_llegada_escala_salida'];
-            $documento->_hora_llegada_escala = $hora_llegada_escala;
-
-            $file = $_FILES["file_salida"];
-            $pdf = $this->generateRandomString();
-            move_uploaded_file($file["tmp_name"], "comprobante_vuelo_dos/".$pdf.'.pdf');
-
-            $documento->_url = $pdf.'.pdf';
-
-            $notas = $_POST['notas'];
-
-            $email = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['email'];
-            $nombre = VuelosDao::getAsistentebyUAId($utilerias_asistentes_id)[0]['nombre_completo'];
-
-            // echo $email;
-            // echo $utilerias_asistentes_id;
-            // exit;
-
-            $msg = [
-                'name' => $nombre,
-                'email' => $email,
-                'url'=>'https://www.admin.convencionasofarma2022.mx/comprobante_vuelo_dos/'.$pdf.'.pdf'
-            ];
-
-            if($notas == '')
-            {
-                $notas = 'Sin Notas';
-                $documento->_notas = $notas;
-            }
-            else
-            {
-                $notas = $_POST['notas_salida'];
-                $documento->_notas = $notas;
-            }
-
-            $id = VuelosDao::insertSalida($documento);
-
-            if ($id) {
-
-                // $mailer = new Mailer();
-                // $mailer->mailVuelosRegreso($msg);
-                echo 'success';
-
-            } else {
-                echo 'fail';
-            }
-        } else {
-            echo 'fail REQUEST';
-        }
+    public function borrarPickUp($id){
+        $delete_registrado = PickUpDao::delete($id);
+        echo json_encode($delete_registrado);
     }
-
-    function generateRandomString($length = 10) {
+    function generateRandomString($length = 6) {
         return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
-    }
-
-    function generateClave($length = 6) {
-        return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
-    }
-
-    public function getAsistentes(){
-        $asistentes = '';
-        foreach (VuelosDao::getAsistenteNombre() as $key => $value) {
-            $asistentes .=<<<html
-        <option value="{$value['utilerias_asistentes_id']}"> {$value['nombre']}</option>
-html;
-        }
-        return $asistentes;
-    }
-
-    public function getAsistentesSalida(){
-        $asistentes = '';
-        foreach (VuelosDao::getAsistenteNombreSalida() as $key => $value) {
-            $asistentes .=<<<html
-        <option value="{$value['utilerias_asistentes_id']}"> {$value['nombre']}</option>
-html;
-        }
-        return $asistentes;
-    }
-
-    public function getAsistentesItinerario(){
-        $asistentes = '';
-        foreach (VuelosDao::getAsistenteNombreItinerario($_SESSION['utilerias_administradores_id']) as $key => $value) {
-            $asistentes .=<<<html
-            <option value="{$value['utilerias_asistentes_id']}">{$value['nombre']}</option>
-html;
-        }
-        return $asistentes;
-    }
-
-    public function getAeropuertosOrigen(){
-        $aeropuertos = '';
-        foreach (VuelosDao::getAeropuertoOrigen() as $key => $value) {
-            $aeropuertos .=<<<html
-      <option value="{$value['id_aeropuerto']}"> {$value['iata']} - {$value['aeropuerto']}</option>
-html;
-        }
-        return $aeropuertos;
-    }
-
-    public function getAeropuertosDestino(){
-        $aeropuertos = '';
-        foreach (VuelosDao::getAeropuertoDestino() as $key => $value) {
-            $aeropuertos .=<<<html
-      <option value="{$value['id_aeropuerto']}"> {$value['iata']} - {$value['aeropuerto']}</option>
-html;
-        }
-        return $aeropuertos;
-    }
-
-    public function getAeropuertosAll(){
-        $aeropuertos = '';
-        foreach (VuelosDao::getAeropuertosAll() as $key => $value) {
-            $aeropuertos .=<<<html
-      <option value="{$value['id_aeropuerto']}"> {$value['iata']} - {$value['aeropuerto']}</option>
-html;
-        }
-        return $aeropuertos;
-    }
-
-    public function getAerolineas(){
-        $aerolineas = '';
-        foreach (VuelosDao::getAerolineas() as $key => $value) {
-            $aerolineas .=<<<html
-      <option value="{$value['id_aerolinea']}"> {$value['nombre']} </option>
-html;
-        }
-        return $aerolineas;
-    }
-
-    public function itinerario(){
-
-        $documento = new \stdClass();
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $utilerias_asistentes_id = $_POST['id_asistente'];
-            $documento->_utilerias_asistentes_id = $utilerias_asistentes_id;
-
-            $asistente_name = VuelosDao::getAsistenteNombreItinerarioById($utilerias_asistentes_id)[0];
-            $documento->_nombre_asistente = $asistente_name['nombre'];
-
-            $msg = [
-                'name' => $asistente_name['nombre'],
-                'email' => $asistente_name['usuario']
-            ];
-
-            $utilerias_administradores_id = $_POST["user_"];
-            $documento->_utilerias_administradores_id = $utilerias_administradores_id;
-
-
-            $aerolinea_origen = $_POST['aerolinea_origen'];
-            $documento->_aerolinea_origen = $aerolinea_origen;
-
-            if(isset($_POST['aerolinea_escala_origen'])){
-                $aerolinea_escala_origen = $_POST['aerolinea_escala_origen'];
-            }else{
-                $aerolinea_escala_origen = '';
-            }           
-            $documento->_aerolinea_escala_origen = $aerolinea_escala_origen;
-
-            if(isset($_POST['aerolinea_escala_destino'])){
-                $aerolinea_escala_destino = $_POST['aerolinea_escala_destino'];
-            }else{
-                $aerolinea_escala_destino = '';
-            }
-
-            
-            $documento->_aerolinea_escala_destino = $aerolinea_escala_destino;
-
-            $aerolinea_destino = $_POST['aerolinea_destino'];
-            $documento->_aerolinea_destino = $aerolinea_destino;
-
-            $fecha_salida = $_POST['fecha_salida'];
-            $documento->_fecha_salida = $fecha_salida;
-
-            if(isset($_POST['fecha_escala_salida'])){
-                $fecha_escala_salida = $_POST['fecha_escala_salida'];
-            }else{
-                $fecha_escala_salida = '';
-            }            
-            $documento->_fecha_escala_salida = $fecha_escala_salida;
-
-            if(isset($_POST['fecha_escala_regreso'])){
-                $fecha_escala_regreso = $_POST['fecha_escala_regreso'];
-            }else{
-                $fecha_escala_regreso = '';
-            }            
-            $documento->_fecha_escala_regreso = $fecha_escala_regreso;
-
-            $hora_salida = $_POST['hora_salida'];
-            $documento->_hora_salida = $hora_salida;
-
-
-            if(isset($_POST['hora_escala_salida'])){
-                $hora_escala_salida = $_POST['hora_escala_salida'];
-            }else{
-                $hora_escala_salida = '';
-            }            
-            $documento->_hora_escala_salida = $hora_escala_salida;
-
-            if(isset($_POST['hora_escala_regreso'])){
-                $hora_escala_regreso = $_POST['hora_escala_regreso'];
-            }else{
-                $hora_escala_regreso = '';
-            }            
-            $documento->_hora_escala_regreso = $hora_escala_regreso;
-
-            $fecha_regreso = $_POST['fecha_regreso'];
-            $documento->_fecha_regreso = $fecha_regreso;
-
-            $hora_regreso = $_POST['hora_regreso'];
-            $documento->_hora_regreso = $hora_regreso;
-
-            $aeropuerto_salida = $_POST['aeropuerto_salida'];
-            $documento->_aeropuerto_salida = $aeropuerto_salida;
-
-
-            if(isset($_POST['aeropuerto_escala_salida'])){
-                $aeropuerto_escala_salida = $_POST['aeropuerto_escala_salida'];
-            }else{
-                $aeropuerto_escala_salida = '';
-            }            
-            $documento->_aeropuerto_escala_salida = $aeropuerto_escala_salida;
-
-            if(isset($_POST['aeropuerto_escala_regreso'])){
-                $aeropuerto_escala_regreso = $_POST['aeropuerto_escala_regreso'];
-            }else{
-                $aeropuerto_escala_regreso = '';
-            }            
-            $documento->_aeropuerto_escala_regreso = $aeropuerto_escala_regreso;
-
-            $aeropuerto_regreso = $_POST['aeropuerto_regreso'];
-            $documento->_aeropuerto_regreso = $aeropuerto_regreso;
-
-            $nota_itinerario = $_POST['nota_itinerario'];
-            $documento->_nota_itinerario = $nota_itinerario;
-
-            
-            if($nota_itinerario == '')
-            {
-                $nota_itinerario = 'Sin Notas';
-                $documento->_nota_itinerario = $nota_itinerario;
-            }
-            else
-            {
-                $nota_itinerario = $_POST['nota_itinerario'];
-                $documento->_nota_itinerario = $nota_itinerario;
-            }
-
-            $id = VuelosDao::insertItinerario($documento);
-
-            if ($id) {
-               
-                $mailer = new Mailer();
-                $mailer->mailer($msg);
-                echo 'success';
-
-            } else {
-                echo 'fail';
-            }
-        } else {
-            echo 'fail REQUEST';
-        }
-
     }
 
 }
