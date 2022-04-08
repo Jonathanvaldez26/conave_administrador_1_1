@@ -35,52 +35,52 @@ class PickUp extends Controller{
             }
           </style>
 html;
-        $extraFooter =<<<html
+          $extraFooter =<<<html
         <script>
-  $(document).ready(function(){
-    $('#pickup-list').DataTable({
-        "drawCallback": function( settings ) {
-          $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
-          $('.paginate_button').addClass("btn").removeClass("paginate_button");
-          $('.dataTables_length').addClass("m-4");
-          $('.dataTables_info').addClass("mx-4");
-          $('.dataTables_filter').addClass("m-4");
-          $('input').addClass("form-control");
-          $('select').addClass("form-control");
-          $('.previous.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
-          $('.next.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
-          $('.previous').addClass("btn-outline-danger btn-rounded mx-2");
-          $('.next').addClass("btn-outline-danger btn-rounded mx-2");
-          $('a.btn').addClass("btn-rounded");
-        },
-        "language": {
-         
-             "sProcessing":     "Procesando...",
-             "sLengthMenu":     "Mostrar _MENU_ registros",
-             "sZeroRecords":    "No se encontraron resultados",
-             "sEmptyTable":     "Ningún dato disponible en esta tabla",
-             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-             "sInfoPostFix":    "",
-             "sSearch":         "Buscar:",
-             "sUrl":            "",
-             "sInfoThousands":  ",",
-             "sLoadingRecords": "Cargando...",
-             "oPaginate": {
-                 "sFirst":    "Primero",
-                 "sLast":     "Último",
-                 "sNext":     "Siguiente",
-                 "sPrevious": "Anterior"
-             },
-             "oAria": {
-                 "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-             }
-         }
-      });
-  });
-</script>
+          $(document).ready(function(){
+            $('#pickup-list').DataTable({
+                "drawCallback": function( settings ) {
+                  $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
+                  $('.paginate_button').addClass("btn").removeClass("paginate_button");
+                  $('.dataTables_length').addClass("m-4");
+                  $('.dataTables_info').addClass("mx-4");
+                  $('.dataTables_filter').addClass("m-4");
+                  $('input').addClass("form-control");
+                  $('select').addClass("form-control");
+                  $('.previous.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+                  $('.next.disabled').addClass("btn-outline-danger opacity-5 btn-rounded mx-2");
+                  $('.previous').addClass("btn-outline-danger btn-rounded mx-2");
+                  $('.next').addClass("btn-outline-danger btn-rounded mx-2");
+                  $('a.btn').addClass("btn-rounded");
+                },
+                "language": {
+                 
+                     "sProcessing":     "Procesando...",
+                     "sLengthMenu":     "Mostrar _MENU_ registros",
+                     "sZeroRecords":    "No se encontraron resultados",
+                     "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                     "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                     "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                     "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                     "sInfoPostFix":    "",
+                     "sSearch":         "Buscar:",
+                     "sUrl":            "",
+                     "sInfoThousands":  ",",
+                     "sLoadingRecords": "Cargando...",
+                     "oPaginate": {
+                         "sFirst":    "Primero",
+                         "sLast":     "Último",
+                         "sNext":     "Siguiente",
+                         "sPrevious": "Anterior"
+                     },
+                     "oAria": {
+                         "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                     }
+                 }
+              });
+          });
+        </script>
 html;
         $pickup = PickUpDao::getAll();
         $tabla= '';
