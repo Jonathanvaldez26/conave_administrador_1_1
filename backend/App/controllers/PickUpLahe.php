@@ -39,9 +39,9 @@ class PickUpLahe extends Controller{
           </style>
 html;
         $extraFooter =<<<html
-<script>
-  $(document).ready(function(){
-    $('#pickup-list').DataTable({
+        <script>
+        $(document).ready(function(){
+        $('#pickup-list').DataTable({
         "drawCallback": function( settings ) {
           $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
           $('.paginate_button').addClass("btn").removeClass("paginate_button");
@@ -82,8 +82,8 @@ html;
              }
          }
       });
-  });
-</script>
+     });
+     </script>
 html;
         $pickup = PickUpDao::getAll();
         $tabla= '';
@@ -155,6 +155,6 @@ html;
         View::render("pickup_all");
     }
 
-    
+
 
 }
