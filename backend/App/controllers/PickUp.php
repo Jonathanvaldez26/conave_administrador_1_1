@@ -36,7 +36,7 @@ class PickUp extends Controller{
           </style>
 html;
         $extraFooter =<<<html
-<script>
+        <script>
   $(document).ready(function(){
     $('#pickup-list').DataTable({
         "drawCallback": function( settings ) {
