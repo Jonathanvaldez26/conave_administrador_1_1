@@ -1,17 +1,13 @@
 <?php
 namespace App\controllers;
 defined("APPPATH") OR die("Access denied");
-
 use \Core\View;
 use \Core\MasterDom;
 use \App\controllers\Contenedor;
 use \Core\Controller;
 use \App\models\PickUp as PickUpDao;
-
 class PickUp extends Controller{
-
     private $_contenedor;
-
     function __construct(){
         parent::__construct();
         $this->_contenedor = new Contenedor;
@@ -20,11 +16,9 @@ class PickUp extends Controller{
         if(Controller::getPermisosUsuario($this->__usuario, "seccion_pickup",1) == 0)
           header('Location: /Principal/');
     }
-
     public function getUsuario(){
       return $this->__usuario;
     }
-
     public function index()
   {
     $extraHeader = <<<html
@@ -37,11 +31,9 @@ class PickUp extends Controller{
         }
       </style>
 html;
-
 $extraFooter =<<<html
 <script>
   $(document).ready(function(){
-
     $('#pickup-list').DataTable({
         "drawCallback": function( settings ) {
           $('.current').addClass("btn bg-gradient-danger btn-rounded").removeClass("paginate_button");
@@ -86,7 +78,6 @@ $extraFooter =<<<html
   });
 </script>
 html;
-
     $pickup = PickUpDao::getAll();
     $tabla= '';
     $modal = '';
@@ -106,6 +97,7 @@ html;
                 </td>
                 <td><h6 class="mb-0 text-sm">{$value['fecha_cita']}</h6></td>
                 <td><h6 class="mb-0 text-sm">{$value['hora_cita']}</h6></td>
+                <td><h6 class="mb-0 text-sm">{$value['id_punto_reunion_pickup']}</h6></td>
                 <td><h6 class="mb-0 text-sm">{$value['nombre_admin']}</h6></td>
                 <td><h6 class="mb-0 text-sm">{$value['fecha_alta']}</h6></td>
                 <td>
@@ -118,7 +110,6 @@ html;
 html;
     $modal .= $this->generarModal($value);
     }
-
     $asistentes = PickUpDao::getAllAsistentes();
     $select_asist = '';
     foreach ($asistentes as $key => $value) {
@@ -126,7 +117,6 @@ html;
       <option value="{$value['utilerias_asistentes_id']}">{$value['nombre_completo']}</option>
 html;
     }
-
     $permisoGlobalHidden = (Controller::getPermisoGlobalUsuario($this->__usuario)[0]['permisos_globales']) != 1 ? "style=\"display:none;\"" : "";
     $asistentesHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_asistentes", 1) == 0) ? "style=\"display:none;\"" : "";
     $vuelosHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_vuelos", 1) == 0) ? "style=\"display:none;\"" : "";
@@ -139,7 +129,6 @@ html;
     $pruebasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_pruebas_covid", 1) == 0) ? "style=\"display:none;\"" : "";
     $configuracionHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_configuracion", 1) == 0) ? "style=\"display:none;\"" : "";
     $utileriasHidden = (Controller::getPermisosUsuario($this->__usuario, "seccion_utilerias", 1) == 0) ? "style=\"display:none;\"" : "";
-
     View::set('permisoGlobalHidden', $permisoGlobalHidden);
     View::set('asistentesHidden', $asistentesHidden);
     View::set('vuelosHidden', $vuelosHidden);
@@ -158,14 +147,13 @@ html;
     View::set('footer', $this->_contenedor->footer($extraFooter));
     View::render("pickup_all");
   }
-
   public function pickupAdd() {
-
     $data = new \stdClass();
     $data->_clave = $this->generateRandomString(6);
     $data->_fecha_cita = MasterDom::getData('fecha_cita');
     $data->_hora_cita = MasterDom::getData('hora_cita');
     $data->_utilerias_asistentes_id = MasterDom::getData('asistente');
+    $data->_punto_reunion = MasterDom::getData('punto_reunion');
     $data->_utilerias_administrador_id = $_SESSION['utilerias_administradores_id'];
 
     $id = PickUpDao::insert($data);
@@ -177,7 +165,6 @@ html;
       var_dump($id);
     }
   }
-
   public function generarModal($datos){
     $modal = <<<html
     <div class="modal fade" id="Modal_Editar-{$datos['id_pickup']}" role="dialog" aria-labelledby="Modal_Editar_Label" aria-hidden="true">
@@ -225,25 +212,18 @@ html;
       </div>
     </div>
 html;
-
     return $modal;
   }
-
   public function Actualizar(){
-
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $documento = new \stdClass();
-
         $id_pickup = $_POST['id_pickup'];
         $fecha_cita = $_POST['fecha_cita'];
         $hora_cita = $_POST['hora_cita'];
-
         $documento->_id_pickup = $id_pickup;
         $documento->_fecha_cita = $fecha_cita;
         $documento->_hora_cita = $hora_cita;
-
         $id = PickUpDao::update($documento);
-
         if($id){
             echo "success";
           //header("Location: /Home");
@@ -251,19 +231,15 @@ html;
             echo "fail";
          // header("Location: /Home/");
         }
-
     } else {
         echo 'fail REQUEST';
     }
   }
-
   public function borrarPickUp($id){
     $delete_registrado = PickUpDao::delete($id);
     echo json_encode($delete_registrado);
   }
-
   function generateRandomString($length = 6) { 
     return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length); 
   }
-
 }

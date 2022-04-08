@@ -3,7 +3,6 @@
 <aside class="bg-white-aside sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
 <div class="sidenav-header" style="margin-bottom: 30px;">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-
         <a class="navbar-brand m-0" href="/Principal/" target="_blank">
             <img src="/assets/img/favicon.png" class="navbar-brand-img h-100" alt="main_logo">
             <span class="ms-1 font-weight-bold">ADMIN CONVENCIÓN</span>
@@ -13,8 +12,6 @@
         
     </div>
     <hr class="horizontal dark mt-0">
-
-
     <div class="collapse navbar-collapse  w-auto h-auto h-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -25,7 +22,6 @@
                     <span class="nav-link-text ms-1">Principal</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a data-bs-toggle="collapse" onclick="catalogos()" href="#catalogos" class="nav-link" aria-controls="catalogos" role="button" aria-expanded="true">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
@@ -71,7 +67,6 @@
                     </ul>
                 </div>
             </li>
-
             <li class="nav-item">
                 <a href="/Asistentes/" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
@@ -140,7 +135,6 @@
                     <span class="nav-link-text ms-1">Pruebas Covid Asistentes</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <hr class="horizontal dark" />
                 <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">OTROS</h6>
@@ -153,7 +147,6 @@
                     <span class="nav-link-text ms-1">Configuración</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a data-bs-toggle="collapse" onclick="utilerias()" href="#utilerias" class="nav-link " aria-controls="utilerias" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
@@ -184,10 +177,8 @@
                     </ul>
                 </div>
             </li>
-
         </ul>
     </div>
-
 </aside>
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
@@ -243,7 +234,6 @@
                             <span class="d-sm-inline d-none">Sign In</span>
                         </a>
                     </li> -->
-
                     <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                             <div class="sidenav-toggler-inner">
@@ -280,7 +270,6 @@
             </div>
         </div>
         <br>
-
         <div class="d-flex m-0">
             <div class="ms-auto d-flex">
                 <div class="pe-4 mt-1 position-relative">
@@ -292,7 +281,6 @@
                     <button type="button" class="btn bg-gradient-secondary btn-icon-only mb-0 mt-3" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Todo cambio que usted realice en el sistema será guardado con fecha, usuario y transacción.">
                         <span class="fa fa-info"></span>
                     </button>
-
                 </div>
             </div>
         </div>
@@ -310,6 +298,7 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Asistente</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Cita</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hora de Cita</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Punto de Reunión</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Encargado</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Alta</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
@@ -323,8 +312,7 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="Modal_Add" tabindex="-1" role="dialog" aria-labelledby="Modal_AddLabel" aria-hidden="true">
+    <div class="modal fade" id="Modal_Add"  role="dialog" aria-labelledby="Modal_AddLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -339,7 +327,7 @@
                             <div class="col-md-12 col-12" >
                                 <label class="form-label">Asistente *</label>
                                 <div class="input-group">
-                                    <select id="asistente" name="asistente" class="form-control" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                <select id="asistente" name="asistente" class="form-control select_2" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                         <option value="" disabled selected>Seleccione un asistente</option>
                                         <?php echo $select_asist;?>
                                     </select>
@@ -358,6 +346,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-12 col-12" >
+                                <label class="form-label">Punto de reunión *</label>
+                                <div class="input-group">
+                                    <!-- <select id="punto_reunion" name="punto_reunion" class="form-control select_2" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <option value="" disabled selected>Seleccione un asistente</option>
+                                        <option value="punto" >punto de reunion</option>
+                                    </select> -->
+                                    <input id="punto_reunion" name="punto_reunion" class="form-control" type="text" placeholder="" required="" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                </div>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn bg-gradient-success">Agregar</button>
@@ -367,11 +366,8 @@
             </div>
         </div>
     </div>
-
     <?php echo $modal; ?>
-
     </main></body>
-
     <script>
     function borrarPickUp(dato){
         $.ajax({
@@ -403,16 +399,16 @@
     }
 
     $(document).ready(function() {
-    
+
+        $('.select_2').select2();
+
         $('.add_pickup').on("submit", function(event) {
             event.preventDefault();
-
             var formData = $(this).serialize();
             console.log(formData);
             // for (var value of formData.values()) {
             //     console.log(value);
             // }
-
             $.ajax({
                 url: "/PickUp/Actualizar",
                 type: "POST",
@@ -437,10 +433,8 @@
                 error: function(respuesta) {
                     console.log(respuesta);
                 }
-
             });
         });
     });
 </script>
-
 <?php echo $footer; ?>

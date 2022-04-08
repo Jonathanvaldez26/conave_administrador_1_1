@@ -1,13 +1,10 @@
 <?php
 namespace App\models;
 defined("APPPATH") OR die("Access denied");
-
 use \Core\Database;
 use \App\interfaces\Crud;
 use \App\controllers\UtileriasLog;
-
 class Pickup implements Crud{
-
     public static function getAll(){
         $mysqli = Database::getInstance();
         $query=<<<sql
@@ -24,7 +21,6 @@ class Pickup implements Crud{
 sql;
         return $mysqli->queryAll($query);
     }
-
     public static function getAllAsistentes(){
         $mysqli = Database::getInstance();
         $query=<<<sql
@@ -35,7 +31,6 @@ sql;
 sql;
         return $mysqli->queryAll($query);
     }
-
     public static function getById($id){
         
     }
@@ -46,7 +41,7 @@ sql;
         VALUES(:clave, :punto_reunion,:fecha_cita, :hora_cita, :utilerias_asistentes_id, :utilerias_administrador_id);
 sql;
             $parametros = array(
-            
+
             ':clave'=>$data->_clave,
             // ':nombre'=>$data->_nombre,
             ':fecha_cita'=>$data->_fecha_cita,
@@ -57,7 +52,6 @@ sql;
             // ':telefono'=>$data->_telefono,
 
             );
-
             $id = $mysqli->insert($query,$parametros);
             return $id;
     }
@@ -66,7 +60,6 @@ sql;
         $mysqli = Database::getInstance(true);
         $query=<<<sql
         UPDATE pickup SET fecha_cita = :fecha_cita, hora_cita = :hora_cita
-
         WHERE id_pickup = :id_pickup
 sql;
         $parametros = array(
@@ -78,17 +71,13 @@ sql;
         $accion->_sql= $query;
         $accion->_parametros = $parametros;
         $accion->_id = $data->_administrador_id;
-
         return $mysqli->update($query,$parametros);
-
     }
-
     public static function delete($id){
         $mysqli = Database::getInstance(true);
         $query=<<<sql
         DELETE FROM pickup WHERE id_pickup = '$id'
 sql;
         return $mysqli->delete($query);
-
     }
 }
