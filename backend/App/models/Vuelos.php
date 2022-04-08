@@ -51,20 +51,15 @@ sql;
     public static function getSalidaByLinea($id_linea){
         $mysqli = Database::getInstance(true);
         $query =<<<sql
-        
-
-            SELECT pa.id_pase_abordar, pa.clave, CONCAT(ra.nombre," ", ra.segundo_nombre," ", ra.apellido_paterno," ", ra.apellido_materno) as nombre, pa.fecha_alta, CONCAT(ae.iata, " - ",ae.aeropuerto) as aeropuerto_salida, CONCAT(aeo.iata, " - ",aeo.aeropuerto) as aeropuerto_llegada , pa.numero_vuelo, pa.hora_llegada_destino, le.nombre AS nombre_linea_ejecutivo,
-            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono, le.color, pa.url AS link
+        SELECT pa.id_pase_abordar, pa.clave, CONCAT(ra.nombre," ", ra.segundo_nombre," ", ra.apellido_paterno," ", ra.apellido_materno) as nombre, pa.fecha_alta, CONCAT(ae.iata, " - ",ae.aeropuerto) as aeropuerto_salida, CONCAT(aeo.iata, " - ",aeo.aeropuerto) as aeropuerto_llegada , pa.numero_vuelo, pa.hora_llegada_destino,
+            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono,  pa.url AS link
             FROM pases_abordar pa
             INNER JOIN aeropuertos ae on ae.id_aeropuerto = pa.id_aeropuerto_origen
             INNER JOIN aeropuertos aeo on aeo.id_aeropuerto = pa.id_aeropuerto_destino
             INNER JOIN utilerias_administradores ua on ua.utilerias_administradores_id = pa.utilerias_administradores_id
             INNER JOIN utilerias_asistentes uaa on uaa.utilerias_asistentes_id = pa.utilerias_asistentes_id
             INNER JOIN registros_acceso ra on ra.id_registro_acceso = uaa.id_registro_acceso
-            INNER JOIN asigna_linea al on al.utilerias_administradores_id_linea_asignada = ua.utilerias_administradores_id
-            INNER JOIN linea_ejecutivo le on le.id_linea_ejecutivo = al.id_linea_ejecutivo
-            WHERE tipo = 2 and le.id_linea_ejecutivo = $id_linea
-            ORDER BY pa.fecha_alta DESC
+            WHERE pa.tipo = 2 ORDER BY pa.fecha_alta DESC
 sql;
 
         return $mysqli->queryAll($query);
@@ -99,17 +94,15 @@ sql;
     public static function getAllSalida(){
         $mysqli = Database::getInstance();
         $query=<<<sql
-        SELECT pa.id_pase_abordar, pa.clave, CONCAT(ra.nombre," ", ra.segundo_nombre," ", ra.apellido_paterno," ", ra.apellido_materno) as nombre, pa.fecha_alta, CONCAT(ae.iata, " - ",ae.aeropuerto) as aeropuerto_salida, CONCAT(aeo.iata, " - ",aeo.aeropuerto) as aeropuerto_llegada , pa.numero_vuelo, pa.hora_llegada_destino, le.nombre AS nombre_linea_ejecutivo,
-        pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono, le.color, pa.url AS link
-        FROM pases_abordar pa
-        INNER JOIN aeropuertos ae on ae.id_aeropuerto = pa.id_aeropuerto_origen
-        INNER JOIN aeropuertos aeo on aeo.id_aeropuerto = pa.id_aeropuerto_destino
-        INNER JOIN utilerias_administradores ua on ua.utilerias_administradores_id = pa.utilerias_administradores_id
-        INNER JOIN utilerias_asistentes uaa on uaa.utilerias_asistentes_id = pa.utilerias_asistentes_id
-        INNER JOIN registros_acceso ra on ra.id_registro_acceso = uaa.id_registro_acceso
-        INNER JOIN asigna_linea al on al.utilerias_administradores_id_linea_asignada = ua.utilerias_administradores_id
-        INNER JOIN linea_ejecutivo le on le.id_linea_ejecutivo = al.id_linea_ejecutivo
-        WHERE tipo = 2 ORDER BY pa.fecha_alta DESC
+        SELECT pa.id_pase_abordar, pa.clave, CONCAT(ra.nombre," ", ra.segundo_nombre," ", ra.apellido_paterno," ", ra.apellido_materno) as nombre, pa.fecha_alta, CONCAT(ae.iata, " - ",ae.aeropuerto) as aeropuerto_salida, CONCAT(aeo.iata, " - ",aeo.aeropuerto) as aeropuerto_llegada , pa.numero_vuelo, pa.hora_llegada_destino,
+            pa.nota , ua.nombre as nombre_registro, ra.email, ra.telefono,  pa.url AS link
+            FROM pases_abordar pa
+            INNER JOIN aeropuertos ae on ae.id_aeropuerto = pa.id_aeropuerto_origen
+            INNER JOIN aeropuertos aeo on aeo.id_aeropuerto = pa.id_aeropuerto_destino
+            INNER JOIN utilerias_administradores ua on ua.utilerias_administradores_id = pa.utilerias_administradores_id
+            INNER JOIN utilerias_asistentes uaa on uaa.utilerias_asistentes_id = pa.utilerias_asistentes_id
+            INNER JOIN registros_acceso ra on ra.id_registro_acceso = uaa.id_registro_acceso
+            WHERE pa.tipo = 2 ORDER BY pa.fecha_alta DESC
 sql;
         return $mysqli->queryAll($query);
     }
