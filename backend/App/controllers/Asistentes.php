@@ -1554,7 +1554,7 @@ html;
 
     public function abrirpdf($clave, $noPages = null, $no_habitacion)
     {
-        $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
+        $datos_user = AsistentesDao::getRegistroAccesoByClaveRA($clave)[0];
         $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_paterno'] . " " . $datos_user['apellido_materno'];
         //$nombre_completo = utf8_decode($_POST['nombre']);
         //$datos_user['numero_habitacion']
