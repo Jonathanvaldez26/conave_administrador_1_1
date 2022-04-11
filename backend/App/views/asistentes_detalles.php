@@ -434,7 +434,7 @@
                                                 <button class="btn bg-gradient-primary mb-0" type="button" title="Editar Asistente" data-toggle="modal" data-target="#editar-asistente"><i class="fa fa-edit"></i></button>
 
                                                 <input id="input-email" type="text" class="form-control" value="<?php echo $email; ?>" readonly hidden>
-                                                
+
                                             </form>
                                             <!-- <p class="text-sm mt-2 mb-0">Do you like the product? Leave us a review <a href="javascript:;">here</a>.</p> -->
                                         </div>
@@ -479,6 +479,12 @@
                                                             <span class="ms-1">Ticket Virtual</span>
                                                         </a>
                                                     </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link mb-0 px-0 py-1" href="#cam5" data-bs-toggle="tab" role="tab" aria-selected="false">
+                                                            <span class="fa fa-ticket"></span>
+                                                            <span class="ms-1">Impresión</span>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
 
@@ -491,8 +497,8 @@
                                                         }
                                                     </style>
                                                     <div>
-                                                    <?php echo $btn_genQr; ?>
-                                                    <?php echo $btn_clave; ?>
+                                                        <?php echo $btn_genQr; ?>
+                                                        <?php echo $btn_clave; ?>
                                                     </div>
                                                     <ul class="list-group mt-3">
                                                         <li class="list-group-item border-0 p-4 mb-2 bg-gray-100 border-radius-lg ">
@@ -519,7 +525,7 @@
                                                 </div>
 
                                                 <div class="tab-pane fade position-relative height-350 border-radius-lg" id="cam1" role="tabpanel" aria-labelledby="cam1">
-                                                <div class="row mt-4">
+                                                    <div class="row mt-4">
                                                         <div class="card mb-4">
                                                             <div class="card-header pb-0">
                                                                 <h6></h6>
@@ -549,7 +555,7 @@
                                                 </div>
 
                                                 <div class="tab-pane fade position-relative height-350 border-radius-lg" id="cam3" role="tabpanel" aria-labelledby="cam3">
-                                                <div class="row mt-4">
+                                                    <div class="row mt-4">
                                                         <div class="card mb-4">
                                                             <div class="card-header pb-0">
                                                                 <h6></h6>
@@ -606,6 +612,50 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                <div class="tab-pane fade show position-relative height-350 border-radius-lg" id="cam5" role="tabpanel" aria-labelledby="cam2">
+                                                    <style>
+                                                        #main_ticket {
+                                                            /* margin-top: 20px; */
+                                                            text-align: center;
+                                                        }
+                                                    </style>
+
+                                                    <ul class="list-group mt-3">
+                                                        <li class="list-group-item border-0 p-4 mb-2 bg-gray-100 border-radius-lg ">
+                                                            <h3><?php echo $msg_clave; ?></h3>
+                                                            <div class="row">
+                                                                <a href='' target='_blank' style='display:none;' id='a_abrir_etiqueta'>abrir</a>
+                                                                <div class="col-md-3">
+                                                                    <?php echo $btn_gafete; ?>
+                                                                </div>
+
+                                                                <form action="" id="form_etiquetas">
+                                                                    <div class="row">
+                                                                        <input type="hidden" id="clave_ra" name="clave_ra" value="<?php echo $clave_ra; ?>">
+
+                                                                        <div class="col-md-3">
+                                                                            <label>Número de Habitación</label>
+                                                                            <input type="number" id="no_habitacion" name="no_habitacion" class="form-control" />
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label>Número de etiquetas</label>
+                                                                            <input type="number" id="no_etiquetas" name="no_etiquetas" class="form-control" />
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <button id="btn_imprimir_etiquetas" class="btn btn-info mt-4" type="submit">Imprimir Etiquetas</button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </form>
+
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
                                                 </div>
 
                                             </div>
@@ -742,6 +792,25 @@
         // document.getElementById('main_ticket').removeAttribute('hidden');
         // app.loadPicture();
 
+        $("#form_etiquetas").on("submit", function(event) {
+            event.preventDefault();
+            var formData = new FormData(document.getElementById("form_etiquetas"));
+
+            no_habitacion = $("#no_habitacion").val();
+            clave_ra = $("#clave_ra").val();
+            no_etiquetas = $("#no_etiquetas").val();
+
+            console.log(no_habitacion);
+            console.log(clave_ra);
+            console.log(no_etiquetas);
+
+
+
+            $("#a_abrir_etiqueta").attr("href", "/Asistentes/abrirpdf/" + clave_ra + "/" + no_etiquetas + "/" + no_habitacion);
+            $("#a_abrir_etiqueta")[0].click();
+
+        });
+
         var app = (function() {
             var canvas = document.getElementById('canvas_ticket');
             context = canvas.getContext('2d');
@@ -775,22 +844,22 @@
                 imgCodeQr.onload = function() {
                     context.drawImage(imgTicketFondo, 0, 0);
                     context.drawImage(imgCodeQr, 870, 90);
-                
 
-                    var centerX = canvas.width/2;
-                    var centerY = canvas.height/2;
+
+                    var centerX = canvas.width / 2;
+                    var centerY = canvas.height / 2;
 
                     context = canvas.getContext('2d');
 
-                    context.font="20pt Verdana";
+                    context.font = "20pt Verdana";
                     context.fillStyle = "white";
 
-                    context.fillText($('#nombre-canvas').val(),430, centerY-50);
+                    context.fillText($('#nombre-canvas').val(), 430, centerY - 50);
 
-                    context.font="20pt Verdana";
+                    context.font = "20pt Verdana";
                     context.fillStyle = "white";
 
-                    context.fillText($('#apellidos-canvas').val(),430, centerY);
+                    context.fillText($('#apellidos-canvas').val(), 430, centerY);
                 }
 
             };

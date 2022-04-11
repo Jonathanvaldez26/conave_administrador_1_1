@@ -1,4 +1,4 @@
-<?php echo $header; ?>
+<?php echo $header;?>
 
 <body class="g-sidenav-show  bg-gray-100">
     <aside class="bg-white-aside sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
@@ -8,7 +8,7 @@
             <a class="navbar-brand m-0" href="/Principal/" target="_blank">
                 <img src="/assets/img/favicon.png" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="ms-1 font-weight-bold">ADMIN CONVENCIÓN</span>
-                <p style="margin-top: 15px;"><span class="fa fa-user" style="color: #344767"></span> <?php echo $_SESSION['nombre'];?></p>
+                <p style="margin-top: 15px;"><span class="fa fa-user" style="color: #344767"></span> <?php echo $_SESSION['nombre']; ?></p>
             </a>
 
 
@@ -368,23 +368,24 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <!-- Card header -->
+
                         <div class="card-header pb-0">
                             <div class="d-lg-flex">
                                 <div>
                                     <p class="text-sm mb-0">
                                         En esta sección se podran visualizar todos los usuarios que han finalizado su registro, si usted desea ver quienes no han terminado el registro dirijasé a la pestaña nuevos accesos
                                     </p>
+
                                 </div>
+                               
                                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                                     <div class="ms-auto my-auto">
-                                        <!-- <a href="./new-product.html" class="btn bg-gradient-primary btn-sm mb-0" target="_blank">+&nbsp; New Product</a> -->
-                                        <!-- <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import">
-                                            Import
-                                        </button> -->
+
                                         <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog mt-lg-10">
                                                 <div class="modal-content">
@@ -408,7 +409,90 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button> -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12">
+                                <div>
+                                    <form class="form-inline my-2 my-lg-0" action="/Asistentes/buscarUsuario" method="post" style="display:flex;">
+                                        <input class="form-control mr-sm-2" type="search" id="search" name="search" placeholder="Search" aria-label="Search">
+                                        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="card-body px-0 pb-0">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show position-relative active height-350 border-radius-lg" id="Invitados" role="tabpanel" aria-labelledby="Invitados">
+                                    <div class="table-responsive p-0">
+                                        <table class="align-items-center mb-0 table table-borderless" id="user_list_table">
+                                            <thead class="thead-light">
+                                                <tr>
+
+                                                    <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7">Usuario</th>
+                                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Otros Datos</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php echo $tabla;
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        
+                        <div class="card-header pb-0">
+                            <div class="d-lg-flex">
+                                <div>
+                                    <p class="text-sm mb-0">
+                                        En esta sección se podran visualizar todos los usuarios que han finalizado su registro, si usted desea ver quienes no han terminado el registro dirijasé a la pestaña nuevos accesos
+                                    </p>
+                                </div>
+                                <div class="ms-auto my-auto mt-lg-0 mt-4">
+                                    <div class="ms-auto my-auto">
+                                       
+                                        <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog mt-lg-10">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ModalLabel">Import CSV</h5>
+                                                        <i class="fas fa-upload ms-3"></i>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>You can browse your computer for a file.</p>
+                                                        <input type="text" placeholder="Browse file..." class="form-control mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="" id="importCheck" checked="">
+                                                            <label class="custom-control-label" for="importCheck">I accept the terms and conditions</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn bg-gradient-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn bg-gradient-primary btn-sm">Upload</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -428,7 +512,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php echo $tabla; ?>
+                                            <?php //echo $tabla; 
+                                            ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -439,7 +524,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
             <footer class="footer pt-3  ">
                 <div class="container-fluid">
                     <div class="row align-items-center justify-content-lg-between">
@@ -460,6 +546,12 @@
 </body>
 
 <?php echo $footer; ?>
+
+<script>
+    if (window.history.replaceState) { // verificamos disponibilidad
+    window.history.replaceState(null, null, window.location.href);
+}
+</script>
 
 <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
 <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />

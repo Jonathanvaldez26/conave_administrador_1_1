@@ -2248,25 +2248,38 @@ html;
         echo json_encode($delete_registrado);
     }
 
-    public function registroChekIn($clave, $code, $linea){
+    public function registroChekIn(){
 
-        if ($linea != 0 ) {
-            $es_general = 'No es';
-            $user_clave = RegistroCheckInDao::getInfoByLinea($clave,$linea)[0];
-        } else {
+        // $clave = $_POST['codigo'];
+        // $code =  $_POST['clave_a'];
+
+        $clave = $_POST['clave_a'];
+        $code =  $_POST['codigo'];
+        $linea = $_POST['numero_linea'];
+
+        // if ($linea != 0 ) {
+        //     $es_general = 'No es';
+        //     $user_clave = RegistroCheckInDao::getInfoByLinea($clave,$linea)[0];
+        // } else {
             $es_general = 'Si es';
-            $user_clave = RegistroCheckInDao::getInfo($clave)[0];
-        }
+            $user_clave = RegistroCheckInDao::getInfo($code)[0];
+        // }
+
+        // echo "clave ".$clave;
+        // echo $user_clave['clave'];
+        // var_dump($user_clave);
+        // var_dump($user_clave['id_registro_acceso']);
+        // exit;
 
         $clave_habitacion = '';
         $id_asigna_habitacion = '';
 
         // $user_clave = RegistroCheckInDao::getInfoByLinea($clave,$linea)[0];
-        $existe_user = RegistroCheckInDao::getInfo($clave);
+        $existe_user = RegistroCheckInDao::getInfo($code);
         $linea_principal = RegistroCheckInDao::getLineaPrincipial();
         $bu = RegistroCheckInDao::getBu();
         $posiciones = RegistroCheckInDao::getPosiciones();
-        $asistencia = RegistroCheckInDao::getIdRegistrosAsistenciasByCode($code)[0];
+        $asistencia = RegistroCheckInDao::getIdRegistrosAsistenciasByCode($clave)[0];
 
         $habitaciones = HabitacionesDao::getAsignaHabitacionByIdRegAcceso($user_clave['id_registro_acceso'])[0];
 

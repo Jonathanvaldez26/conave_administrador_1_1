@@ -24,6 +24,23 @@ sql;
     return $mysqli->queryAll($query);
   }
 
+  public static function getAllColaboradoresByName($search){
+    $mysqli = Database::getInstance();
+    $query =<<<sql
+    SELECT ua.utilerias_asistentes_id, ua.status, ra.telefono, ua.usuario, ra.numero_empleado, ra.id_ticket_virtual, ra.nombre, ra.segundo_nombre, ra.apellido_paterno, ra.apellido_materno, ra.img, ra.genero, ra.alergias, ra.alergias_otro, ra.alergia_medicamento_cual, ra.alergia_medicamento, ra.restricciones_alimenticias, ra.restricciones_alimenticias_cual, ra.id_linea_principal, ra.clave, lp.nombre as nombre_linea, bu.nombre as nombre_bu, ps.nombre as nombre_posicion, lp.id_linea_ejecutivo, le.nombre as nombre_linea_ejecutivo, le.color, al.utilerias_administradores_id_linea_asignada as id_ejecutivo_administrador, uad.nombre as nombre_ejecutivo
+    FROM utilerias_asistentes ua
+    INNER JOIN registros_acceso ra ON (ra.id_registro_acceso = ua.id_registro_acceso) 
+    INNER JOIN bu ON (bu.id_bu = ra.id_bu) 
+    INNER JOIN posiciones ps ON (ps.id_posicion = ra.id_posicion) 
+    INNER JOIN linea_principal lp ON (ra.id_linea_principal = lp.id_linea_principal)
+    INNER JOIN linea_ejecutivo le ON (le.id_linea_ejecutivo = lp.id_linea_ejecutivo)
+    INNER JOIN asigna_linea al ON (al.id_linea_ejecutivo = le.id_linea_ejecutivo)
+    INNER JOIN utilerias_administradores uad ON (uad.utilerias_administradores_id = al.utilerias_administradores_id_linea_asignada)
+    AND CONCAT_WS(ra.email,ra.nombre,ra.segundo_nombre,ra.apellido_materno,ra.apellido_paterno) LIKE '%$search%';
+sql;
+    return $mysqli->queryAll($query);
+  }
+
   public static function getAsistentesFaltantes(){
     $mysqli = Database::getInstance();
     $query =<<<sql

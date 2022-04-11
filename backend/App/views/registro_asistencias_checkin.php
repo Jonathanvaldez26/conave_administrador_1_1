@@ -506,20 +506,21 @@
             codigo = $('#codigo_registro').val();
             $('#codigo_registro').val('');
 
-            console.log(codigo);
-            console.log(clave_a);
-            console.log(numero_linea);
-            console.log(linea_ejecutivo);
+            console.log("codigo " +codigo);
+            console.log("clave_a " +clave_a);
+            console.log("numero linea "+numero_linea);
+            console.log("linea ejecutivo "+linea_ejecutivo);
         
             $.ajax({
-                url: "/Checkin/registroChekIn/"+codigo+'/'+clave_a+'/'+numero_linea,
+                url: "/Checkin/registroChekIn",
                 type: "POST",
                 dataType: 'json',
+                data:{codigo,clave_a,numero_linea},
                 beforeSend: function() {
                     console.log("Procesando....");
                 },
                 success: function(respuesta) {
-                    console.log(respuesta.status);
+                    console.log(respuesta);
                     console.log("ddsfdsf"+respuesta);
                     if (respuesta.status == 'success') {
                         console.log("talla playeta "+respuesta.datos.talla_playera);
@@ -589,9 +590,24 @@
                         }
 
                         if(respuesta.msg_insert == 'success_find_assistant'){
+                            Swal.fire({
+                                title: '¡Lo sentimos, esta persona ya tiene su asistencia registrada!',
+                                icon: 'warning',
+                                timer: 1000,
+                                didOpen: () => {
+                                    const b = Swal.getHtmlContainer().querySelector('b')
+                                    timerInterval = setInterval(() => {
+                                    }, 100)
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                                }).then((result) => {
+                                $("#codigo_registro").focus();
+                            })
                             // Swal.fire({
-                            //     title: '¡Lo sentimos, esta persona ya tiene su asistencia registrada!',
-                            //     icon: 'warning',
+                            //     title: '¡Asistencia Registrada con éxito!',
+                            //     icon: 'success',
                             //     timer: 1000,
                             //     didOpen: () => {
                             //         const b = Swal.getHtmlContainer().querySelector('b')
@@ -604,74 +620,59 @@
                             //     }).then((result) => {
                             //     $("#codigo_registro").focus();
                             // })
-                            Swal.fire({
-                                title: '¡Asistencia Registrada con éxito!',
-                                icon: 'success',
-                                timer: 1000,
-                                didOpen: () => {
-                                    const b = Swal.getHtmlContainer().querySelector('b')
-                                    timerInterval = setInterval(() => {
-                                    }, 100)
-                                },
-                                willClose: () => {
-                                    clearInterval(timerInterval)
-                                }
-                                }).then((result) => {
-                                $("#codigo_registro").focus();
-                            })
                         } 
                         else {
-                           // $("#asignar_habitacion").modal("show");
+                         $("#asignar_habitacion").modal("show");
 
-                           Swal.fire({
-                                title: '¡Asistencia Registrada con éxito!',
-                                icon: 'success',
-                                timer: 1000,
-                                didOpen: () => {
-                                    const b = Swal.getHtmlContainer().querySelector('b')
-                                    timerInterval = setInterval(() => {
-                                    }, 100)
-                                },
-                                willClose: () => {
-                                    clearInterval(timerInterval)
-                                }
-                                }).then((result) => {
-                                $("#codigo_registro").focus();
-                            })
+                        //    Swal.fire({
+                        //         title: '¡Asistencia Registrada con éxito!',
+                        //         icon: 'success',
+                        //         timer: 1000,
+                        //         didOpen: () => {
+                        //             const b = Swal.getHtmlContainer().querySelector('b')
+                        //             timerInterval = setInterval(() => {
+                        //             }, 100)
+                        //         },
+                        //         willClose: () => {
+                        //             clearInterval(timerInterval)
+                        //         }
+                        //         }).then((result) => {
+                        //         $("#codigo_registro").focus();
+                        //     })
                         }
                         
                     } else if (respuesta.status == 'fail_user') {
-                        // Swal.fire({
-                        //     title: '¡Lo sentimos, esta persona no se encuentra registrada en nuestra base de datos!',
-                        //     icon: 'warning',
-                        //     timer: 1000,
-                        //     didOpen: () => {
-                        //         const b = Swal.getHtmlContainer().querySelector('b')
-                        //         timerInterval = setInterval(() => {
-                        //         }, 100)
-                        //     },
-                        //     willClose: () => {
-                        //         clearInterval(timerInterval)
-                        //     }
-                        //     }).then((result) => {
-                        //     $("#codigo_registro").focus();
-                        // })
-
                         Swal.fire({
-                                title: '¡Asistencia Registrada con éxito.!',
-                                icon: 'success',
-                                timer: 1000,
-                                didOpen: () => {
-                                    const b = Swal.getHtmlContainer().querySelector('b')
-                                    timerInterval = setInterval(() => {
-                                    }, 100)
-                                },
-                                willClose: () => {
-                                    clearInterval(timerInterval)
-                                }
-                                }).then((result) => {
-                                $("#codigo_registro").focus();
-                            })
+                            title: '¡Lo sentimos, esta persona no se encuentra registrada en nuestra base de datos!',
+                            icon: 'warning',
+                            timer: 1000,
+                            didOpen: () => {
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                            }).then((result) => {
+                            $("#codigo_registro").focus();
+                        })
+
+                        // Swal.fire({
+                        //         title: '¡Asistencia Registrada con éxito.!',
+                        //         icon: 'success',
+                        //         timer: 1000,
+                        //         didOpen: () => {
+                        //             const b = Swal.getHtmlContainer().querySelector('b')
+                        //             timerInterval = setInterval(() => {
+                        //             }, 100)
+                        //         },
+                        //         willClose: () => {
+                        //             clearInterval(timerInterval)
+                        //         }
+                        //         }).then((result) => {
+                        //         $("#codigo_registro").focus();
+                        //     })
 
                         $("#nombre_completo").html('Nombre');
                         $("#img_asistente").attr('src','/img/user.png');

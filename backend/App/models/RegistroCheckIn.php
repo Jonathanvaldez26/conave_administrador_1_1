@@ -129,8 +129,7 @@ sql;
         INNER JOIN linea_principal lp
         ON lp.id_linea_principal = ra.id_linea_principal
         INNER JOIN linea_ejecutivo le
-        ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo
-        
+        ON lp.id_linea_ejecutivo = le.id_linea_ejecutivo        
         WHERE tv.clave = '$clave' and le.id_linea_ejecutivo = '$linea'
 sql;
         return $mysqli->queryAll($query);

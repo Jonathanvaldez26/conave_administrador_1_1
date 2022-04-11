@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 //defined("APPPATH") OR die("Access denied");
+require_once dirname(__DIR__) . '/../public/librerias/fpdf/fpdf.php';
 require_once dirname(__DIR__) . '/../public/librerias/phpqrcode/qrlib.php';
 
 
@@ -38,30 +39,41 @@ class Asistentes extends Controller
     {
 
 
-        $user = GeneralDao::getDatosUsuarioLogeado($this->__usuario);
-        $asistentes = GeneralDao::getAllColaboradores();
-        $filtros = "";
-        if ($_POST != "")
+        //$user = GeneralDao::getDatosUsuarioLogeado($this->__usuario);
+        //$asistentes = GeneralDao::getAllColaboradores();
+        //$filtros = "";
+        //if ($_POST != "")
             //$filtros = $this->getFiltro($post);
 
             ///////////////////////////////////////////////////////
             // var_dump($user);
             // var_dump($asistentes);
 
-            $all_ra = AsistentesDao::getAllRegistrosAcceso();
+            //$all_ra = AsistentesDao::getAllRegistrosAcceso();
 
-        foreach ($all_ra as $key => $value) {
-            if ($value['clave'] == '' || $value['clave'] == NULL || $value['clave'] == 'NULL') {
-                $clave_10 = $this->generateRandomString(10);
-                AsistentesDao::updateClaveRA($value['id_registro_acceso'], $clave_10);
-            }
-        }
+        // foreach ($all_ra as $key => $value) {
+        //     if ($value['clave'] == '' || $value['clave'] == NULL || $value['clave'] == 'NULL') {
+        //         $clave_10 = $this->generateRandomString(10);
+        //         AsistentesDao::updateClaveRA($value['id_registro_acceso'], $clave_10);
+        //     }
+        // }
 
         //tab faltantes
 
 
-        View::set('tabla_faltantes', $this->getAsistentesFaltantes());
-        View::set('tabla', $this->getAllColaboradoresAsignados());
+        // View::set('tabla_faltantes', $this->getAsistentesFaltantes());
+        // View::set('tabla', $this->getAllColaboradoresAsignados());
+        View::render("asistentes_all");
+    }
+
+    public function buscarUsuario()
+    {
+        $search = $_POST['search'];        
+
+        //tab faltantes
+        // View::set('tabla_faltantes', $this->getAsistentesFaltantes());
+        
+        View::set('tabla', $this->getAllColaboradoresAsignadosByName($search));        
         View::render("asistentes_all");
     }
 
@@ -512,10 +524,10 @@ html;
         }
 
         $email = AsistentesDao::getByClaveRA($id)[0]['usuario'];
-        $clave_user = AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['clave_ticket'];
+        $clave_user = AsistentesDao::getRegistroAccesoByClaveRA($id)[0];
         $nombre = AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['nombre'].' '.AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['segundo_nombre'];
         $apellidos = AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['apellido_paterno'].' '.AsistentesDao::getRegistroAccesoByClaveRA($id)[0]['apellido_materno'];
-        if ($clave_user == '' || $clave_user == NULL || $clave_user == 'NULL') {
+        if ($clave_user['clave_ticket'] == '' || $clave_user['clave_ticket'] == NULL || $clave_user['clave_ticket'] == 'NULL') {
             $msg_clave = 'No posee ningún código';
             $btn_clave = '';
             $btn_genQr = <<<html
@@ -529,6 +541,9 @@ html;
                 <button id="show_ticket" type="button" class="btn bg-gradient-info mb-0" title="Ver Ticket Virtual"><i class="fas fa-eye"></i></button>
 html;
         }
+
+        $btn_gafete = "<a href='/RegistroAsistencia/abrirpdfGafete/{$clave_user['clave']}/{$clave_user['clave_ticket']}' target='_blank' id='a_abrir_gafete' class='btn btn-info'><i class='fa fal fa-address-card' style='font-size: 18px;'></i>Presione esté botón para descargar el gafete</a>";
+        // $btn_etiquetas = "<a href='/RegistroAsistencia/abrirpdf/{$clave_user['clave']}' target='_blank' id='a_abrir_etiqueta' class='btn btn-info'>Imprimir etiquetas</a>";
 
 
 
@@ -563,8 +578,11 @@ html;
         View::set('email', $email);
         View::set('nombre', $nombre);
         View::set('apellidos', $apellidos);
-        View::set('clave_user', $clave_user);
+        View::set('clave_user', $clave_user['clave_ticket']);
         View::set('msg_clave', $msg_clave);
+        View::set('btn_gafete', $btn_gafete);
+        View::set('clave_ra', $id);
+        // View::set('btn_etiquetas', $btn_etiquetas);
         View::set('btn_clave', $btn_clave);
         View::set('btn_genQr', $btn_genQr);
         View::set('alergias_a', $alergias_a);
@@ -923,6 +941,218 @@ html;
         </tr>
 html;
         }
+        return $html;
+    }
+
+    public function getAllColaboradoresAsignadosByName($name)
+    {
+
+        $html = "";
+        foreach (GeneralDao::getAllColaboradoresByName($name) as $key => $value) {
+            if ($value['alergias'] == '' && $value['alergias_otro'] == '') {
+                $alergia = 'No registro alergias';
+            } else {
+                if ($value['alergias'] == 'otro') {
+                    $alergia = $value['alergias_otro'];
+                } else {
+                    $alergia = $value['alergias'];
+                }
+            }
+
+            if ($value['alergia_medicamento'] == 'si') {
+                if ($value['alergia_medicamento_cual'] == '') {
+                    $alergia_medicamento = 'No registro alergias a medicamentos';
+                } else {
+                    $alergia_medicamento = $value['alergia_medicamento_cual'];
+                }
+            } else {
+                $alergia_medicamento = 'No posee ninguna alergia';
+            }
+
+            if ($value['restricciones_alimenticias'] == 'ninguna' || $value['restricciones_alimenticias'] == '') {
+                $restricciones_alimenticias = 'No registro restricciones alimenticias';
+            } else {
+                if ($value['restricciones_alimenticias'] == 'otro') {
+                    $restricciones_alimenticias = $value['restricciones_alimenticias_cual'];
+                } else {
+                    $restricciones_alimenticias = $value['restricciones_alimenticias'];
+                }
+            }
+
+            $value['apellido_paterno'] = utf8_encode($value['apellido_paterno']);
+            $value['apellido_materno'] = utf8_encode($value['apellido_materno']);
+            $value['nombre'] = utf8_encode($value['nombre']);
+
+            if (empty($value['img']) || $value['img'] == null) {
+                $img_user = "/img/user.png";
+            } else {
+                $img_user = "https://convencionasofarma2022.mx/img/users_conave/{$value['img']}";
+            }
+
+            $estatus = '';
+            if ($value['status'] == 1) {
+                $estatus .= <<<html
+                <span class="badge badge-success">Activo</span>
+html;
+            } else {
+                $estatus .= <<<html
+                <span class="badge badge-success">Inactivo</span>
+html;
+            }
+
+            // 6c5df2a1307bb58194383e7e79ac9414
+            $pases = PasesDao::getByIdUser($value['utilerias_asistentes_id']);
+            $cont_pase_ida = 0;
+            $cont_pase_regreso = 0;
+            foreach ($pases as $key => $pas) {
+
+                if ($pases >= 1) {
+
+                    if ($pas['tipo'] == 1) {
+                        $cont_pase_ida++;
+
+                        if ($pas['status'] == 1) {
+
+                            $pase_ida = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Documento validado"><span class="fa fa-plane-departure" style=" font-size: 13px;"></span> Regreso (<i class="fa fa-solid fa-check" style="color: green;"></i>)</p> ';
+                        } else {
+                            $pase_ida = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Documento pendiente de validar"><span class="fa fa-plane-departure" style="font-size: 13px;"></span> Regreso (<i class="fa fa-solid fa-hourglass-end" style="color: #1a8fdd;"></i>)</p> ';
+                        }
+                    } elseif ($pas['tipo'] == 2) {
+                        $cont_pase_regreso++;
+
+                        if ($pas['status'] == 1) {
+
+                            $pase_regreso = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Documento validado"><span class="fa fa-plane-arrival" style=" font-size: 13px;"></span> Llegada (<i class="fa fa-solid fa-check" style="color: green;"></i>)</p>';
+                        } else {
+                            $pase_regreso = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Documento pendiente de validar"><span class="fa fa-plane-arrival" style="font-size: 13px"></span> Llegada (<i class="fa fa-solid fa-hourglass-end" style="color: #1a8fdd;"></i>)</p>';
+                        }
+                    }
+                }
+            }
+
+            if ($cont_pase_regreso <= 0) {
+                $pase_regreso = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Aún no se sube el documento"><span class="fa fa-plane-arrival" style="font-size: 13px"></span> Llegada (<i class="fas fa-times" style="color: #7B241C;"></i>)</p>';
+            }
+
+            if ($cont_pase_ida <= 0) {
+                $pase_ida = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;"  data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Aún no se sube el documento"><span class="fa fa-plane-departure" style="font-size: 13px;"></span> Regreso (<i class="fas fa-times" style="color: #7B241C;"></i>)</p>';
+            }
+
+            $pruebacovid = PruebasCovidUsuariosDao::getByIdUser($value['utilerias_asistentes_id'])[0];
+
+            if ($pruebacovid) {
+
+                if ($pruebacovid['status'] == 1) {
+                    $pru_covid = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Documento validado"><span class="fa fas fa-virus" style="font-size: 13px;"></span> Prueba Covid (<i class="fa fa-solid fa-check" style="color: green;"></i>)</p>';
+                } else {
+                    $pru_covid = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Documento pendiente de validar"><span class="fa fas fa-virus" style="font-size: 13px;"></span> Prueba Covid (<i class="fa fa-solid fa-hourglass-end" style="color: #1a8fdd;"></i>)</p>';
+                }
+            } else {
+                $pru_covid = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Aún no se sube el documento"><span class="fa fas fa-virus" style="font-size: 13px;"></span> Prueba Covid (<i class="fas fa-times" style="color:#7B241C;"></i>)</p>';
+            }
+
+            $comprobantecovid = ComprobantesVacunacionDao::getByIdUser($value['utilerias_asistentes_id'])[0];
+
+            if ($comprobantecovid) {
+
+                if ($comprobantecovid['validado'] == 1) {
+
+                    $compro_covid = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Documento validado"><span class="fa fa-file-text-o" style="font-size: 13px;"></span> Comprobante Covid (<i class="fa fa-solid fa-check" style="color: green;"></i>)</p>';
+                } else {
+
+                    $compro_covid = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Documento pendiente de validar"><span class="fa fa-file-text-o" style="font-size: 13px;"></span> Comprobante Covid (<i class="fa fa-solid fa-hourglass-end" style="color:#1a8fdd;"></i>)</p>';
+                }
+            } else {
+                $compro_covid = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Aún no se sube el documento"><span class="fa fa-file-text-o" style="font-size: 13px;"></span> Comprobante Covid  (<i class="fas fa-times" style="color: #7B241C;" ></i>)</p>';
+            }
+
+            // $id_linea = $value['id_linea_principal'];           
+
+            $ticket_virtual = GeneralDao::searchAsistentesTicketbyId($value['utilerias_asistentes_id'])[0];
+
+
+            if ($ticket_virtual['clave'] != null) {
+
+                $ticket_v = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Ticket Virtual generado"><span class="fa fa-ticket" style="font-size: 13px;"></span> Ticket Virtual (<i class="fa fa-solid fa-check" style="color: green;"></i>)</p>';
+            } else {
+
+                $ticket_v = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="No se ha generado su ticket virtual"><span class="fa fa-ticket" style="font-size: 13px;"></span> Ticket Virtual (<i class="fas fa-times" style="color: #7B241C;" ></i>)</p>';
+            }
+
+            $itinerario = GeneralDao::searchItinerarioByAistenteId($value['utilerias_asistentes_id'])[0];
+
+            if ($itinerario['id_uasis_it'] != null) {
+
+                $itinerario_asis = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Itinerario Cargado"><span class="fa fa-calendar-check-o" style="font-size: 13px;"></span> Itinerario (<i class="fa fa-solid fa-check" style="color: green;"></i>)</p>';
+            } else {
+
+                $itinerario_asis = '<p class="text-sm font-weight-bold mb-0 " style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="No se ha cargado el itinerario"><span class="fa fa-calendar-check-o" style="font-size: 13px;"></span> Itinerario (<i class="fas fa-times" style="color: #7B241C;" ></i>)</p>';
+            }
+
+
+            $html .= <<<html
+            <tr>
+                <td>
+                    <div class="d-flex px-3 py-1">
+                        <div>
+                            <img src="{$img_user}" class="avatar me-3" alt="image">
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                    
+                            <a href="/Asistentes/Detalles/{$value['clave']}">
+                            <h6 class="mb-0 text-sm"><span class="fa fa-user-md" style="font-size: 13px"></span> {$value['nombre']} {$value['segundo_nombre']} {$value['apellido_paterno']} {$value['apellido_materno']} $estatus</h6></a>
+                            <div class="d-flex flex-column justify-content-center">
+                                <u><a href="mailto:{$value['email']}"><h6 class="mb-0 text-sm"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['usuario']}</h6></a></u>
+                                <u><a href="https://api.whatsapp.com/send?phone=52{$value['telefono']}&text=Buen%20d%C3%ADa,%20te%20contacto%20de%20parte%20del%20Equipo%20Grupo%20LAHE%20%F0%9F%98%80" target="_blank"><p class="text-sm font-weight-bold text-secondary mb-0"><span class="fa fa-whatsapp" style="font-size: 13px; color:green;"></span> {$value['telefono']}</p></a></u>
+                            </div>
+                            <p class="text-sm mb-0"><span class="fa fa-solid fa-id-card" style="font-size: 13px;"></span> Número de empleado:  <span style="text-decoration: underline;">{$value['numero_empleado']}</span></p>
+                            <hr>
+                            <p class="text-sm font-weight-bold mb-0 "><span class="fa fas fa-user-tie" style="font-size: 13px;"></span><b> Ejecutivo Asignado a Línea: </b><br><span class="fas fa-suitcase"> </span> {$value['nombre_ejecutivo']} <span class="badge badge-success" style="background-color:  {$value['color']}; color:white "><strong>{$value['nombre_linea_ejecutivo']}</strong></span></p>
+                            
+                        </div>
+                    </div>
+                </td>
+         
+                <td style="text-align:left; vertical-align:middle;"> 
+                    
+                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-business-time" style="font-size: 13px;"></span><b> Bu: </b>{$value['nombre_bu']}</p>
+                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-pills" style="font-size: 13px;"></span><b> Linea Principal: </b>{$value['nombre_linea']}</p>
+                    <p class="text-sm font-weight-bold mb-0 "><span class="fa fa-hospital" style="font-size: 13px;"></span><b> Posición: </b>{$value['nombre_posicion']}</p>
+
+                    <!--hr>
+                    <p class="text-sm font-weight-bold mb-0 "><span class="fas fa-egg-fried" style="font-size: 13px;"></span><b> Restricciones alimenticias: </b>{$value['restricciones_alimenticias']}</p>
+                    
+                    <p class="text-sm font-weight-bold mb-0 "><span class="fas fa-allergies" style="font-size: 13px;"></span><b> Alergias: </b>{$value['alergias']}{$value['alergias_otro']} <br>
+                    {$value['alergia_medicamento_cual']}</p-->
+
+                    <hr>
+                    <p class="text-sm font-weight-bold mb-0 "><span class="fas fa-ban" style="font-size: 13px;"></span><b> Restricciones alimenticias: </b>{$restricciones_alimenticias}</p>
+                    
+                    <p class="text-sm font-weight-bold mb-0 "><span class="fas fa-allergies" style="font-size: 13px;"></span><b> Alergias:</b> {$alergia}
+
+                    <p class="text-sm font-weight-bold mb-0 "><span class="fas fa-pills" style="font-size: 13px;"></span><b> Alergias a medicamentos:</b> {$alergia_medicamento}
+
+                </td>
+
+        
+
+          <td style="text-align:left; vertical-align:middle;"> 
+            {$pase_ida}
+            {$pase_regreso}
+            {$ticket_v}
+            {$pru_covid}
+            {$compro_covid}
+            {$itinerario_asis}  
+          </td>
+          
+          <td style="text-align:center; vertical-align:middle;">
+            <a href="/Asistentes/Detalles/{$value['clave']}"><i class="fa fa-eye"></i></a>
+            <!--button type="button" class="btn btn-outline-primary btn_qr" value="{$value['id_ticket_virtual']}"><span class="fa fa-qrcode" style="padding: 0px;"> {$ticket_virtual[0]['clave']}</span></button-->
+          </td>
+        </tr>
+html;
+        }
+       
         return $html;
     }
 
@@ -1320,6 +1550,44 @@ html;
     function generateRandomString($length = 6)
     {
         return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+    }
+
+    public function abrirpdf($clave, $noPages = null, $no_habitacion)
+    {
+        $datos_user = AsistentesDao::getRegistroAccesoHabitacionByClaveRA($clave)[0];
+        $nombre_completo = $datos_user['nombre'] . " " . $datos_user['segundo_nombre'] . " " . $datos_user['apellido_paterno'] . " " . $datos_user['apellido_materno'];
+        //$nombre_completo = utf8_decode($_POST['nombre']);
+        //$datos_user['numero_habitacion']
+        
+
+
+        $pdf = new \FPDF($orientation = 'L', $unit = 'mm', array(37, 155));
+
+        for ($i = 1; $i <= $noPages; $i++) {
+
+
+            $pdf->AddPage();
+            $pdf->SetFont('Arial', 'B', 5);    //Letra Arial, negrita (Bold), tam. 20
+            $textypos = 5;
+            $pdf->setY(2);
+
+            $pdf->Image('https://convencionasofarma2022.mx/assets/pdf/iMAGEN_aso.png', 1, 0, 150, 40);
+            $pdf->SetFont('Arial', '', 5);    //Letra Arial, negrita (Bold), tam. 20
+
+            $pdf->SetXY(8.3, 9);
+            $pdf->SetFont('Times', 'B', 10);
+            #4D9A9B
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->Multicell(120, 4.2, $nombre_completo . utf8_decode(" #habitación"). " - " . $no_habitacion, 0, 'C');
+ 
+            $textypos += 6;
+            $pdf->setX(2);
+
+            $textypos += 6;
+        }
+
+        $pdf->Output();
+       
     }
 }
 
