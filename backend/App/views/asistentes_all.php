@@ -28,7 +28,7 @@
 
                 </li>
 
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a data-bs-toggle="collapse" onclick="catalogos()" href="#catalogos" class="nav-link " aria-controls="catalogos" role="button" aria-expanded="false">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
                             <span class="fa fa-sitemap" style="color: #344767"></span>
@@ -64,15 +64,15 @@
                             <li class="nav-item">
                                 <hr class="horizontal dark" />
                             </li>
-                            <!-- <li class="nav-item ">
+                            <li class="nav-item ">
                             <a class="nav-link " href="/Restaurantes/">
                                 <span class="sidenav-mini-icon"> E </span>
                                 <span class="sidenav-normal"> Restaurates </span>
                             </a>
-                        </li> -->
+                        </li> 
                         </ul>
                     </div>
-                </li>
+                </li>-->
                 <li class="nav-item">
                     <a href="/Asistentes/" class="nav-link active" aria-controls="applicationsExamples" role="button" aria-expanded="false">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
