@@ -141,55 +141,57 @@
                         <span class="nav-link-text ms-1">Pruebas Covid Usuarios</span>
                     </a>
                 </li>
+                <!--
 
-                <li class="nav-item">
-                    <hr class="horizontal dark" />
-                    <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">OTROS</h6>
-                </li>
-                <li class="nav-item">
-                    <a href="/Configuracion/" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
-                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                            <span class="fa fa-tools" style="color: #344767"></span>
-                        </div>
-                        <span class="nav-link-text ms-1">Configuración</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" onclick="utilerias()" href="#utilerias" class="nav-link " aria-controls="utilerias" role="button" aria-expanded="false">
-                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                            <span class="fa fa-user-circle-o" style="color: #344767"></span>
-                        </div>
-                        <span class="nav-link-text ms-1">Utilerias</span>
-                    </a>
-                    <div class="collapse " id="utilerias" hidden>
-                        <ul class="nav ms-4 ps-3">
-                            <li class="nav-item ">
-                                <a class="nav-link " href="/Administradores/">
-                                    <span class="sidenav-mini-icon"> A </span>
-                                    <span class="sidenav-normal">Administradores</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " href="/Perfiles/">
-                                    <span class="sidenav-mini-icon"> P </span>
-                                    <span class="sidenav-normal"> Perfiles </span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " href="/Log/">
-                                    <span class="sidenav-mini-icon"> L </span>
-                                    <span class="sidenav-normal"> Log </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </div>
+              <li class="nav-item">
+                  <hr class="horizontal dark" />
+                  <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">OTROS</h6>
+              </li>
+              <li class="nav-item">
+                  <a href="/Configuracion/" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
+                      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                          <span class="fa fa-tools" style="color: #344767"></span>
+                      </div>
+                      <span class="nav-link-text ms-1">Configuración</span>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a data-bs-toggle="collapse" onclick="utilerias()" href="#utilerias" class="nav-link " aria-controls="utilerias" role="button" aria-expanded="false">
+                      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                          <span class="fa fa-user-circle-o" style="color: #344767"></span>
+                      </div>
+                      <span class="nav-link-text ms-1">Utilerias</span>
+                  </a>
+                  <div class="collapse " id="utilerias" hidden>
+                      <ul class="nav ms-4 ps-3">
+                          <li class="nav-item ">
+                              <a class="nav-link " href="/Administradores/">
+                                  <span class="sidenav-mini-icon"> A </span>
+                                  <span class="sidenav-normal">Administradores</span>
+                              </a>
+                          </li>
+                          <li class="nav-item ">
+                              <a class="nav-link " href="/Perfiles/">
+                                  <span class="sidenav-mini-icon"> P </span>
+                                  <span class="sidenav-normal"> Perfiles </span>
+                              </a>
+                          </li>
+                          <li class="nav-item ">
+                              <a class="nav-link " href="/Log/">
+                                  <span class="sidenav-mini-icon"> L </span>
+                                  <span class="sidenav-normal"> Log </span>
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+              </li>
+-->
+                          </ul>
+                      </div>
 
-    </aside>
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <!-- Navbar -->
+                  </aside>
+                  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+                      <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
